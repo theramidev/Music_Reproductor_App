@@ -1,4 +1,5 @@
 
 export interface IProps {
-    navigation: any
+    navigation: any,
+    getSongs(): Promise<void> 
 }

@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, PermissionsAndroid } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-view';
 import Router from './Router';
 
