@@ -1,14 +1,17 @@
-import {StyleSheet} from 'react-native';
 import {theme} from '../../../../../assets/themes';
+import {DynamicValue, DynamicStyleSheet} from 'react-native-dark-mode';
+import {StylesFooter} from '../../interfaces/styles';
 
-export default StyleSheet.create({
+const colorText = new DynamicValue(theme().text, theme().light);
+
+const styles: StylesFooter = {
   container: {
     paddingVertical: 10,
     paddingHorizontal: 10,
     flexDirection: 'row',
-    borderColor: '#808B96',
+    borderTopColor: '#939393',
     borderWidth: 1,
-    backgroundColor: '#FDFEFE',
+    backgroundColor: new DynamicValue('white', '#131313'),
     alignItems: 'center',
   },
   image: {width: 40, height: 40, borderRadius: 50},
@@ -22,11 +25,11 @@ export default StyleSheet.create({
     marginRight: 10,
   },
   title: {
-    color: theme().text,
+    color: colorText,
     fontSize: 17,
   },
   group: {
-    color: theme().text,
+    color: colorText,
     fontSize: 10,
   },
 
@@ -35,5 +38,10 @@ export default StyleSheet.create({
   },
   icon: {
     marginRight: 10,
+    color: new DynamicValue('black', 'white'),
   },
-});
+};
+
+const dynamicStyles = new DynamicStyleSheet(styles);
+
+export default dynamicStyles;

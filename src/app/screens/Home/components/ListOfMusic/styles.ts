@@ -4,18 +4,12 @@ import {StylesSections} from '../../interfaces/styles';
 
 const styles: StylesSections = {
   content: {
+    backgroundColor: new DynamicValue(theme().light, theme(0.9).dark),
     padding: 10,
     paddingTop: 0,
   },
   container: {
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    borderColor: '#808B96',
-    borderWidth: 1,
-    backgroundColor: new DynamicValue(theme().light, theme().text),
-    borderRadius: 10,
+    height: '100%',
   },
   icon: {
     justifyContent: 'center',

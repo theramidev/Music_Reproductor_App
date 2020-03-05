@@ -1,14 +1,17 @@
-import {StyleSheet} from 'react-native';
 import {theme} from '../../../../../assets/themes';
+import {StylesHeader} from '../../interfaces/styles';
+import {DynamicStyleSheet, DynamicValue} from 'react-native-dark-mode';
 
-export default StyleSheet.create({
+const colorText = new DynamicValue(theme().text, theme().light);
+
+const styles: StylesHeader = {
   container: {
     padding: 10,
     flexDirection: 'row',
     alignItems: 'center',
   },
   text: {
-    color: theme().text,
+    color: colorText,
     fontSize: 20,
     fontWeight: 'bold',
     margin: 20,
@@ -18,13 +21,14 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ffff',
+    backgroundColor: new DynamicValue(theme().light, theme().text),
     borderRadius: 10,
     overflow: 'hidden',
     flex: 1,
   },
   searchIcon: {
     padding: 10,
+    color: colorText,
   },
   search: {
     flex: 1,
@@ -32,11 +36,16 @@ export default StyleSheet.create({
     paddingRight: 5,
     paddingBottom: 5,
     paddingLeft: 0,
-    backgroundColor: '#fff',
-    color: '#424242',
+    backgroundColor: new DynamicValue(theme().light, theme().text),
   },
   settings: {
-    width: '10%',
-    textAlign: 'right',
+    width: '12%',
   },
-});
+  iconSettings: {
+    textAlign: 'center',
+  },
+};
+
+const dynamicStyles = new DynamicStyleSheet(styles);
+
+export default dynamicStyles;

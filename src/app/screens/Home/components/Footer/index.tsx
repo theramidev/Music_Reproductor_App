@@ -2,9 +2,12 @@ import React, {FC} from 'react';
 import {View, Text, Image} from 'react-native';
 import Foundation from 'react-native-vector-icons/Foundation';
 import Entypo from 'react-native-vector-icons/Entypo';
-import styles from './styles';
+import dynamicStyles from './styles';
+import {useDynamicStyleSheet} from 'react-native-dark-mode';
 
 export const Footer: FC = () => {
+  const styles = useDynamicStyleSheet(dynamicStyles);
+
   return (
     <View style={styles.container}>
       <View style={styles.music}>
@@ -23,12 +26,17 @@ export const Footer: FC = () => {
       </View>
 
       <View style={styles.options}>
-        <Foundation style={styles.icon} name="play" size={27} color="#212F3D" />
+        <Foundation
+          style={styles.icon}
+          name="play"
+          size={27}
+          color={styles.icon.color}
+        />
         <Entypo
           style={styles.icon}
           name="controller-next"
           size={27}
-          color="#212F3D"
+          color={styles.icon.color}
         />
       </View>
     </View>
