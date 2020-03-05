@@ -6,6 +6,7 @@ import {DarkModeProvider, eventEmitter} from 'react-native-dark-mode';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import SplashScreen from 'react-native-splash-screen';
+import TrackPlayer from 'react-native-track-player';
 
 import {Provider, store} from './store';
 import {Layout} from './components/Layout';
@@ -40,6 +41,22 @@ const App: FC<any> = () => {
       await AsyncStorage.setItem('DarkMode', newMode);
 
       setMode(newMode === 'dark' ? true : false);
+    });
+
+    TrackPlayer.setupPlayer();
+    SplashScreen.hide();
+    TrackPlayer.updateOptions({
+      stopWithApp: true,
+      capabilities: [
+        TrackPlayer.CAPABILITY_PLAY,
+        TrackPlayer.CAPABILITY_PAUSE,
+        TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
+        TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
+      ],
+      compactCapabilities: [
+        TrackPlayer.CAPABILITY_PLAY,
+        TrackPlayer.CAPABILITY_PAUSE,
+      ],
     });
   }, []);
 

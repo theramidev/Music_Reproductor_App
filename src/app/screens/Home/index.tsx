@@ -1,5 +1,11 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import {ScrollView} from 'react-native';
+import {connect} from 'react-redux';
+import {
+  getSongs,
+  activateTrackPlayer,
+  getDuration,
+} from '../../redux/actions/fileActions';
 
 import {IState} from './interfaces/State';
 import {IProps} from './interfaces/Props';
@@ -14,24 +20,38 @@ class HomeScreen extends Component<IProps, IState> {
     super(props);
   }
 
+  componentDidMount() {
+    this.props.getSongs();
+  }
+
   render() {
     const {navigation} = this.props;
     return (
-      <Fragment>
-        <BackgroundLayout>
-          <Header navigate={navigation.navigate} />
+      <BackgroundLayout>
+        <Header navigate={navigation.navigate} />
 
-          <Sections />
+        <Sections />
 
-          <ScrollView>
-            <ListOfMusic />
-          </ScrollView>
+        <ScrollView>
+          <ListOfMusic />
+        </ScrollView>
 
-          <Footer />
-        </BackgroundLayout>
-      </Fragment>
+        <Footer />
+      </BackgroundLayout>
     );
   }
 }
 
-export default HomeScreen;
+const mapStateToProps = ({fileReducer}: any) => {
+  return {
+    fileReducer,
+  };
+};
+
+const mapDispatchToProps = {
+  getSongs,
+  activateTrackPlayer,
+  getDuration,
+};
+
+export default connect<any>(mapStateToProps, mapDispatchToProps)(HomeScreen);
