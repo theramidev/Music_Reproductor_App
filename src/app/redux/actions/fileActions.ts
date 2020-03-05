@@ -1,8 +1,9 @@
 import { PermissionsAndroid, PermissionStatus } from 'react-native';
 import fileTypes from '../types/fileTypes';
 import { Dispatch } from 'redux';
-import fileSystem from 'react-native-fs';
-import TrackPlayer from 'react-native-track-player';
+import { ISong } from '../../models/song.model';
+import TrackPlayer, { Track } from 'react-native-track-player';
+import MusicFiles from 'react-native-get-music-files';
 
 export const getSongs = () => async (dispatch: Dispatch) => {
     dispatch({
@@ -28,78 +29,51 @@ export const getSongs = () => async (dispatch: Dispatch) => {
             }
         }
 
-        const { readDir, ExternalStorageDirectoryPath, getAllExternalFilesDirs, stat } = fileSystem;
-        // Get external sd Path
-        const dirsExternal = await getAllExternalFilesDirs();
-        
-        if (dirsExternal[1]) {
-            const externalArray: string[] = dirsExternal[1].split('/');
-            const externalSDPath: string = `/${externalArray[1]}/${externalArray[2]}`;
-            const dirMusic = await readDir(`${externalSDPath}/music`);
-            // const file = await stat(dirMusic[2].path);
-            // console.log(file);
-            await TrackPlayer.setupPlayer();
-            const songInfo = getSongInfo(dirMusic[20].name);
-            await TrackPlayer.add([
-                {
-                    id: '0',
-                    url: dirMusic[20].path,
-                    title: songInfo.songName,
-                    artist: songInfo.artist,
-                    album: songInfo.album,
-                    artwork: require('../../../assets/images/music_notification.png')
-                }
-            ]);
-
-            TrackPlayer.updateOptions({
-                capabilities: [
-                    TrackPlayer.CAPABILITY_PLAY,
-                    TrackPlayer.CAPABILITY_PAUSE,
-                    TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
-                    TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS
-                ],
-                stopWithApp: true,
-            });
-
-            TrackPlayer.addEventListener('remote-pause', () => {
-                TrackPlayer.pause();
-            })
-
-            TrackPlayer.addEventListener('remote-play', () => {
-                TrackPlayer.play();
-            });
-
-            TrackPlayer.addEventListener('remote-next', () => {
-                TrackPlayer.skipToNext();
-            });
-
-            TrackPlayer.addEventListener('remote-previous', () => {
-                TrackPlayer.skipToPrevious();
-            });
-
-            TrackPlayer.play();
-
-            
-        }
-
-        // const internalSD = await readDir(ExternalStorageDirectoryPath+'/mp3');
-        // const file = await stat(internalSD[1].path);
-        // console.log(file);
+        const songs: ISong[] = await MusicFiles.getAll({
+            id: true,
+            blured : true,
+            artist : true,
+            duration : true,
+            cover : true,
+            genre : true,
+            title : true,
+            minimumSongDuration : 10000 // get songs bigger than 10000 miliseconds duration
+        });
+        activateTrackPlayer(songs);
+        dispatch({
+            type: fileTypes.getSongs,
+            payload: songs
+        });
 
     } catch (error) {
         console.error(error);
     }
 }
 
-const getSongInfo = (name: string) => {
-    const nameArray: string[] = name.split('-');
-    const songName: string = nameArray[1].trim();
-    const artist: string = nameArray[0].trim();
-    const album: string = nameArray[2] ? nameArray[2].trim() : 'unknow';
+export const activateTrackPlayer = async (songs: ISong[]) => {
+    try {
+        const tracks: Track[] = songs.map(({id, author, title, path, album, genre, duration}) => {
+            return {
+                id,
+                artist: author ? author : '',
+                title,
+                url: path,
+                album: album ? album : 'Unknown',
+                genre,
+                artwork: require('../../../assets/images/music_notification.png'),
+                duration: +duration,
+                pitchAlgorithm: TrackPlayer.PITCH_ALGORITHM_MUSIC
+            } as Track
+        }) 
 
-    return {
-        songName,
-        artist,
-        album
+        TrackPlayer.add(tracks);
+        await TrackPlayer.play();
+    } catch (error) {
+        console.log('Error activateTrackPlayer: ', error)
     }
+}
+
+export const getDuration = (durationInMilisecons: number): string => {
+    const date: Date = new Date(durationInMilisecons);
+    return `${date.getMinutes()}:${date.getSeconds()}`;
 }

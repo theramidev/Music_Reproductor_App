@@ -18,6 +18,7 @@
     "react-native": "0.61.5",
     "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "^1.6.0",
+    "react-native-get-music-files": "https://github.com/YajanaRao/react-native-get-music-files.git",
     "react-native-reanimated": "^1.7.0",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-safe-area-view": "^1.0.0",

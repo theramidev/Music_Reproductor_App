@@ -5333,6 +5333,10 @@ react-native-gesture-handler@^1.6.0:
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
+"react-native-get-music-files@https://github.com/YajanaRao/react-native-get-music-files.git":
+  version "2.1.0"
+  resolved "https://github.com/YajanaRao/react-native-get-music-files.git#82cd7fa8400ce2aa3671fd3f5100a4d89e80f95d"
+
 react-native-iphone-x-helper@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.1.tgz#645e2ffbbb49e80844bb4cbbe34a126fda1e6772"

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ScrollView, Text } from 'react-native';
 import styles from './style';
 import { connect } from 'react-redux';
-import { getSongs } from '../../redux/actions/fileActions';
+import { getSongs, activateTrackPlayer, getDuration } from '../../redux/actions/fileActions';
 
 import { IState } from './interfaces/State';
 import { IProps } from './interfaces/Props';
@@ -29,7 +29,9 @@ const mapStateToProps = ({fileReducer}: any) => {
 }
 
 const mapDispatchToProps = {
-    getSongs
+    getSongs,
+    activateTrackPlayer,
+    getDuration
 }
 
 export default connect<any>(mapStateToProps, mapDispatchToProps)(HomeScreen);
