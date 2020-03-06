@@ -4,7 +4,11 @@ import {Dispatch} from 'redux';
 import {ISong} from '../../models/song.model';
 import TrackPlayer, {Track} from 'react-native-track-player';
 import MusicFiles from 'react-native-get-music-files';
+import Database from '../../database';
 
+/**
+ * @description Obtiene las canciones del dispositivo
+ */
 export const getSongs = () => async (dispatch: Dispatch) => {
   dispatch({
     type: fileTypes.loadingGetSongs,
@@ -16,6 +20,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
     );
     // Request Permissions
     if (!hasExternalReadPermissions) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const resp: PermissionStatus = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
         {
@@ -26,9 +31,22 @@ export const getSongs = () => async (dispatch: Dispatch) => {
         },
       );
 
-      if (resp === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('Puedes leer archivos');
-      }
+      const songs: ISong[] = await MusicFiles.getAll({
+        id: true,
+        blured: true,
+        artist: true,
+        duration: true,
+        cover: true,
+        genre: true,
+        title: true,
+        createBLur: true,
+        minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration
+      });
+      await Database.setSongs(songs);
+      dispatch({
+        type: fileTypes.getSongs,
+        payload: songs,
+      });
     }
 
     const songs: ISong[] = await MusicFiles.getAll({
@@ -51,10 +69,14 @@ export const getSongs = () => async (dispatch: Dispatch) => {
   }
 };
 
+/**
+ * @description Comienza a reproducir una lista de canciones
+ * @param songs Lista de reproducción que va a ser reproducida
+ */
 export const activateTrackPlayer = async (songs: ISong[]) => {
   try {
     const tracks: Track[] = songs.map(
-      ({id, author, title, path, album, genre, duration}) => {
+      ({id, author, title, path, album, genre, duration, cover}) => {
         return {
           id,
           artist: author ? author : '',
@@ -62,12 +84,17 @@ export const activateTrackPlayer = async (songs: ISong[]) => {
           url: path,
           album: album ? album : 'Unknown',
           genre,
-          artwork: require('../../../assets/images/music_notification.png'),
+          artwork: cover
+            ? cover
+            : require('../../../assets/images/music_notification.png'),
           duration: +duration,
           pitchAlgorithm: TrackPlayer.PITCH_ALGORITHM_MUSIC,
         } as Track;
       },
     );
+
+    // console.log(tracks[25]);
+    // console.log(tracks[32]);
 
     TrackPlayer.add(tracks);
     await TrackPlayer.play();
@@ -76,6 +103,10 @@ export const activateTrackPlayer = async (songs: ISong[]) => {
   }
 };
 
+/**
+ * @description Obtiene la duración de una canción en formato mm:ss Ej: 4:13
+ * @param durationInMilisecons Duración de la canción en milisegundos
+ */
 export const getDuration = (durationInMilisecons: number): string => {
   const date: Date = new Date(durationInMilisecons);
   return `${date.getMinutes()}:${date.getSeconds()}`;
