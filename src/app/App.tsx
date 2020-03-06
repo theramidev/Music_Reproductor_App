@@ -11,6 +11,7 @@ import TrackPlayer from 'react-native-track-player';
 import {Provider, store} from './store';
 import {Layout} from './components/Layout';
 import {theme} from '../assets/themes';
+import Database from './database';
 
 const App: FC<any> = () => {
   const [mode, setMode] = useState(true);
@@ -34,17 +35,18 @@ const App: FC<any> = () => {
 
   useEffect(() => {
     getDarkMode();
-
-    SplashScreen.hide();
-
+    // Open Database
+    Database.open();
+    
     eventEmitter.on('currentModeChanged', async newMode => {
       await AsyncStorage.setItem('DarkMode', newMode);
-
+      
       setMode(newMode === 'dark' ? true : false);
     });
-
+    
+    // Intance Player
     TrackPlayer.setupPlayer();
-    SplashScreen.hide();
+    // Player options
     TrackPlayer.updateOptions({
       stopWithApp: true,
       capabilities: [
@@ -58,6 +60,8 @@ const App: FC<any> = () => {
         TrackPlayer.CAPABILITY_PAUSE,
       ],
     });
+
+    SplashScreen.hide();
   }, []);
 
   return (
