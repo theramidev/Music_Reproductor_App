@@ -39,7 +39,7 @@ const styles: StylesFooter = {
     flexDirection: 'row',
   },
   icon: {
-    marginRight: 10,
+    marginRight: 15,
     color: new DynamicValue('black', 'white'),
   },
 };
