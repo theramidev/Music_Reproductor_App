@@ -4,6 +4,7 @@ import {Header} from './components/Header';
 import {IProps} from './interfaces/Props';
 import {IState} from './interfaces/State';
 import {Options} from './components/Options';
+import { BackHandler } from 'react-native';
 
 export default class Settings extends Component<IProps, IState> {
   constructor(props: IProps) {

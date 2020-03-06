@@ -1,9 +1,12 @@
 import React, {FC, useEffect, useState} from 'react';
-import {StatusBar} from 'react-native';
+import {StatusBar, BackHandler} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-view';
+import { NavigationAction, NavigationState } from 'react-navigation';
 import Router from './Router';
 import {DarkModeProvider, eventEmitter} from 'react-native-dark-mode';
 import AsyncStorage from '@react-native-community/async-storage';
+import Database from './database';
+import { ShowToast } from '../utils/toast';
 
 import SplashScreen from 'react-native-splash-screen';
 import TrackPlayer from 'react-native-track-player';
@@ -11,28 +14,12 @@ import TrackPlayer from 'react-native-track-player';
 import {Provider, store} from './store';
 import {Layout} from './components/Layout';
 import {theme} from '../assets/themes';
-import Database from './database';
 
 const App: FC<any> = () => {
   const [mode, setMode] = useState(true);
-
-  // obtiene de la base de datos local si esta en modo oscuro
-  const getDarkMode = async () => {
-    try {
-      var darkMode: boolean = true;
-      const data = await AsyncStorage.getItem('DarkMode');
-      if (!data) {
-        await AsyncStorage.setItem('DarkMode', 'dark');
-      } else {
-        darkMode = data === 'dark' ? true : false;
-      }
-
-      setMode(darkMode);
-    } catch (err) {
-      console.log('a error ucurred');
-    }
-  };
-
+  const [navigated, setNavigated] = useState(false);
+  const [navigationIndex, setNavigationIndex] = useState(0);
+  
   useEffect(() => {
     getDarkMode();
     // Open Database
@@ -62,7 +49,29 @@ const App: FC<any> = () => {
     });
 
     SplashScreen.hide();
+
+    return () => {
+      // Close the reproductor when close the app
+      TrackPlayer.destroy();
+    }
   }, []);
+
+  // obtiene del AsyncStorage si está en modo oscuro
+  const getDarkMode = async () => {
+    try {
+      var darkMode: boolean = true;
+      const data = await AsyncStorage.getItem('DarkMode');
+      if (!data) {
+        await AsyncStorage.setItem('DarkMode', 'dark');
+      } else {
+        darkMode = data === 'dark' ? true : false;
+      }
+
+      setMode(darkMode);
+    } catch (err) {
+      console.log('a error ucurred');
+    }
+  };
 
   return (
     <Provider store={store}>

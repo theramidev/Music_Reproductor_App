@@ -44,12 +44,12 @@ export const getSongs = () => async (dispatch: Dispatch) => {
             createBLur: true,
             minimumSongDuration : 10000 // get songs bigger than 10000 miliseconds duration
         });
-        await Database.setSongs(songs);
         dispatch({
             type: fileTypes.getSongs,
             payload: songs
         });
-
+        await Database.setSongs(songs);
+        activateTrackPlayer(songs);
     } catch (error) {
         console.error(error);
     }

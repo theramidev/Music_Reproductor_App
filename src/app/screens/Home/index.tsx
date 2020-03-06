@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ScrollView} from 'react-native';
+import {ScrollView, BackHandler} from 'react-native';
 import {connect} from 'react-redux';
 import {
   getSongs,

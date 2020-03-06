@@ -14,16 +14,19 @@ class SongController {
         try {
             for (const song of songs) {
                 const { id, title, duration, path, author, album, genre, lyrics, cover } = song;
-                const existSong: boolean = await this.existSong(database, song.id);
+                const existSongInDB: boolean = await this.existSong(database, song.id);
 
-                if (!existSong) {
+                if (!existSongInDB) {
                     const statement: string = `INSERT INTO ${this.table} 
                     (id, title, duration, path, author, album, genre, lyrics, cover) 
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
                     const params = [id, title, duration, path, author, album, genre, lyrics, cover]
                     await database.executeSql(statement, params);
+                    return;
                 }
             }
+
+            
         } catch (error) {
             console.error('Error setSongs DB: ', error);
             Promise.reject(error);
