@@ -20,10 +20,10 @@ const styles: StylesSections = {
   icon: {
     justifyContent: 'center',
     alignItems: 'center',
-    color: new DynamicValue(theme().dark, theme().light),
+    color: new DynamicValue(theme(0.8).dark, theme().light),
   },
   iconText: {
-    color: new DynamicValue(theme().dark, theme().light),
+    color: new DynamicValue(theme(0.8).dark, theme().light),
   },
 };
 

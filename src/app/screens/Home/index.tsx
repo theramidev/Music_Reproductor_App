@@ -13,25 +13,40 @@ import {Sections} from './components/Sections';
 import {Footer} from './components/Footer';
 import {ListOfMusic} from './components/ListOfMusic';
 import {BackgroundLayout} from '../../components/BackgroundLayout';
+import {Image} from 'react-native';
+import style from './style';
 
 class HomeScreen extends Component<IProps, IState> {
   constructor(props: any) {
     super(props);
   }
 
-  componentDidMount() {
-    this.props.getSongs();
+  async componentDidMount() {
+    const {getSongs} = this.props;
+    getSongs();
   }
 
   render() {
-    const {navigation} = this.props;
+    const {navigation, fileReducer} = this.props;
+    const {
+      data: {songs},
+    } = fileReducer;
+
     return (
       <BackgroundLayout>
+        <Image
+          source={{
+            uri:
+              'https://papers.co/wallpaper/papers.co-ad64-starry-night-illust-anime-girl-2-wallpaper.jpg',
+          }}
+          style={style.backgroundImage}
+        />
+
         <Header navigate={navigation.navigate} />
 
         <Sections />
 
-        <ListOfMusic />
+        <ListOfMusic songs={songs} />
 
         <Footer />
       </BackgroundLayout>
@@ -51,4 +66,5 @@ const mapDispatchToProps = {
   getDuration,
 };
 
+// eslint-disable-next-line prettier/prettier
 export default connect<any>(mapStateToProps, mapDispatchToProps)(HomeScreen);

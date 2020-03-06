@@ -24,10 +24,12 @@ const styles: StylesListOfMusic = {
     flexDirection: 'column',
     marginLeft: 8,
     alignContent: 'center',
+    width: '77%',
   },
   title: {
     color: colorText,
     fontSize: 15,
+    width: '100%',
   },
   group: {
     color: colorText,

@@ -15,6 +15,13 @@ export interface StylesHeader {
   iconSettings: TextStyle | DynamicTextStyle;
 }
 
+export interface StylesSections {
+  content: ViewStyle | DynamicViewStyle;
+  container: ViewStyle | DynamicViewStyle;
+  icon: TextStyle | DynamicTextStyle;
+  iconText: TextStyle | DynamicTextStyle;
+}
+
 export interface StylesListOfMusic {
   container: ViewStyle | DynamicViewStyle;
   item: ViewStyle | DynamicViewStyle;
