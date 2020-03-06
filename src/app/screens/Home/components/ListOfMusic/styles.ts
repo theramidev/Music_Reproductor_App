@@ -1,23 +1,45 @@
 import {theme} from '../../../../../assets/themes';
 import {DynamicValue, DynamicStyleSheet} from 'react-native-dark-mode';
-import {StylesSections} from '../../interfaces/styles';
+import {StylesListOfMusic} from '../../interfaces/styles';
 
-const styles: StylesSections = {
-  content: {
-    backgroundColor: new DynamicValue(theme().light, theme(0.9).dark),
-    padding: 10,
-    paddingTop: 0,
-  },
+const colorText = new DynamicValue(theme().text, theme().light);
+
+const styles: StylesListOfMusic = {
   container: {
-    height: '100%',
+    flex: 1,
+    paddingBottom: 62,
+  },
+  item: {
+    paddingHorizontal: 10,
+    position: 'relative',
+    marginBottom: 10,
+    marginHorizontal: 10,
+    borderBottomColor: new DynamicValue(theme(0.3).dark, theme().text),
+    borderBottomWidth: 1,
+    paddingBottom: 5,
+    flexDirection: 'row',
+  },
+  image: {width: 50, height: 50, borderRadius: 5},
+  info: {
+    flexDirection: 'column',
+    marginLeft: 8,
+    alignContent: 'center',
+    width: '77%',
+  },
+  title: {
+    color: colorText,
+    fontSize: 15,
+    width: '100%',
+  },
+  group: {
+    color: colorText,
+    fontSize: 10,
+    marginTop: 5,
   },
   icon: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    color: new DynamicValue(theme().dark, theme().light),
-  },
-  iconText: {
-    color: new DynamicValue(theme().dark, theme().light),
+    position: 'absolute',
+    right: 10,
+    top: 5,
   },
 };
 

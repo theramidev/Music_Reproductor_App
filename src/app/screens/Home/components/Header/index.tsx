@@ -25,6 +25,7 @@ export const Header: FC<any> = ({navigate}: any) => {
           style={styles.search}
           placeholder="Search"
           underlineColorAndroid="transparent"
+          placeholderTextColor={styles.searchIcon.color}
         />
       </View>
 

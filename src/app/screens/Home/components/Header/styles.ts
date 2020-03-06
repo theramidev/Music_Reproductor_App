@@ -21,7 +21,7 @@ const styles: StylesHeader = {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: new DynamicValue(theme().light, theme().text),
+    backgroundColor: new DynamicValue('#F3F3F3', theme().text),
     borderRadius: 10,
     overflow: 'hidden',
     flex: 1,
@@ -36,7 +36,8 @@ const styles: StylesHeader = {
     paddingRight: 5,
     paddingBottom: 5,
     paddingLeft: 0,
-    backgroundColor: new DynamicValue(theme().light, theme().text),
+    backgroundColor: new DynamicValue(theme(0.0).text, theme().text),
+    color: colorText,
   },
   settings: {
     width: '12%',

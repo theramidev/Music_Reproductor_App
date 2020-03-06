@@ -1,5 +1,9 @@
 import {ViewStyle, TextStyle, ImageStyle} from 'react-native';
-import {DynamicViewStyle, DynamicTextStyle} from 'react-native-dark-mode';
+import {
+  DynamicViewStyle,
+  DynamicTextStyle,
+  DynamicImageStyle,
+} from 'react-native-dark-mode';
 
 export interface StylesHeader {
   container: ViewStyle | DynamicViewStyle;
@@ -16,6 +20,16 @@ export interface StylesSections {
   container: ViewStyle | DynamicViewStyle;
   icon: TextStyle | DynamicTextStyle;
   iconText: TextStyle | DynamicTextStyle;
+}
+
+export interface StylesListOfMusic {
+  container: ViewStyle | DynamicViewStyle;
+  item: ViewStyle | DynamicViewStyle;
+  image: ImageStyle | DynamicImageStyle;
+  info: ViewStyle | DynamicViewStyle;
+  title: TextStyle | DynamicTextStyle;
+  group: TextStyle | DynamicTextStyle;
+  icon: TextStyle | DynamicTextStyle;
 }
 
 export interface StylesFooter {

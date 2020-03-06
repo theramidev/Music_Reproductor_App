@@ -6,6 +6,8 @@ const colorText = new DynamicValue(theme().text, theme().light);
 
 const styles: StylesFooter = {
   container: {
+    position: 'absolute',
+    bottom: 0,
     paddingVertical: 10,
     paddingHorizontal: 10,
     flexDirection: 'row',
@@ -37,7 +39,7 @@ const styles: StylesFooter = {
     flexDirection: 'row',
   },
   icon: {
-    marginRight: 10,
+    marginRight: 15,
     color: new DynamicValue('black', 'white'),
   },
 };
