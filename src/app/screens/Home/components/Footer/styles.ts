@@ -6,6 +6,8 @@ const colorText = new DynamicValue(theme().text, theme().light);
 
 const styles: StylesFooter = {
   container: {
+    position: 'absolute',
+    bottom: 0,
     paddingVertical: 10,
     paddingHorizontal: 10,
     flexDirection: 'row',
