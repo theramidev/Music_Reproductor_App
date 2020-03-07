@@ -44,7 +44,7 @@ class HomeScreen extends Component<IProps, IState> {
 
         <Header navigate={navigation.navigate} />
 
-        <Sections />
+        <Sections navigation={this.props.navigation} />
 
         <ListOfMusic songs={songs} />
 
