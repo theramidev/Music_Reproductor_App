@@ -5,14 +5,15 @@ import {
 } from 'react-navigation-stack';
 
 import HomeScreen from './screens/Home';
-import Settings from './screens/Settings';
 import Music from './screens/Music';
+import SettingsScreen from './screens/Settings';
+import ReproductionsScreen from './screens/Reproductions';
 
 const Routes = createStackNavigator(
   {
     Home: HomeScreen,
     Settings: {
-      screen: Settings,
+      screen: SettingsScreen,
       navigationOptions: {
         gestureDirection: 'horizontal',
         gestureEnabled: true,
@@ -22,6 +23,14 @@ const Routes = createStackNavigator(
     Music: {
       screen: Music,
       navigationOptions: {},
+    },
+    Reproductions: {
+      screen: ReproductionsScreen,
+      navigationOptions: {
+        gestureDirection: 'horizontal',
+        gestureEnabled: true,
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      },
     },
   },
   {

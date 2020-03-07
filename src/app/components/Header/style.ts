@@ -1,8 +1,8 @@
-import {theme} from '../../../../../assets/themes';
-import {StylesHeader} from '../../interfaces/styles';
+import {theme} from '../../../assets/themes';
+import {StylesHeader} from './interfaces/styles';
 import {DynamicStyleSheet, DynamicValue} from 'react-native-dark-mode';
 
-const colorText = new DynamicValue(theme().text, theme().light);
+const colorText = new DynamicValue(theme().dark, theme().light);
 
 const styles: StylesHeader = {
   container: {
@@ -23,6 +23,11 @@ const styles: StylesHeader = {
     left: 15,
     color: colorText,
   },
+  icon: {
+    position: 'absolute',
+    right: 15,
+    color: colorText
+  }
 };
 
 const dynamicStyles = new DynamicStyleSheet(styles);

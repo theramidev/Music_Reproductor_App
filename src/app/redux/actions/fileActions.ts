@@ -1,10 +1,12 @@
 import {PermissionsAndroid, PermissionStatus} from 'react-native';
 import fileTypes from '../types/fileTypes';
 import {Dispatch} from 'redux';
-import {ISong} from '../../models/song.model';
+import {ISong, MSong} from '../../models/song.model';
 import TrackPlayer, {Track} from 'react-native-track-player';
 import MusicFiles from 'react-native-get-music-files';
 import Database from '../../database';
+
+
 
 /**
  * @description Obtiene las canciones del dispositivo
@@ -21,7 +23,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
     // Request Permissions
     if (!hasExternalReadPermissions) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const resp: PermissionStatus = await PermissionsAndroid.request(
+      await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
         {
           title: 'Permitir lectura',
@@ -30,26 +32,16 @@ export const getSongs = () => async (dispatch: Dispatch) => {
           buttonNegative: 'Rechazar',
         },
       );
-
-      const songs: ISong[] = await MusicFiles.getAll({
-        id: true,
-        blured: true,
-        artist: true,
-        duration: true,
-        cover: true,
-        genre: true,
-        title: true,
-        createBLur: true,
-        minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration
-      });
-      await Database.setSongs(songs);
-      dispatch({
-        type: fileTypes.getSongs,
-        payload: songs,
-      });
     }
 
-    const songs: ISong[] = await MusicFiles.getAll({
+    const songsDB: MSong[] = await Database.getSongs();
+
+    dispatch({
+      type: fileTypes.getSongs,
+      payload: songsDB
+    })
+
+    const musicFiles: ISong[] = await MusicFiles.getAll({
       id: true,
       blured: true,
       artist: true,
@@ -59,11 +51,14 @@ export const getSongs = () => async (dispatch: Dispatch) => {
       title: true,
       minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration
     });
-    activateTrackPlayer(songs);
+
+    const songs: MSong[] = musicFiles.map(song => new MSong(song));
+    
     dispatch({
       type: fileTypes.getSongs,
       payload: songs,
     });
+    await Database.setSongs(musicFiles);
   } catch (error) {
     console.error(error);
   }
@@ -73,7 +68,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
  * @description Comienza a reproducir una lista de canciones
  * @param songs Lista de reproducción que va a ser reproducida
  */
-export const activateTrackPlayer = async (songs: ISong[]) => {
+export const activateTrackPlayer = async (songs: MSong[]) => {
   try {
     const tracks: Track[] = songs.map(
       ({id, author, title, path, album, genre, duration, cover}) => {
@@ -87,7 +82,7 @@ export const activateTrackPlayer = async (songs: ISong[]) => {
           artwork: cover
             ? cover
             : require('../../../assets/images/music_notification.png'),
-          duration: +duration,
+          duration: duration,
           pitchAlgorithm: TrackPlayer.PITCH_ALGORITHM_MUSIC,
         } as Track;
       },
