@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import dynamicStyles from './style';
 import {HeaderBackButton} from 'react-navigation-stack';
 
-export const Header: FC<IProps> = ({navigation, iconName}) => {
+export const Header: FC<IProps> = ({navigation, iconName, title}) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
 
   const back = () => {
@@ -16,7 +16,7 @@ export const Header: FC<IProps> = ({navigation, iconName}) => {
 
   return (
     <View style={styles.container}>
-        <Text style={styles.text}>Reciente</Text>
+        <Text style={styles.text}>{title}</Text>
 
         <TouchableOpacity style={styles.back}>
         <HeaderBackButton tintColor={styles.back.color} onPress={back} />

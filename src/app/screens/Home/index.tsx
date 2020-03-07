@@ -11,7 +11,7 @@ import {IProps} from './interfaces/Props';
 import {Header} from './components/Header';
 import {Sections} from './components/Sections';
 import {Footer} from './components/Footer';
-import {ListOfMusic} from './components/ListOfMusic';
+import {ListOfMusic} from '../../components/ListOfMusic';
 import {BackgroundLayout} from '../../components/BackgroundLayout';
 import {Image} from 'react-native';
 import style from './style';

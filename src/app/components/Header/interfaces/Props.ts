@@ -4,5 +4,6 @@ import { NavigationScreenProp, NavigationState, NavigationParams } from "react-n
 export interface IProps {
     navigation: NavigationScreenProp<NavigationState, NavigationParams>,
     children?: ReactNode,
-    iconName?: string
+    iconName?: string,
+    title: string
 }

@@ -1,11 +1,12 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, FC} from 'react';
 import {View, Image, FlatList, Text, TouchableOpacity} from 'react-native';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import dynamicStyles from './styles';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import {MSong} from 'src/app/models/song.model';
+import { IProps } from './Interfaces/Props';
+import { MSong } from '../../models/song.model';
 
-export const ListOfMusic = ({songs}: any) => {
+export const ListOfMusic: FC<IProps> = ({songs}) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
 
   const cutText = (txt: string): string => {

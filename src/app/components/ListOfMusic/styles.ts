@@ -1,6 +1,6 @@
-import {theme} from '../../../../../assets/themes';
+import {theme} from '../../../assets/themes';
 import {DynamicValue, DynamicStyleSheet} from 'react-native-dark-mode';
-import {StylesListOfMusic} from '../../interfaces/styles';
+import {StylesListOfMusic} from './interfaces/Style';
 
 const colorText = new DynamicValue(theme().text, theme().light);
 
