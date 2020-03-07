@@ -6,6 +6,7 @@ import {
 
 import HomeScreen from './screens/Home';
 import Settings from './screens/Settings';
+import Music from './screens/Music';
 
 const Routes = createStackNavigator(
   {
@@ -17,6 +18,10 @@ const Routes = createStackNavigator(
         gestureEnabled: true,
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       },
+    },
+    Music: {
+      screen: Music,
+      navigationOptions: {},
     },
   },
   {

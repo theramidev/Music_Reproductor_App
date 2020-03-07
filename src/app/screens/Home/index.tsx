@@ -46,7 +46,7 @@ class HomeScreen extends Component<IProps, IState> {
 
         <Sections />
 
-        <ListOfMusic songs={songs} />
+        <ListOfMusic songs={songs} navigate={navigation.navigate} />
 
         <Footer />
       </BackgroundLayout>

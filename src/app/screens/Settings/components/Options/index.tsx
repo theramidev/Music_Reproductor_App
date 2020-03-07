@@ -1,5 +1,5 @@
-import React, {FC, useState, useEffect} from 'react';
-import {View, Text} from 'react-native';
+import React, {FC, useState, useEffect, Fragment} from 'react';
+import {View, Text, Image} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useDynamicStyleSheet, eventEmitter} from 'react-native-dark-mode';
 import Feather from 'react-native-vector-icons/Feather';
@@ -34,10 +34,24 @@ export const Options: FC<any> = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Feather name="moon" color={styles.text.color} size={20} />
-      <Text style={styles.text}>Dark mode</Text>
-      <SwitchToggle switchOn={mode} onPress={() => updateDarkMode(!mode)} />
-    </View>
+    <Fragment>
+      <View style={styles.container}>
+        <Feather name="moon" color={styles.text.color} size={20} />
+        <Text style={styles.text}>Dark mode</Text>
+        <SwitchToggle switchOn={mode} onPress={() => updateDarkMode(!mode)} />
+      </View>
+
+      <View style={styles.container}>
+        <Feather name="moon" color={styles.text.color} size={20} />
+        <Text style={styles.text}>Image Background</Text>
+        <Image
+          style={styles.image}
+          source={{
+            uri:
+              'https://papers.co/wallpaper/papers.co-ad64-starry-night-illust-anime-girl-2-wallpaper.jpg',
+          }}
+        />
+      </View>
+    </Fragment>
   );
 };
