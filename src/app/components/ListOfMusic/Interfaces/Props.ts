@@ -1,5 +1,6 @@
-import { MSong } from "../../../models/song.model";
+import {MSong} from '../../../models/song.model';
 
 export interface IProps {
-    songs: MSong[]
+  songs: MSong[];
+  navigate: any;
 }
