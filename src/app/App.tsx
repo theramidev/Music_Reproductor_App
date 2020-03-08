@@ -1,12 +1,10 @@
 import React, {FC, useEffect, useState} from 'react';
-import {StatusBar, BackHandler} from 'react-native';
+import {StatusBar} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-view';
-import { NavigationAction, NavigationState } from 'react-navigation';
 import Router from './Router';
 import {DarkModeProvider, eventEmitter} from 'react-native-dark-mode';
 import AsyncStorage from '@react-native-community/async-storage';
 import Database from './database';
-import { ShowToast } from '../utils/toast';
 
 import SplashScreen from 'react-native-splash-screen';
 import TrackPlayer from 'react-native-track-player';

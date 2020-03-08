@@ -19,6 +19,7 @@
     "react-native": "0.61.5",
     "react-native-background-color": "^0.0.8",
     "react-native-dark-mode": "^0.2.2",
+    "react-native-document-picker": "^3.2.4",
     "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "^1.6.0",
     "react-native-get-music-files": "https://github.com/YajanaRao/react-native-get-music-files.git",
