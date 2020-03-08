@@ -28,7 +28,7 @@ export class DatabaseInitialization {
         transaction.executeSql(
             `CREATE TABLE IF NOT EXISTS reproduction(
                 id INTEGER PRIMARY KEY NOT NULL UNIQUE,
-                id_song TEXT NOT NULL
+                id_song TEXT NOT NULL UNIQUE
             )`
         );
 

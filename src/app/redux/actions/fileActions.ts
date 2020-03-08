@@ -5,8 +5,36 @@ import {ISong, MSong} from '../../models/song.model';
 import TrackPlayer, {Track} from 'react-native-track-player';
 import MusicFiles from 'react-native-get-music-files';
 import Database from '../../database';
+import { MReproduction } from 'src/app/models/reproduction.model';
 
+export const getRecents = () => async (dispatch: Dispatch) => {
+  dispatch({
+    type: fileTypes.loadingGetReproductions
+  });
 
+  try {
+    const reproductions: MReproduction[] = await Database.getReproductions();
+
+    dispatch({
+      type: fileTypes.getReproductions,
+      payload: reproductions
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+/**
+ * @description Agrega una canción a la lista de recientes
+ * @param song Canción que se va a agregar a la lista
+ */
+export const setSongToRecent = (song: MSong) => async () => {
+  try { 
+    await Database.setReproduction(song.id);
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 /**
  * @description Obtiene las canciones del dispositivo
@@ -53,7 +81,6 @@ export const getSongs = () => async (dispatch: Dispatch) => {
     });
 
     const songs: MSong[] = musicFiles.map(song => new MSong(song));
-    
     dispatch({
       type: fileTypes.getSongs,
       payload: songs,
@@ -68,7 +95,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
  * @description Comienza a reproducir una lista de canciones
  * @param songs Lista de reproducción que va a ser reproducida
  */
-export const activateTrackPlayer = async (songs: MSong[]) => {
+export const activateTrackPlayer = (songs: MSong[]) => {
   try {
     const tracks: Track[] = songs.map(
       ({id, author, title, path, album, genre, duration, cover}) => {
@@ -92,7 +119,7 @@ export const activateTrackPlayer = async (songs: MSong[]) => {
     // console.log(tracks[32]);
 
     TrackPlayer.add(tracks);
-    await TrackPlayer.play();
+    TrackPlayer.play();
   } catch (error) {
     console.log('Error activateTrackPlayer: ', error);
   }

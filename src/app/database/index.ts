@@ -3,6 +3,7 @@ import { DatabaseInitialization } from './DatabaseInitialization';
 import SongController from './SongController';
 import { IDatabase } from './interfaces/Database';
 import { ISong, MSong } from '../models/song.model';
+import { MReproduction } from '../models/reproduction.model';
 
 class Database implements IDatabase {
     private database: SQLiteDatabase | any;
@@ -14,6 +15,13 @@ class Database implements IDatabase {
      */
     public async setReproduction(songId: string): Promise<void> {
         SongController.setReproduction(this.database, songId);
+    }
+    /**
+     * @description Obtiene las últimas reproducciones
+     * @return Promise<MReproduction[]>
+     */
+    public async getReproductions(): Promise<MReproduction[]> {
+        return SongController.getReproductions(this.database);
     }
     /**
      * @description Agrega canciones a la abse de datos local

@@ -34,6 +34,27 @@ export default (state = INITIAL_STATE, action: IAction) => {
         errors: {...state.errors, errorSongs: action.payload},
       };
 
+    case fileTypes.getReproductions:
+      return {
+        ...state,
+        data: {...state.data, reproductions: action.payload},
+        loadings: {...state.loadings, loadingGetReproductions: false}
+      }
+
+    case fileTypes.loadingGetReproductions:
+      return {
+        ...state,
+        loadings: {...state.loadings, loadingGetReproductions: true},
+        errors: {...state.errors, errorGetReproductions: null}
+      }
+
+    case fileTypes.errorGetReproductions:
+      return {
+        ...state,
+        loadings: {...state.loadings, loadingGetReproductions: false},
+        errors: {...state.errors, errorGetReproductions: action.payload}
+      }
+
     default:
       return state;
   }
