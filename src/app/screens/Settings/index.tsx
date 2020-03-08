@@ -15,7 +15,7 @@ export default class Settings extends Component<IProps, IState> {
       <BackgroundLayout>
         <Header navigation={this.props.navigation} title="Configuración" />
         
-        <ListOfOptions />
+        <ListOfOptions navigation={this.props.navigation} />
       </BackgroundLayout>
     );
   }

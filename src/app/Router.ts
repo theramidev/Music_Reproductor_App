@@ -7,6 +7,7 @@ import {
 import HomeScreen from './screens/Home';
 import SettingsScreen from './screens/Settings';
 import ReproductionsScreen from './screens/Reproductions';
+import ChangeImageScreen from './screens/ChangeImage';
 
 const Routes = createStackNavigator(
   {
@@ -21,6 +22,14 @@ const Routes = createStackNavigator(
     },
     Reproductions: {
       screen: ReproductionsScreen,
+      navigationOptions: {
+        gestureDirection: 'horizontal',
+        gestureEnabled: true,
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+      }
+    },
+    ChangeImage: {
+      screen: ChangeImageScreen,
       navigationOptions: {
         gestureDirection: 'horizontal',
         gestureEnabled: true,
