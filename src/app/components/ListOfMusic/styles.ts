@@ -15,8 +15,6 @@ const styles: StylesListOfMusic = {
     marginHorizontal: 10,
     paddingBottom: 5,
     paddingTop: 5,
-    borderBottomColor: new DynamicValue(theme(0.3).dark, theme().text),
-    borderBottomWidth: 1,
     flexDirection: 'row',
   },
   image: {width: 50, height: 50, borderRadius: 5},

@@ -17,6 +17,7 @@
     "@react-native-community/masked-view": "^0.1.7",
     "react": "16.9.0",
     "react-native": "0.61.5",
+    "react-native-auto-scrolling": "^2.0.0",
     "react-native-background-color": "^0.0.8",
     "react-native-dark-mode": "^0.2.2",
     "react-native-fs": "^2.16.6",

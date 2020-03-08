@@ -12,7 +12,7 @@ export const ListOfMusic: FC<IProps> = ({songs, navigate}: any) => {
 
   const cutText = (txt: string): string => {
     if (txt.length > 35) {
-      return txt.substring(1, 35) + '...';
+      return txt.substring(0, 35) + '...';
     }
 
     return txt;

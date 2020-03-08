@@ -1,12 +1,10 @@
-import {PermissionsAndroid, PermissionStatus} from 'react-native';
+import {PermissionsAndroid} from 'react-native';
 import fileTypes from '../types/fileTypes';
 import {Dispatch} from 'redux';
 import {ISong, MSong} from '../../models/song.model';
 import TrackPlayer, {Track} from 'react-native-track-player';
 import MusicFiles from 'react-native-get-music-files';
 import Database from '../../database';
-
-
 
 /**
  * @description Obtiene las canciones del dispositivo
@@ -38,8 +36,8 @@ export const getSongs = () => async (dispatch: Dispatch) => {
 
     dispatch({
       type: fileTypes.getSongs,
-      payload: songsDB
-    })
+      payload: songsDB,
+    });
 
     const musicFiles: ISong[] = await MusicFiles.getAll({
       id: true,
@@ -53,7 +51,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
     });
 
     const songs: MSong[] = musicFiles.map(song => new MSong(song));
-    
+
     dispatch({
       type: fileTypes.getSongs,
       payload: songs,
@@ -91,6 +89,7 @@ export const activateTrackPlayer = async (songs: MSong[]) => {
     // console.log(tracks[25]);
     // console.log(tracks[32]);
 
+    TrackPlayer.destroy();
     TrackPlayer.add(tracks);
     await TrackPlayer.play();
   } catch (error) {

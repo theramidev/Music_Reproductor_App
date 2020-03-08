@@ -66,5 +66,7 @@ const mapDispatchToProps = {
   getDuration,
 };
 
-// eslint-disable-next-line prettier/prettier
-export default connect<any>(mapStateToProps, mapDispatchToProps)(HomeScreen);
+export default connect<any, any>(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HomeScreen);

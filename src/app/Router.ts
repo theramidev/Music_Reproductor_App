@@ -22,7 +22,12 @@ const Routes = createStackNavigator(
     },
     Music: {
       screen: Music,
-      navigationOptions: {},
+      navigationOptions: {
+        gestureDirection: 'vertical',
+        gestureEnabled: true,
+        cardStyleInterpolator:
+          CardStyleInterpolators.forRevealFromBottomAndroid,
+      },
     },
     Reproductions: {
       screen: ReproductionsScreen,

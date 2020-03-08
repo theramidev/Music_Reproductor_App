@@ -12,6 +12,10 @@ const styles: StylesHeader = {
     alignItems: 'center',
     justifyContent: 'center',
   },
+  scroll: {},
+  contentText: {
+    width: '70%',
+  },
   text: {
     color: colorText,
     fontSize: 20,
@@ -20,14 +24,14 @@ const styles: StylesHeader = {
   },
   back: {
     position: 'absolute',
-    left: 15,
+    left: 10,
     color: colorText,
   },
   icon: {
     position: 'absolute',
-    right: 15,
-    color: colorText
-  }
+    right: 10,
+    color: colorText,
+  },
 };
 
 const dynamicStyles = new DynamicStyleSheet(styles);

@@ -1,12 +1,12 @@
 import React, {FC, useEffect, useState} from 'react';
 import {StatusBar, BackHandler} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-view';
-import { NavigationAction, NavigationState } from 'react-navigation';
+import {NavigationAction, NavigationState} from 'react-navigation';
 import Router from './Router';
 import {DarkModeProvider, eventEmitter} from 'react-native-dark-mode';
 import AsyncStorage from '@react-native-community/async-storage';
 import Database from './database';
-import { ShowToast } from '../utils/toast';
+import {ShowToast} from '../utils/toast';
 
 import SplashScreen from 'react-native-splash-screen';
 import TrackPlayer from 'react-native-track-player';
@@ -19,18 +19,18 @@ const App: FC<any> = () => {
   const [mode, setMode] = useState(true);
   const [navigated, setNavigated] = useState(false);
   const [navigationIndex, setNavigationIndex] = useState(0);
-  
+
   useEffect(() => {
     getDarkMode();
     // Open Database
     Database.open();
-    
+
     eventEmitter.on('currentModeChanged', async newMode => {
       await AsyncStorage.setItem('DarkMode', newMode);
-      
+
       setMode(newMode === 'dark' ? true : false);
     });
-    
+
     // Intance Player
     TrackPlayer.setupPlayer();
     // Player options
@@ -53,7 +53,7 @@ const App: FC<any> = () => {
     return () => {
       // Close the reproductor when close the app
       TrackPlayer.destroy();
-    }
+    };
   }, []);
 
   // obtiene del AsyncStorage si está en modo oscuro

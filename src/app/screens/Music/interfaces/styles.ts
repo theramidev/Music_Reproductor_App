@@ -5,14 +5,14 @@ import {
   DynamicImageStyle,
 } from 'react-native-dark-mode';
 
-export interface StylesHeader {
+export interface StylesProgress {
   container: ViewStyle | DynamicViewStyle;
   text: TextStyle | DynamicTextStyle;
-  inputIcon: ViewStyle | DynamicViewStyle;
-  searchIcon: TextStyle | DynamicTextStyle;
-  search: ViewStyle | TextStyle | DynamicViewStyle | DynamicTextStyle;
-  settings: TextStyle | DynamicTextStyle;
-  iconSettings: TextStyle | DynamicTextStyle;
+  bar: ViewStyle | DynamicViewStyle;
+  time: ViewStyle | DynamicViewStyle;
+  start: TextStyle | DynamicTextStyle;
+  finish: TextStyle | DynamicTextStyle;
+  actions: TextStyle | DynamicTextStyle;
 }
 
 export interface StylesSections {
