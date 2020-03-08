@@ -7,7 +7,7 @@ import SwitchToggle from '@dooboo-ui/native-switch-toggle';
 
 import dynamicStyles from './styles';
 
-export const Options: FC<any> = () => {
+export const DarkMode: FC<any> = () => {
   const styles = useDynamicStyleSheet(dynamicStyles);
   const [mode, setMode] = useState(false);
 

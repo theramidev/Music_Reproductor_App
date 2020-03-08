@@ -1,5 +1,5 @@
 import {theme} from '../../../../../assets/themes';
-import {StylesOptions} from '../../interfaces/styles';
+import {StylesOptions} from '../../interfaces/Styles';
 import {DynamicStyleSheet, DynamicValue} from 'react-native-dark-mode';
 
 const colorText = new DynamicValue(theme().text, theme().light);
@@ -16,7 +16,7 @@ const styles: StylesOptions = {
   },
   text: {
     color: colorText,
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 'bold',
   },
 };
