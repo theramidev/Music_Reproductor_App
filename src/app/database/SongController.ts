@@ -15,6 +15,17 @@ class SongController {
     public async setReproduction(database: SQLiteDatabase, songId: string): Promise<any> {
         return new Promise(async (resolve, reject) => {
             try {
+                const reproductions: MReproduction[] = await this.getReproductions(database);
+                const found: MReproduction | undefined = reproductions.find(reproduction => {
+                    if (reproduction.song.id === songId) {
+                        return true;
+                    }
+                });
+
+                if (found) {
+                    await this.deleteReproduction(database, found.reprodcutionId);
+                }
+
                 const statement: string = `INSERT INTO ${this.tableReproduction} 
                 (id_song) VALUES (?)`;
                 await database.executeSql(statement, [songId]);
@@ -48,6 +59,24 @@ class SongController {
                 reject(error);
             }
         });
+    }
+    /**
+     * @description Elimina una reproducción de la base de datos
+     * @param database Base de datos local
+     * @param reproductionId Id de la repdroducción
+     * @return Promise<any>
+     */
+    public async deleteReproduction(database: SQLiteDatabase, reproductionId: number): Promise<any> {
+        return new Promise((resolve, reject) => {
+            try {
+                const statement: string = `DELETE FROM ${this.tableReproduction} 
+                WHERE id_song = ?`;
+                database.executeSql(statement, [reproductionId]);
+            } catch (error) {
+                console.error(error);
+                reject(error);   
+            }
+        })
     }
     /**
      * @description Inserta las canciones en la abse de datos
