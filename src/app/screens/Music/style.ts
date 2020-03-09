@@ -9,8 +9,8 @@ export default StyleSheet.create({
     alignContent: 'center',
   },
   image: {
-    height: 240,
-    width: 240,
+    height: 270,
+    width: 270,
     resizeMode: 'cover',
     borderRadius: 10,
   },

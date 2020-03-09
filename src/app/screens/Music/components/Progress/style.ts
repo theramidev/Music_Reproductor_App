@@ -8,13 +8,7 @@ const styles: StylesProgress = {
   container: {
     position: 'absolute',
     bottom: 0,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    flexDirection: 'row',
-    borderTopColor: '#939393',
-    borderWidth: 1,
-    backgroundColor: new DynamicValue('white', '#131313'),
-    alignItems: 'center',
+    width: '100%',
   },
   text: {
     color: colorText,
@@ -37,8 +31,10 @@ const styles: StylesProgress = {
   actions: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     marginHorizontal: 20,
-    marginTop: 10,
+    marginTop: 20,
+    marginBottom: 50,
     color: colorText,
   },
 };

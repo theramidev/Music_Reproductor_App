@@ -4,7 +4,7 @@ import {StylesSections} from '../../interfaces/styles';
 
 const styles: StylesSections = {
   content: {
-    padding: 10,
+    paddingHorizontal: 10,
     paddingTop: 0,
   },
   container: {

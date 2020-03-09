@@ -15,11 +15,9 @@ export interface StylesProgress {
   actions: TextStyle | DynamicTextStyle;
 }
 
-export interface StylesSections {
-  content: ViewStyle | DynamicViewStyle;
+export interface StylesActions {
   container: ViewStyle | DynamicViewStyle;
   icon: TextStyle | DynamicTextStyle;
-  iconText: TextStyle | DynamicTextStyle;
 }
 
 export interface StylesListOfMusic {

@@ -1,10 +1,10 @@
-import React, {Fragment, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Slider, Text, View, TouchableOpacity} from 'react-native';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import dynamicStyles from './style';
 
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Entypo from 'react-native-vector-icons/Entypo';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 import TrackPlayer, {
   getPosition,
   seekTo,
@@ -12,6 +12,7 @@ import TrackPlayer, {
   play,
 } from 'react-native-track-player';
 import {getDuration} from '../../../../util/duration';
+import {Actions} from '../Actions';
 
 export const Progress = ({duration}: any) => {
   const [position, setPosition] = useState(0);
@@ -46,7 +47,7 @@ export const Progress = ({duration}: any) => {
   };
 
   return (
-    <Fragment>
+    <View style={styles.container}>
       <View style={styles.bar}>
         <View style={styles.time}>
           <Text style={styles.start}>{getDuration(position)}</Text>
@@ -65,15 +66,15 @@ export const Progress = ({duration}: any) => {
         />
 
         <View style={styles.actions}>
-          <Entypo
-            name="controller-jump-to-start"
-            size={50}
+          <AntDesign
+            name="stepbackward"
+            size={40}
             color={styles.actions.color}
           />
           {pauseMusic && (
             <TouchableOpacity onPress={playSond}>
-              <FontAwesome5
-                name="play"
+              <AntDesign
+                name="caretright"
                 size={50}
                 color={styles.actions.color}
               />
@@ -81,21 +82,20 @@ export const Progress = ({duration}: any) => {
           )}
           {!pauseMusic && (
             <TouchableOpacity onPress={stop}>
-              <FontAwesome5
-                name="pause"
-                size={50}
-                color={styles.actions.color}
-              />
+              <AntDesign name="pause" size={50} color={styles.actions.color} />
             </TouchableOpacity>
           )}
 
-          <Entypo
-            name="controller-next"
-            size={50}
+          <AntDesign
+            name="stepforward"
+            size={40}
             color={styles.actions.color}
           />
         </View>
       </View>
-    </Fragment>
+
+      {/* Icon actions */}
+      <Actions />
+    </View>
   );
 };
