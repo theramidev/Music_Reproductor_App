@@ -9,4 +9,4 @@ import service from './service';
 import {name as appName} from './app.json';
 
 AppRegistry.registerComponent(appName, () => App);
-TrackPlayer.registerPlaybackService(() => service)
+TrackPlayer.registerPlaybackService(() => service);

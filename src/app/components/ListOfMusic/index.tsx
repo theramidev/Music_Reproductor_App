@@ -26,7 +26,7 @@ export const ListOfMusic: FC<IProps> = ({songs, navigate}: any) => {
           <Fragment>
             <Ripple
               rippleColor={styles.title.color}
-              onPress={() => navigate('Music', {item})}>
+              onPress={() => navigate('Music', {item, songs})}>
               <View style={styles.item}>
                 <Image
                   style={styles.image}

@@ -95,7 +95,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
  * @description Comienza a reproducir una lista de canciones
  * @param songs Lista de reproducción que va a ser reproducida
  */
-export const activateTrackPlayer = (songs: MSong[]) => {
+export const activateTrackPlayer = (songs: MSong[]) => () => {
   try {
     const tracks: Track[] = songs.map(
       ({id, author, title, path, album, genre, duration, cover}) => {
@@ -115,6 +115,9 @@ export const activateTrackPlayer = (songs: MSong[]) => {
       },
     );
 
+    //console.log(tracks);
+    console.log('==================================================');
+
     // console.log(tracks[25]);
     // console.log(tracks[32]);
 
@@ -124,13 +127,4 @@ export const activateTrackPlayer = (songs: MSong[]) => {
   } catch (error) {
     console.log('Error activateTrackPlayer: ', error);
   }
-};
-
-/**
- * @description Obtiene la duración de una canción en formato mm:ss Ej: 4:13
- * @param durationInMilisecons Duración de la canción en milisegundos
- */
-export const getDuration = (durationInMilisecons: number): string => {
-  const date: Date = new Date(durationInMilisecons);
-  return `${date.getMinutes()}:${date.getSeconds()}`;
 };

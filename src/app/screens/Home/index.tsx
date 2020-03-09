@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {
-  getSongs,
-  activateTrackPlayer,
-  getDuration,
-} from '../../redux/actions/fileActions';
+import {getSongs, activateTrackPlayer} from '../../redux/actions/fileActions';
 
 import {IState} from './interfaces/State';
 import {IProps} from './interfaces/Props';
@@ -63,7 +59,6 @@ const mapStateToProps = ({fileReducer}: any) => {
 const mapDispatchToProps = {
   getSongs,
   activateTrackPlayer,
-  getDuration,
 };
 
 export default connect<any, any>(

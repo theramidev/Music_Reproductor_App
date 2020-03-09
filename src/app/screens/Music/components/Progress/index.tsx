@@ -10,11 +10,14 @@ import TrackPlayer, {
   seekTo,
   pause,
   play,
+  skipToNext,
+  skipToPrevious,
+  getCurrentTrack,
 } from 'react-native-track-player';
 import {getDuration} from '../../../../util/duration';
 import {Actions} from '../Actions';
 
-export const Progress = ({duration}: any) => {
+export const Progress = ({duration, updateMusic}: any) => {
   const [position, setPosition] = useState(0);
   const [pauseMusic, setPauseMusic] = useState(false);
   const styles = useDynamicStyleSheet(dynamicStyles);
@@ -46,6 +49,18 @@ export const Progress = ({duration}: any) => {
     setPauseMusic(false);
   };
 
+  const previousSong = async () => {
+    await skipToPrevious();
+    const id: string = await getCurrentTrack();
+    await updateMusic(id);
+  };
+
+  const nextSong = async () => {
+    await skipToNext();
+    const id: string = await getCurrentTrack();
+    await updateMusic(id);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.bar}>
@@ -66,11 +81,13 @@ export const Progress = ({duration}: any) => {
         />
 
         <View style={styles.actions}>
-          <AntDesign
-            name="stepbackward"
-            size={40}
-            color={styles.actions.color}
-          />
+          <TouchableOpacity onPress={previousSong}>
+            <AntDesign
+              name="stepbackward"
+              size={40}
+              color={styles.actions.color}
+            />
+          </TouchableOpacity>
           {pauseMusic && (
             <TouchableOpacity onPress={playSond}>
               <AntDesign
@@ -86,11 +103,13 @@ export const Progress = ({duration}: any) => {
             </TouchableOpacity>
           )}
 
-          <AntDesign
-            name="stepforward"
-            size={40}
-            color={styles.actions.color}
-          />
+          <TouchableOpacity onPress={nextSong}>
+            <AntDesign
+              name="stepforward"
+              size={40}
+              color={styles.actions.color}
+            />
+          </TouchableOpacity>
         </View>
       </View>
 
