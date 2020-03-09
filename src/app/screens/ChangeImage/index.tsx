@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
 import { IProps } from './interfaces/Props';
 import { IState } from './interfaces/State';
+import { BackgroundLayout } from '../../components/BackgroundLayout';
+import { Header } from '../../components/Header';
+import { ListOfPhotoCard } from './components/ListOfPhotocard';
+
 
 class ChangeImageScreen extends Component<IProps, IState> {
 
     render() {
         return(
-            <Text>Hola Change Image Screen</Text>
+            <BackgroundLayout>
+                <Header navigation={this.props.navigation} title="Cambiar imagen" />
+
+                <ListOfPhotoCard />
+            </BackgroundLayout>
         )
     }
 }
