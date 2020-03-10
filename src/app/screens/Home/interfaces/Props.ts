@@ -1,4 +1,4 @@
-import {ISong, MSong} from 'src/app/models/song.model';
+import {MSong} from 'src/app/models/song.model';
 import {
   NavigationScreenProp,
   NavigationState,
@@ -27,10 +27,10 @@ export interface IProps {
    * @param songs Canciones
    */
   activateTrackPlayer(songs: MSong[]): void;
+
   /**
-   * @description Obtiene el tiempo de duración de la canción en formato mm:ss. Ej: 4:12
+   * @description cambia los datos de una cancion
    * @param durationInMilisecons Duración de la canción en milisegundo
-   * @return string
    */
-  getDuration(durationInMilisecons: number): string;
+  updateCurrentMusicForId(id: string): void;
 }

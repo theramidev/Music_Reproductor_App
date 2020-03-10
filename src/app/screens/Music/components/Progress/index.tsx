@@ -35,7 +35,6 @@ export const Progress = ({duration, updateMusic}: any) => {
 
     return () => {
       clearInterval(interval);
-      TrackPlayer.remove('playback-state');
     };
   }, []);
 
@@ -51,14 +50,14 @@ export const Progress = ({duration, updateMusic}: any) => {
 
   const previousSong = async () => {
     await skipToPrevious();
-    const id: string = await getCurrentTrack();
-    await updateMusic(id);
+    /* const id: string = await getCurrentTrack();
+    await updateMusic(id); */
   };
 
   const nextSong = async () => {
     await skipToNext();
-    const id: string = await getCurrentTrack();
-    await updateMusic(id);
+    /* const id: string = await getCurrentTrack();
+    await updateMusic(id); */
   };
 
   return (

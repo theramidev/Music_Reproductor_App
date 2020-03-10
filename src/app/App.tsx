@@ -1,30 +1,32 @@
 import React, {FC, useEffect, useState} from 'react';
-import {StatusBar, BackHandler} from 'react-native';
+import {StatusBar} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-view';
-import {NavigationAction, NavigationState} from 'react-navigation';
-import Router from './Router';
 import {DarkModeProvider, eventEmitter} from 'react-native-dark-mode';
 import AsyncStorage from '@react-native-community/async-storage';
-import Database from './database';
-import {ShowToast} from '../utils/toast';
-
 import SplashScreen from 'react-native-splash-screen';
 import TrackPlayer from 'react-native-track-player';
 
+import Router from './Router';
 import {Provider, store} from './store';
 import {Layout} from './components/Layout';
 import {theme} from '../assets/themes';
+import database from './database';
+import {PlaybackService} from './service';
+import {connect} from 'react-redux';
+import {updateCurrentMusicForId} from '../app/redux/actions/musicActions';
 
-const App: FC<any> = () => {
+const App: FC<any> = (props: any) => {
   const [mode, setMode] = useState(true);
-  const [navigated, setNavigated] = useState(false);
-  const [navigationIndex, setNavigationIndex] = useState(0);
 
   useEffect(() => {
-    getDarkMode();
     // Open Database
-    Database.open();
+    database.open();
 
+    PlaybackService(props.updateCurrentMusicForId);
+
+    getDarkMode();
+
+    // evento que se ejecuta cuando se cambia el tema de la aplicacion
     eventEmitter.on('currentModeChanged', async newMode => {
       await AsyncStorage.setItem('DarkMode', newMode);
 
@@ -54,6 +56,7 @@ const App: FC<any> = () => {
       // Close the reproductor when close the app
       TrackPlayer.destroy();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // obtiene del AsyncStorage si está en modo oscuro
@@ -90,4 +93,15 @@ const App: FC<any> = () => {
   );
 };
 
-export default App;
+const mapStateToProps = ({musicReducer}: any) => {
+  return {
+    musicReducer,
+  };
+};
+
+const mapDispatchToProps = {
+  updateCurrentMusicForId,
+};
+
+// eslint-disable-next-line prettier/prettier
+export default connect<any, any>(mapStateToProps, mapDispatchToProps)(App);

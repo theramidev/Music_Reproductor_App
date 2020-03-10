@@ -25,12 +25,10 @@ class Music extends Component<IProps, IState> {
       navigation: {
         state: {params},
       },
-      musicReducer,
     } = this.props;
 
     // @ts-ignore
     this.props.updateCurrentMusic(params.item);
-    console.log(musicReducer);
     // @ts-ignore
     const listMusics = getListRamdonSong(params.songs, params.item);
     // @ts-ignore
@@ -40,7 +38,6 @@ class Music extends Component<IProps, IState> {
   render() {
     const {musicReducer} = this.props;
     const item = musicReducer.current;
-    console.log(musicReducer);
 
     if (Object.keys(item).length === 0) {
       return <Text>empty</Text>;

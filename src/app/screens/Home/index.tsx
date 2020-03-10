@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {getSongs, activateTrackPlayer} from '../../redux/actions/fileActions';
 
+import {getSongs, activateTrackPlayer} from '../../redux/actions/fileActions';
+import {updateCurrentMusicForId} from '../../redux/actions/musicActions';
 import {IState} from './interfaces/State';
 import {IProps} from './interfaces/Props';
 import {Header} from './components/Header';
@@ -18,8 +19,7 @@ class HomeScreen extends Component<IProps, IState> {
   }
 
   async componentDidMount() {
-    const {getSongs} = this.props;
-    getSongs();
+    this.props.getSongs();
   }
 
   render() {
@@ -50,15 +50,17 @@ class HomeScreen extends Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = ({fileReducer}: any) => {
+const mapStateToProps = ({fileReducer, musicReducer}: any) => {
   return {
     fileReducer,
+    musicReducer,
   };
 };
 
 const mapDispatchToProps = {
   getSongs,
   activateTrackPlayer,
+  updateCurrentMusicForId,
 };
 
 export default connect<any, any>(

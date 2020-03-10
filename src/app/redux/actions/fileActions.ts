@@ -5,7 +5,7 @@ import {ISong, MSong} from '../../models/song.model';
 import TrackPlayer, {Track} from 'react-native-track-player';
 import MusicFiles from 'react-native-get-music-files';
 import Database from '../../database';
-import {MReproduction} from 'src/app/models/reproduction.model';
+import {MReproduction} from '../../models/reproduction.model';
 
 export const getRecents = () => async (dispatch: Dispatch) => {
   dispatch({
@@ -50,7 +50,6 @@ export const getSongs = () => async (dispatch: Dispatch) => {
     );
     // Request Permissions
     if (!hasExternalReadPermissions) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
         {
