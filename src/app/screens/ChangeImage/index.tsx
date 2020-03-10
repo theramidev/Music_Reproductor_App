@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { IProps } from './interfaces/Props';
 import { IState } from './interfaces/State';
 import { connect } from 'react-redux';
-import { getWallpapers, setLocalWallpaper, changeCurrentWallpaper } from '../../redux/actions/wallpaperActions';
+import { getWallpapers, setLocalWallpaper, changeCurrentWallpaper, deleteWallpaper } from '../../redux/actions/wallpaperActions';
 
 import { BackgroundLayout } from '../../components/BackgroundLayout';
 import { Header } from '../../components/Header';
@@ -27,6 +27,10 @@ class ChangeImageScreen extends Component<IProps, IState> {
         this.props.changeCurrentWallpaper(wallpaperPath);
     }
 
+    deleteWallpaper = (wallpaperPath: string) => {
+        this.props.deleteWallpaper(wallpaperPath);
+    }
+
     render() {
         return(
             <BackgroundLayout>
@@ -36,6 +40,7 @@ class ChangeImageScreen extends Component<IProps, IState> {
                     wallpapers={this.props.wallpaperReducer.data.wallpapers}
                     onWallpaperSelect={this.setWalppaper}
                     onWallpaperChange={this.changeCurrentWallpaper}
+                    onDeleteWallpaper={this.deleteWallpaper}
                 />
             </BackgroundLayout>
         )
@@ -51,7 +56,8 @@ const mapstateToProps = ({wallpaperReducer}: any) => {
 const mapDispatchToProps = {
     getWallpapers,
     setLocalWallpaper,
-    changeCurrentWallpaper
+    changeCurrentWallpaper,
+    deleteWallpaper
 }
 
 export default connect<any>(mapstateToProps, mapDispatchToProps)(ChangeImageScreen);

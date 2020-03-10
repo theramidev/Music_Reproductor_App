@@ -8,7 +8,7 @@ import { PhotoCard } from '../PhotoCard';
 import { BackgroundLayout } from '../../../../components/BackgroundLayout';
 
 
-export const ListOfPhotoCard: FC<IProps> = ({onWallpaperSelect, wallpapers = [], onWallpaperChange}) => {
+export const ListOfPhotoCard: FC<IProps> = ({onWallpaperSelect, wallpapers = [], onWallpaperChange, onDeleteWallpaper}) => {
     const [photo, setPhoto] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -27,6 +27,10 @@ export const ListOfPhotoCard: FC<IProps> = ({onWallpaperSelect, wallpapers = [],
 
             onWallpaperSelect({uri, name});
         } catch (error) {
+            if (DocumentPicker.isCancel(error)) {
+                console.log('DocumentPicker canceled!');
+                return;
+            }
             console.error(error);
         }
     }
@@ -48,7 +52,8 @@ export const ListOfPhotoCard: FC<IProps> = ({onWallpaperSelect, wallpapers = [],
                             <PhotoCard key={i}
                                 mode="photo" 
                                 onPress={openModal} 
-                                wallpaperPath={wallpaper} 
+                                wallpaperPath={wallpaper}
+                                onDelete={onDeleteWallpaper}
                             />
                         )
                     })

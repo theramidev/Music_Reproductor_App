@@ -5,6 +5,32 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { ShowToast } from '../../../utils/toast';
 
 /**
+ * @description Elimina un wallpaper de la aplicación
+ * @param wallpaperPath Ruta del Wallpaper
+ */
+export const deleteWallpaper = (wallpaperPath: string) => async (dispatch: Dispatch) => {
+    try {
+        const path: string = 'file://'+wallpaperPath;
+        const dirPath: string = `${fs.DocumentDirectoryPath}/wallpapers`;
+        const fileExist: boolean = await fs.exists(path);
+
+        if (fileExist) {
+            await fs.unlink(path);
+        }
+
+        const wallpapersDir = await fs.readDir(dirPath);
+        const wallpapersPath: string[] = wallpapersDir.map(item => item.path);
+
+        dispatch({
+            type: wallpaperTypes.getWallpapers,
+            payload: wallpapersPath
+        });
+    } catch (error) {
+        console.error('deleteWallpaper Error: ', error);
+    }
+}
+
+/**
  * @description Cambia el wallpaper actual
  * @param wallpaperPath Ruta del nuevo wallpaper
  */

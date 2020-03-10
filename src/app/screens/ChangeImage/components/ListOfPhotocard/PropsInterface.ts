@@ -1,5 +1,6 @@
 export interface IProps {
     wallpapers: string[],
     onWallpaperSelect: Function,
-    onWallpaperChange: Function
+    onWallpaperChange: Function,
+    onDeleteWallpaper: Function
 }
