@@ -11,7 +11,7 @@ import TrackPlayer, {
   pause,
   play,
 } from 'react-native-track-player';
-import {getDuration} from '../../../../util/duration';
+import {getDuration} from '../../../../../utils/duration';
 
 export const Progress = ({duration}: any) => {
   const [position, setPosition] = useState(0);
