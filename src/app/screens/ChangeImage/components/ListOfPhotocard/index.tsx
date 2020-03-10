@@ -1,19 +1,39 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { ScrollView, View, Modal, Image, TouchableOpacity, Text } from 'react-native';
 import { IProps } from './PropsInterface';
 import styles from './style';
+import DocumentPicker from 'react-native-document-picker';
 
 import { PhotoCard } from '../PhotoCard';
 import { BackgroundLayout } from '../../../../components/BackgroundLayout';
 
 
-export const ListOfPhotoCard: FC<IProps> = () => {
-    const [photo, setPhoto] = useState(null);
+export const ListOfPhotoCard: FC<IProps> = ({onWallpaperSelect, wallpapers = [], onWallpaperChange}) => {
+    const [photo, setPhoto] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
 
-    const openModal = (photo: any) => {
-        setPhoto(photo);
-        setModalVisible(true);
+    const openModal = async (photo: string) => {
+        if (photo) {
+            console.log(photo);
+            setPhoto(photo);
+            setModalVisible(true);
+            return;
+        }
+
+        try {
+            const {uri, name} = await DocumentPicker.pick({
+                type: [DocumentPicker.types.images]
+            });
+
+            onWallpaperSelect({uri, name});
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const changeCurrentWallpaper = () => {
+        onWallpaperChange(photo);
+        setModalVisible(false);
     }
 
     const closeModal = () => setModalVisible(false);
@@ -22,8 +42,17 @@ export const ListOfPhotoCard: FC<IProps> = () => {
         <ScrollView>
             <View style={styles.photosContainer}>
                 <PhotoCard mode="add" onPress={openModal} />
-                <PhotoCard mode="photo" onPress={openModal} />
-                <PhotoCard mode="photo" onPress={openModal} />
+                {
+                    wallpapers.map((wallpaper, i) => {
+                        return(
+                            <PhotoCard key={i}
+                                mode="photo" 
+                                onPress={openModal} 
+                                wallpaperPath={wallpaper} 
+                            />
+                        )
+                    })
+                }
             </View>
 
             <Modal
@@ -35,7 +64,7 @@ export const ListOfPhotoCard: FC<IProps> = () => {
                     {
                         photo && 
                         <Image 
-                            source={require('../../../../../assets/images/wallpapers/image_1.jpg')}
+                            source={{uri: `file://${photo}`}}
                             style={styles.modalImage}
                         />
                     }
@@ -44,7 +73,7 @@ export const ListOfPhotoCard: FC<IProps> = () => {
                         <TouchableOpacity style={styles.button} onPress={closeModal}>
                             <Text style={styles.textButton}>Cancelar</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity style={styles.button} onPress={changeCurrentWallpaper}>
                             <Text style={styles.textButton}>Aceptar</Text>
                         </TouchableOpacity>
                     </View>

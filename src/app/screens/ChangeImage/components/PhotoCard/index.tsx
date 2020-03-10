@@ -4,15 +4,15 @@ import { IProps } from './PropsInterface';
 import styles from './style';
 import IconMa from 'react-native-vector-icons/MaterialIcons';
 
-export const PhotoCard: FC<IProps> = ({mode, onPress}) => {
+export const PhotoCard: FC<IProps> = ({mode, onPress, wallpaperPath}) => {
 
     const press = () => {
         if (mode === 'add') {
             onPress(null);
-            return
+            return;
         }
 
-        onPress(require('../../../../../assets/images/wallpapers/image_1.jpg'))
+        onPress(wallpaperPath)
     }
 
     return(
@@ -24,7 +24,7 @@ export const PhotoCard: FC<IProps> = ({mode, onPress}) => {
                         <IconMa name="add" size={50} color="white" />
                     </View> : 
                     <Image 
-                        source={require('../../../../../assets/images/wallpapers/image_1.jpg')}
+                        source={{uri: `file://${wallpaperPath}`}}
                         style={styles.image}
                     />
                 }

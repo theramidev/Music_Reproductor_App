@@ -15,14 +15,12 @@ import {theme} from '../assets/themes';
 
 const App: FC<any> = () => {
   const [mode, setMode] = useState(true);
-  const [navigated, setNavigated] = useState(false);
-  const [navigationIndex, setNavigationIndex] = useState(0);
   
   useEffect(() => {
     getDarkMode();
     // Open Database
     Database.open();
-    
+
     eventEmitter.on('currentModeChanged', async newMode => {
       await AsyncStorage.setItem('DarkMode', newMode);
       

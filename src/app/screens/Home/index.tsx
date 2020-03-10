@@ -5,6 +5,7 @@ import {
   activateTrackPlayer,
   getDuration,
 } from '../../redux/actions/fileActions';
+import { getCurrentWallpaper } from '../../redux/actions/wallpaperActions';
 
 import {IState} from './interfaces/State';
 import {IProps} from './interfaces/Props';
@@ -24,6 +25,7 @@ class HomeScreen extends Component<IProps, IState> {
   async componentDidMount() {
     const {getSongs} = this.props;
     getSongs();
+    this.props.getCurrentWallpaper();
   }
 
   render() {
@@ -34,13 +36,16 @@ class HomeScreen extends Component<IProps, IState> {
 
     return (
       <BackgroundLayout>
-        <Image
-          source={{
-            uri:
-              'https://papers.co/wallpaper/papers.co-ad64-starry-night-illust-anime-girl-2-wallpaper.jpg',
-          }}
-          style={style.backgroundImage}
-        />
+        {
+          this.props.wallpaperReducer.data.currentWallpaper &&
+          <Image
+            source={{
+              uri:
+                this.props.wallpaperReducer.data.currentWallpaper,
+            }}
+            style={style.backgroundImage}
+          />
+        }
 
         <Header navigate={navigation.navigate} />
 
@@ -54,9 +59,10 @@ class HomeScreen extends Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = ({fileReducer}: any) => {
+const mapStateToProps = ({fileReducer, wallpaperReducer}: any) => {
   return {
     fileReducer,
+    wallpaperReducer
   };
 };
 
@@ -64,6 +70,7 @@ const mapDispatchToProps = {
   getSongs,
   activateTrackPlayer,
   getDuration,
+  getCurrentWallpaper
 };
 
 // eslint-disable-next-line prettier/prettier

@@ -1,5 +1,6 @@
 
 export interface IProps {
     mode: 'photo' | 'add',
-    onPress: Function
+    onPress: Function,
+    wallpaperPath?: string
 }
