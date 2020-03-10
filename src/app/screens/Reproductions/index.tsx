@@ -32,7 +32,8 @@ class ReproductionsScreen extends Component<IProps, IState> {
 
                 <View style={{marginTop: 10, height: '100%'}}>
                     <ListOfMusic 
-                    songs={this.state.songs} 
+                    songs={this.state.songs}
+                    navigate={this.props.navigation.navigate}
                     />
                 </View>
             </BackgroundLayout>

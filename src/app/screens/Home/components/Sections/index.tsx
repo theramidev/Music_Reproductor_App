@@ -9,10 +9,12 @@ export const Sections: FC<any> = ({navigation}) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
 
   const goToReproductions = () => navigation.navigate('Reproductions');
+  const goToFavorites = () => navigation.navigate('Favorites');
 
   return (
     <View style={styles.content}>
       <View style={styles.container}>
+
         <TouchableOpacity onPress={goToReproductions}>
           <View style={styles.icon}>
             <IconAntDesign
@@ -23,14 +25,19 @@ export const Sections: FC<any> = ({navigation}) => {
             <Text style={styles.iconText}>Recientes</Text>
           </View>
         </TouchableOpacity>
-        <View style={styles.icon}>
-          <IconAntDesign name="star" size={20} color={styles.icon.color} />
-          <Text style={styles.iconText}>Favoritos</Text>
-        </View>
+
+        <TouchableOpacity onPress={goToFavorites}>
+          <View style={styles.icon}>
+            <IconAntDesign name="star" size={20} color={styles.icon.color} />
+            <Text style={styles.iconText}>Favoritos</Text>
+          </View>
+        </TouchableOpacity>
+
         <View style={styles.icon}>
           <IconFeather name="list" size={20} color={styles.icon.color} />
           <Text style={styles.iconText}>Listas</Text>
         </View>
+
       </View>
     </View>
   );

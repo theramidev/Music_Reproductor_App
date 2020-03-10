@@ -7,7 +7,7 @@ import {MSong} from 'src/app/models/song.model';
 import Ripple from 'react-native-material-ripple';
 import {IProps} from './Interfaces/Props';
 
-export const ListOfMusic: FC<IProps> = ({songs, navigate}: any) => {
+export const ListOfMusic: FC<IProps> = ({songs = [], navigate}: any) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
 
   const cutText = (txt: string): string => {
