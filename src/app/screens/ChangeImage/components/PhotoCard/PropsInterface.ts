@@ -1,6 +1,6 @@
 
 export interface IProps {
-    mode: 'photo' | 'add',
+    mode: 'photo' | 'add' | 'default',
     onPress: Function,
     wallpaperPath?: string,
     onDelete?: Function

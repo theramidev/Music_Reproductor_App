@@ -13,10 +13,15 @@ export const ListOfPhotoCard: FC<IProps> = ({onWallpaperSelect, wallpapers = [],
     const [modalVisible, setModalVisible] = useState(false);
 
     const openModal = async (photo: string) => {
-        if (photo) {
+        console.log(photo);
+        if (photo && photo !== 'default') {
             console.log(photo);
             setPhoto(photo);
             setModalVisible(true);
+            return;
+        } else if (photo === 'default') {
+            setPhoto('');
+            onWallpaperChange(null);
             return;
         }
 
@@ -46,6 +51,7 @@ export const ListOfPhotoCard: FC<IProps> = ({onWallpaperSelect, wallpapers = [],
         <ScrollView>
             <View style={styles.photosContainer}>
                 <PhotoCard mode="add" onPress={openModal} />
+                <PhotoCard mode="default" onPress={openModal} />
                 {
                     wallpapers.map((wallpaper, i) => {
                         return(
