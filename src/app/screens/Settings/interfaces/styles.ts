@@ -1,5 +1,9 @@
 import {ViewStyle, TextStyle, ImageStyle} from 'react-native';
-import {DynamicViewStyle, DynamicTextStyle} from 'react-native-dark-mode';
+import {
+  DynamicViewStyle,
+  DynamicTextStyle,
+  DynamicImageStyle,
+} from 'react-native-dark-mode';
 
 export interface StylesHeader {
   container: ViewStyle | DynamicViewStyle;
@@ -10,6 +14,7 @@ export interface StylesHeader {
 export interface StylesOptions {
   container: ViewStyle | DynamicViewStyle;
   text: TextStyle | DynamicTextStyle;
+  image: ImageStyle | DynamicImageStyle;
 }
 
 export interface StylesFooter {

@@ -1,15 +1,15 @@
-import {PermissionsAndroid, PermissionStatus} from 'react-native';
+import {PermissionsAndroid} from 'react-native';
 import fileTypes from '../types/fileTypes';
 import {Dispatch} from 'redux';
 import {ISong, MSong} from '../../models/song.model';
 import TrackPlayer, {Track} from 'react-native-track-player';
 import MusicFiles from 'react-native-get-music-files';
 import Database from '../../database';
-import { MReproduction } from 'src/app/models/reproduction.model';
+import {MReproduction} from 'src/app/models/reproduction.model';
 
 export const getRecents = () => async (dispatch: Dispatch) => {
   dispatch({
-    type: fileTypes.loadingGetReproductions
+    type: fileTypes.loadingGetReproductions,
   });
 
   try {
@@ -17,24 +17,24 @@ export const getRecents = () => async (dispatch: Dispatch) => {
 
     dispatch({
       type: fileTypes.getReproductions,
-      payload: reproductions
+      payload: reproductions,
     });
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 /**
  * @description Agrega una canción a la lista de recientes
  * @param song Canción que se va a agregar a la lista
  */
 export const setSongToRecent = (song: MSong) => async () => {
-  try { 
+  try {
     await Database.setReproduction(song.id);
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 /**
  * @description Obtiene las canciones del dispositivo
@@ -66,8 +66,8 @@ export const getSongs = () => async (dispatch: Dispatch) => {
 
     dispatch({
       type: fileTypes.getSongs,
-      payload: songsDB
-    })
+      payload: songsDB,
+    });
 
     const musicFiles: ISong[] = await MusicFiles.getAll({
       id: true,
@@ -118,6 +118,7 @@ export const activateTrackPlayer = (songs: MSong[]) => {
     // console.log(tracks[25]);
     // console.log(tracks[32]);
 
+    TrackPlayer.destroy();
     TrackPlayer.add(tracks);
     TrackPlayer.play();
   } catch (error) {

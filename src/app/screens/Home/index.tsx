@@ -51,7 +51,7 @@ class HomeScreen extends Component<IProps, IState> {
 
         <Sections navigation={this.props.navigation} />
 
-        <ListOfMusic songs={songs} />
+        <ListOfMusic songs={songs} navigate={navigation.navigate} />
 
         <Footer />
       </BackgroundLayout>
@@ -73,5 +73,7 @@ const mapDispatchToProps = {
   getCurrentWallpaper
 };
 
-// eslint-disable-next-line prettier/prettier
-export default connect<any>(mapStateToProps, mapDispatchToProps)(HomeScreen);
+export default connect<any, any>(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HomeScreen);

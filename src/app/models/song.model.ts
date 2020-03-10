@@ -3,7 +3,7 @@ export class MSong {
   public title: string;
   public duration: number;
   public path: string;
-  public isFavorite: boolean
+  public isFavorite: boolean;
   public author: string | null;
   public album: string | null;
   public genre: string | null;

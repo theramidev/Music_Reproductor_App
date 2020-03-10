@@ -12,11 +12,9 @@ const styles: StylesListOfMusic = {
   item: {
     paddingHorizontal: 10,
     position: 'relative',
-    marginBottom: 10,
     marginHorizontal: 10,
-    borderBottomColor: new DynamicValue(theme(0.3).dark, theme().text),
-    borderBottomWidth: 1,
     paddingBottom: 5,
+    paddingTop: 5,
     flexDirection: 'row',
   },
   image: {width: 50, height: 50, borderRadius: 5},

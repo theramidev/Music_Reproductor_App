@@ -5,6 +5,7 @@ import {
 } from 'react-navigation-stack';
 
 import HomeScreen from './screens/Home';
+import Music from './screens/Music';
 import SettingsScreen from './screens/Settings';
 import ReproductionsScreen from './screens/Reproductions';
 import ChangeImageScreen from './screens/ChangeImage';
@@ -18,6 +19,15 @@ const Routes = createStackNavigator(
         gestureDirection: 'horizontal',
         gestureEnabled: true,
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      },
+    },
+    Music: {
+      screen: Music,
+      navigationOptions: {
+        gestureDirection: 'vertical',
+        gestureEnabled: true,
+        cardStyleInterpolator:
+          CardStyleInterpolators.forRevealFromBottomAndroid,
       },
     },
     Reproductions: {

@@ -19,6 +19,7 @@ const styles: StylesOptions = {
     fontSize: 16,
     fontWeight: 'bold',
   },
+  image: {width: 50, height: 50, borderRadius: 5},
 };
 
 const dynamicStyles = new DynamicStyleSheet(styles);

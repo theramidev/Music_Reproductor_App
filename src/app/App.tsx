@@ -15,7 +15,7 @@ import {theme} from '../assets/themes';
 
 const App: FC<any> = () => {
   const [mode, setMode] = useState(true);
-  
+
   useEffect(() => {
     getDarkMode();
     // Open Database
@@ -23,10 +23,10 @@ const App: FC<any> = () => {
 
     eventEmitter.on('currentModeChanged', async newMode => {
       await AsyncStorage.setItem('DarkMode', newMode);
-      
+
       setMode(newMode === 'dark' ? true : false);
     });
-    
+
     // Intance Player
     TrackPlayer.setupPlayer();
     // Player options
@@ -49,7 +49,7 @@ const App: FC<any> = () => {
     return () => {
       // Close the reproductor when close the app
       TrackPlayer.destroy();
-    }
+    };
   }, []);
 
   // obtiene del AsyncStorage si está en modo oscuro
