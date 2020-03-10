@@ -83,7 +83,8 @@ const App: FC<any> = (props: any) => {
           <Layout>
             <StatusBar
               barStyle={mode ? 'light-content' : 'dark-content'}
-              backgroundColor={mode ? theme(0.9).dark : theme().light}
+              translucent={true}
+              backgroundColor={'transparent'}
             />
             <Router />
           </Layout>

@@ -1,4 +1,4 @@
-import {MSong} from '../models/song.model';
+import {MSong} from '../app/models/song.model';
 
 /**
  * @description retorna una lista de reproduccion aleatoria

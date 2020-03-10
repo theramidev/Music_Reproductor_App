@@ -4,6 +4,7 @@ import {theme} from '../../../assets/themes';
 const styles: any = {
   container: {
     height: '100%',
+    paddingTop: 23,
     flex: 1,
     backgroundColor: new DynamicValue(theme().light, theme(0.9).dark),
   },

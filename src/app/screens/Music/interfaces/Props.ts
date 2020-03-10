@@ -17,4 +17,9 @@ export interface IProps {
   getDuration(durationInMilisecons: number): any;
   updateCurrentMusic(song: MSong): void;
   updateCurrentMusicForId(id: string): void;
+  /**
+   * @description modifica la lista de canciones que se reproduciran
+   * @param song
+   */
+  updateListSongs(songs: MSong[]): void;
 }

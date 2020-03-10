@@ -39,3 +39,14 @@ export const updateCurrentMusicForId = (id: string) => async (
     });
   }
 };
+
+/**
+ * @description modifica la lista de canciones que se reproduciran
+ * @param song
+ */
+export const updateListSongs = (songs: MSong[]) => (dispatch: Dispatch) => {
+  dispatch({
+    type: musicTypes.updateListSongs,
+    payload: songs,
+  });
+};

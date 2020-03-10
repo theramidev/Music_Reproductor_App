@@ -10,10 +10,13 @@ import {activateTrackPlayer} from '../../redux/actions/fileActions';
 import {
   updateCurrentMusic,
   updateCurrentMusicForId,
+  updateListSongs,
 } from '../../redux/actions/musicActions';
 import style from './style';
 import {Progress} from './components/Progress';
-import {getListRamdonSong} from '../../util/orderListMusic';
+import {getListRamdonSong} from '../../../utils/orderListMusic';
+import {MSong} from 'src/app/models/song.model';
+import {isPlay} from '../../../utils/isPlay';
 
 class Music extends Component<IProps, IState> {
   constructor(props: IProps) {
@@ -25,13 +28,21 @@ class Music extends Component<IProps, IState> {
       navigation: {
         state: {params},
       },
+      musicReducer,
     } = this.props;
+    // @ts-ignore
+    const item = params.item;
+    if (isPlay(musicReducer.current, item)) {
+      return;
+    }
 
     // @ts-ignore
-    this.props.updateCurrentMusic(params.item);
+    const songs = params.songs;
+    this.props.updateCurrentMusic(item);
     // @ts-ignore
-    const listMusics = getListRamdonSong(params.songs, params.item);
-    // @ts-ignore
+    const listMusics: MSong[] = getListRamdonSong(songs, item);
+    this.props.updateListSongs(songs);
+
     this.props.activateTrackPlayer(listMusics);
   }
 
@@ -84,6 +95,7 @@ const mapDispatchToProps = {
   activateTrackPlayer,
   updateCurrentMusic,
   updateCurrentMusicForId,
+  updateListSongs,
 };
 
 // eslint-disable-next-line prettier/prettier

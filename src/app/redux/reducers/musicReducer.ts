@@ -2,6 +2,7 @@ import musicTypes from '../types/musicTypes';
 
 const INITIAL_STATE = {
   current: {},
+  listSongs: [],
   loading: false,
   error: null,
 };
@@ -24,6 +25,11 @@ export default (state = INITIAL_STATE, {type, payload}: any) => {
         ...state,
         error: payload,
         loading: false,
+      };
+    case musicTypes.updateListSongs:
+      return {
+        ...state,
+        listSongs: payload,
       };
 
     default:
