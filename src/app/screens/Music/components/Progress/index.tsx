@@ -12,10 +12,9 @@ import TrackPlayer, {
   play,
   skipToNext,
   skipToPrevious,
-  getCurrentTrack,
 } from 'react-native-track-player';
-import {getDuration} from '../../../../util/duration';
 import {Actions} from '../Actions';
+import {getDuration} from '../../../../../utils/duration';
 
 export const Progress = ({duration, updateMusic}: any) => {
   const [position, setPosition] = useState(0);

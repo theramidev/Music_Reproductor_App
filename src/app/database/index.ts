@@ -9,6 +9,22 @@ class Database implements IDatabase {
     private database: SQLiteDatabase | any;
     private dbName: string = 'music_dm';
     /**
+     * @description Actualiza una canción a favorito o no
+     * @param songId Id de la canción que se va a modificar
+     * @param isFavorite Si es favorito o no
+     * @return Promise<void>
+     */
+    public async updateSongToFavorite(songId: string, isFavorite: boolean): Promise<void> {
+        return SongController.updateSongToFavorite(this.database, songId, isFavorite);
+    }
+    /**
+     * @description Obtiene las canciones favoritas
+     * @return Promise<MSong[]>
+     */
+    public async getFavoriteSongs(): Promise<MSong[]> {
+        return SongController.getFavoriteSongs(this.database);
+    }
+    /**
      * @description Inserta la última canción en reproducirse
      * @param songId Id de la canción que se va a reproducir
      * @return Promise<void>

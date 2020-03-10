@@ -5,9 +5,11 @@ import {
 } from 'react-navigation-stack';
 
 import HomeScreen from './screens/Home';
-import Music from './screens/Music';
+import MusicScreen from './screens/Music';
 import SettingsScreen from './screens/Settings';
 import ReproductionsScreen from './screens/Reproductions';
+import ChangeImageScreen from './screens/ChangeImage';
+import FavoritesScreen from './screens/Favorites'
 
 const Routes = createStackNavigator(
   {
@@ -21,7 +23,7 @@ const Routes = createStackNavigator(
       },
     },
     Music: {
-      screen: Music,
+      screen: MusicScreen,
       navigationOptions: {
         gestureDirection: 'vertical',
         gestureEnabled: true,
@@ -34,9 +36,25 @@ const Routes = createStackNavigator(
       navigationOptions: {
         gestureDirection: 'horizontal',
         gestureEnabled: true,
-        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-      },
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+      }
     },
+    Favorites: {
+      screen: FavoritesScreen,
+      navigationOptions: {
+        gestureDirection: 'horizontal',
+        gestureEnabled: true,
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+      }
+    },
+    ChangeImage: {
+      screen: ChangeImageScreen,
+      navigationOptions: {
+        gestureDirection: 'horizontal',
+        gestureEnabled: true,
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+      }
+    }
   },
   {
     initialRouteName: 'Home',

@@ -27,3 +27,9 @@ export interface StylesFooter {
   options: ViewStyle;
   icon: TextStyle | DynamicTextStyle;
 }
+
+export interface StyleOption {
+  container: ViewStyle | DynamicViewStyle,
+  text: TextStyle | DynamicTextStyle,
+  icon: TextStyle | DynamicTextStyle
+}

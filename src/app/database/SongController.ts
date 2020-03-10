@@ -7,6 +7,51 @@ class SongController {
   private tableReproduction: string = 'reproduction';
 
   /**
+   * @description Actualiza una canción a favorito o no
+   * @param database Base de datos local
+   * @param songId Id de la canción que se va a modificar
+   * @param isFavorite Si es favorito o no
+   * @return Promise<void>
+   */
+  public async updateSongToFavorite(
+    database: SQLiteDatabase,
+    songId: string,
+    isFavorite: boolean,
+  ): Promise<void> {
+    try {
+      const statement: string = `UPDATE ${this.tableSong} SET isFavorite = ? 
+            WHERE id = ?`;
+      const params = [isFavorite ? 1 : 0, songId];
+      await database.executeSql(statement, params);
+    } catch (error) {
+      console.error('updateSongToFavoriteDB: ', error);
+      Promise.reject(error);
+    }
+  }
+  /**
+   * @description Obtiene los favoritos de la base de datos
+   * @param database Base de datos local
+   * @return Promise<MSong[]>
+   */
+  public async getFavoriteSongs(database: SQLiteDatabase): Promise<MSong[]> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const statement: string = `SELECT * FROM ${this.tableSong} 
+                WHERE isFavorite = 1`;
+
+        const [result]: [ResultSet] = await database.executeSql(statement);
+        const songs: MSong[] = result.rows.raw().map((song: ISong) => {
+          return new MSong(song);
+        });
+
+        resolve(songs);
+      } catch (error) {
+        console.error('getFavoriteSongsDB: ', error);
+        reject(error);
+      }
+    });
+  }
+  /**
    * @description Inserta en la base de datos la última canción en reproducirse
    * @param database Base de datos local
    * @param songId Id de al canción

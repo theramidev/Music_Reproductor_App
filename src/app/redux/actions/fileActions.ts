@@ -7,6 +7,29 @@ import MusicFiles from 'react-native-get-music-files';
 import Database from '../../database';
 import {MReproduction} from '../../models/reproduction.model';
 
+/**
+ * @description Obtiene las canciones favoritas
+ */
+export const getFavoriteSongs = () => async (dispatch: Dispatch) => {
+  dispatch({
+    type: fileTypes.loadingGetFavorite
+  });
+
+  try {
+    const favoriteSongs: MSong[] = await Database.getFavoriteSongs();
+
+    dispatch({
+      type: fileTypes.getFavorites,
+      payload: favoriteSongs
+    });
+  } catch (error) {
+    console.error('getFavoriteSongs Error: ', error);
+  }
+}
+
+/**
+ * @description Obtiene las canciones escuchadas recientemente
+ */
 export const getRecents = () => async (dispatch: Dispatch) => {
   dispatch({
     type: fileTypes.loadingGetReproductions,

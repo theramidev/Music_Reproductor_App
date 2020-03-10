@@ -22,6 +22,12 @@ export interface IProps {
       errorSongs: any;
     };
   };
+  wallpaperReducer: {
+    data: {
+      currentWallpaper: string | null;
+    };
+  };
+  getCurrentWallpaper(): void;
   /**
    * @description Activa el Music Control y se comienza a reproducir las canciones
    * @param songs Canciones

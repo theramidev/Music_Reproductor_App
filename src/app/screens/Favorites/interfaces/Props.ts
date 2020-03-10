@@ -1,16 +1,16 @@
 import { NavigationScreenProp, NavigationState, NavigationParams } from "react-navigation";
-import { MReproduction } from "../../../models/reproduction.model";
+import { MSong } from "../../../models/song.model";
 
 export interface IProps {
     navigation: NavigationScreenProp<NavigationState, NavigationParams>,
     /**
-     * @description Obtiene las canciones escuchadas recientemente
-     * @return Promise<void>
+     * @description Obtiene las canciones favoritas
+     * @return void
      */
-    getRecents(): Promise<void>,
+    getFavoriteSongs(): void,
     fileReducer: {
         data: {
-            reproductions: MReproduction[]
+            favorites: MSong[]
         },
         loadings: {
             loadingGetReproductions: boolean 

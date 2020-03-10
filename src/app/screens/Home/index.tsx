@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-
 import {getSongs, activateTrackPlayer} from '../../redux/actions/fileActions';
+import {getCurrentWallpaper} from '../../redux/actions/wallpaperActions';
+
 import {updateCurrentMusicForId} from '../../redux/actions/musicActions';
 import {IState} from './interfaces/State';
 import {IProps} from './interfaces/Props';
@@ -20,6 +21,7 @@ class HomeScreen extends Component<IProps, IState> {
 
   async componentDidMount() {
     this.props.getSongs();
+    this.props.getCurrentWallpaper();
   }
 
   render() {
@@ -30,13 +32,14 @@ class HomeScreen extends Component<IProps, IState> {
 
     return (
       <BackgroundLayout>
-        <Image
-          source={{
-            uri:
-              'https://papers.co/wallpaper/papers.co-ad64-starry-night-illust-anime-girl-2-wallpaper.jpg',
-          }}
-          style={style.backgroundImage}
-        />
+        {this.props.wallpaperReducer.data.currentWallpaper && (
+          <Image
+            source={{
+              uri: this.props.wallpaperReducer.data.currentWallpaper,
+            }}
+            style={style.backgroundImage}
+          />
+        )}
 
         <Header navigate={navigation.navigate} />
 
@@ -50,16 +53,22 @@ class HomeScreen extends Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = ({fileReducer, musicReducer}: any) => {
+const mapStateToProps = ({
+  fileReducer,
+  musicReducer,
+  wallpaperReducer,
+}: any) => {
   return {
     fileReducer,
     musicReducer,
+    wallpaperReducer,
   };
 };
 
 const mapDispatchToProps = {
   getSongs,
   activateTrackPlayer,
+  getCurrentWallpaper,
   updateCurrentMusicForId,
 };
 

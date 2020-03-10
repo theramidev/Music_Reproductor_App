@@ -7,7 +7,7 @@ import SwitchToggle from '@dooboo-ui/native-switch-toggle';
 
 import dynamicStyles from './styles';
 
-export const Options: FC<any> = () => {
+export const DarkMode: FC<any> = () => {
   const styles = useDynamicStyleSheet(dynamicStyles);
   const [mode, setMode] = useState(false);
 
@@ -39,18 +39,6 @@ export const Options: FC<any> = () => {
         <Feather name="moon" color={styles.text.color} size={20} />
         <Text style={styles.text}>Dark mode</Text>
         <SwitchToggle switchOn={mode} onPress={() => updateDarkMode(!mode)} />
-      </View>
-
-      <View style={styles.container}>
-        <Feather name="moon" color={styles.text.color} size={20} />
-        <Text style={styles.text}>Image Background</Text>
-        <Image
-          style={styles.image}
-          source={{
-            uri:
-              'https://papers.co/wallpaper/papers.co-ad64-starry-night-illust-anime-girl-2-wallpaper.jpg',
-          }}
-        />
       </View>
     </Fragment>
   );

@@ -55,6 +55,19 @@ export default (state = INITIAL_STATE, action: IAction) => {
         errors: {...state.errors, errorGetReproductions: action.payload},
       };
 
+    case fileTypes.getFavorites:
+      return {
+        ...state,
+        data: {...state.data, favorites: action.payload},
+        loadings: {...state.loadings, loadingFavorites: false}
+      }
+
+    case fileTypes.loadingGetFavorite:
+      return {
+        ...state,
+        loadings: {...state.loadings, loadingFavorites: true}
+      }
+
     default:
       return state;
   }
