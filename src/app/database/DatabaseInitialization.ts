@@ -32,6 +32,22 @@ export class DatabaseInitialization {
             )`
         );
 
+        transaction.executeSql(
+            `CREATE TABLE IF NOT EXISTS playlist(
+                id INTEGER PRIMARY KEY NOT NULL UNIQUE,
+                name TEXT NOT NULL,
+                image TEXT
+            )`
+        );
+
+        transaction.executeSql(
+            `CREATE TABLE IF NOT EXISTS playlist_song(
+                id INTEGER PRIMARY KEY NOT NULL UNIQUE,
+                id_playlist INTEGER NOT NULL,
+                id_song TEXT NOT NULL
+            )`
+        );
+
         console.log('Tables Created!');
     }
 }

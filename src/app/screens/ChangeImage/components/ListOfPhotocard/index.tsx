@@ -13,7 +13,7 @@ export const ListOfPhotoCard: FC<IProps> = ({onWallpaperSelect, wallpapers = [],
     const [modalVisible, setModalVisible] = useState(false);
 
     const openModal = async (photo: string) => {
-        console.log(photo);
+        // console.log(photo);
         if (photo && photo !== 'default') {
             console.log(photo);
             setPhoto(photo);
