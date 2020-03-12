@@ -13,7 +13,7 @@ export interface IProps {
    * @description Activa el Music Control y se comienza a reproducir las canciones
    * @param songs Canciones
    */
-  activateTrackPlayer(songs: MSong[]): void;
+  playInLine(songs: MSong[], songSelected: MSong): void;
   getDuration(durationInMilisecons: number): any;
   updateCurrentMusic(song: MSong): void;
   updateCurrentMusicForId(id: string): void;
@@ -22,4 +22,5 @@ export interface IProps {
    * @param song
    */
   updateListSongs(songs: MSong[]): void;
+  playInRandom(songs: MSong[], songSelected?: MSong): void;
 }

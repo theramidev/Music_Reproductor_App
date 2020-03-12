@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {getSongs, activateTrackPlayer} from '../../redux/actions/fileActions';
+import {getSongs} from '../../redux/actions/fileActions';
 import {getCurrentWallpaper} from '../../redux/actions/wallpaperActions';
 
-import {updateCurrentMusicForId} from '../../redux/actions/musicActions';
+import {
+  updateCurrentMusicForId,
+  updateListSongs,
+} from '../../redux/actions/musicActions';
 import {IState} from './interfaces/State';
 import {IProps} from './interfaces/Props';
 import {Header} from './components/Header';
@@ -20,8 +23,9 @@ class HomeScreen extends Component<IProps, IState> {
   }
 
   async componentDidMount() {
-    this.props.getSongs();
     this.props.getCurrentWallpaper();
+    await this.props.getSongs();
+    this.props.updateListSongs(this.props.fileReducer.data.songs);
   }
 
   render() {
@@ -29,6 +33,18 @@ class HomeScreen extends Component<IProps, IState> {
     const {
       data: {songs},
     } = fileReducer;
+    // ordena las canciones por orden alfabetico
+    if (songs) {
+      songs.sort(function(a, b) {
+        if (a.title.toLowerCase() > b.title.toLowerCase()) {
+          return 1;
+        }
+        if (a.title.toLowerCase() < b.title.toLowerCase()) {
+          return -1;
+        }
+        return 0;
+      });
+    }
 
     return (
       <BackgroundLayout>
@@ -67,9 +83,9 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = {
   getSongs,
-  activateTrackPlayer,
   getCurrentWallpaper,
   updateCurrentMusicForId,
+  updateListSongs,
 };
 
 export default connect<any, any>(

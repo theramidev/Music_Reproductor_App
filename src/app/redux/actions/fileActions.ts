@@ -2,7 +2,6 @@ import {PermissionsAndroid} from 'react-native';
 import fileTypes from '../types/fileTypes';
 import {Dispatch} from 'redux';
 import {ISong, MSong} from '../../models/song.model';
-import TrackPlayer, {Track} from 'react-native-track-player';
 import MusicFiles from 'react-native-get-music-files';
 import Database from '../../database';
 import {MReproduction} from '../../models/reproduction.model';
@@ -12,7 +11,7 @@ import {MReproduction} from '../../models/reproduction.model';
  */
 export const getFavoriteSongs = () => async (dispatch: Dispatch) => {
   dispatch({
-    type: fileTypes.loadingGetFavorite
+    type: fileTypes.loadingGetFavorite,
   });
 
   try {
@@ -20,12 +19,12 @@ export const getFavoriteSongs = () => async (dispatch: Dispatch) => {
 
     dispatch({
       type: fileTypes.getFavorites,
-      payload: favoriteSongs
+      payload: favoriteSongs,
     });
   } catch (error) {
     console.error('getFavoriteSongs Error: ', error);
   }
-}
+};
 
 /**
  * @description Obtiene las canciones escuchadas recientemente
@@ -110,43 +109,5 @@ export const getSongs = () => async (dispatch: Dispatch) => {
     await Database.setSongs(musicFiles);
   } catch (error) {
     console.error(error);
-  }
-};
-
-/**
- * @description Comienza a reproducir una lista de canciones
- * @param songs Lista de reproducción que va a ser reproducida
- */
-export const activateTrackPlayer = (songs: MSong[]) => () => {
-  try {
-    const tracks: Track[] = songs.map(
-      ({id, author, title, path, album, genre, duration, cover}) => {
-        return {
-          id,
-          artist: author ? author : '',
-          title,
-          url: path,
-          album: album ? album : 'Unknown',
-          genre,
-          artwork: cover
-            ? cover
-            : require('../../../assets/images/music_notification.png'),
-          duration: duration,
-          pitchAlgorithm: TrackPlayer.PITCH_ALGORITHM_MUSIC,
-        } as Track;
-      },
-    );
-
-    //console.log(tracks);
-    console.log('==================================================');
-
-    // console.log(tracks[25]);
-    // console.log(tracks[32]);
-
-    TrackPlayer.destroy();
-    TrackPlayer.add(tracks);
-    TrackPlayer.play();
-  } catch (error) {
-    console.log('Error activateTrackPlayer: ', error);
   }
 };

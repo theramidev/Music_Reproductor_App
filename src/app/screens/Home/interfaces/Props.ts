@@ -39,4 +39,6 @@ export interface IProps {
    * @param durationInMilisecons Duración de la canción en milisegundo
    */
   updateCurrentMusicForId(id: string): void;
+
+  updateListSongs(songs: MSong[]): void;
 }

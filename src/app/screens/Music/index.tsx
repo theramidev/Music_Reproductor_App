@@ -6,17 +6,17 @@ import {IProps} from './interfaces/Props';
 import {IState} from './interfaces/State';
 import {Header} from '../../components/Header';
 import {BackgroundLayout} from '../../components/BackgroundLayout';
-import {activateTrackPlayer} from '../../redux/actions/fileActions';
 import {
   updateCurrentMusic,
   updateCurrentMusicForId,
-  updateListSongs,
+  playInLine,
+  playInRandom,
 } from '../../redux/actions/musicActions';
 import style from './style';
 import {Progress} from './components/Progress';
-import {getListRamdonSong} from '../../../utils/orderListMusic';
-import {MSong} from 'src/app/models/song.model';
 import {isPlay} from '../../../utils/isPlay';
+import {destroy} from 'react-native-track-player';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class Music extends Component<IProps, IState> {
   constructor(props: IProps) {
@@ -32,27 +32,37 @@ class Music extends Component<IProps, IState> {
     } = this.props;
     // @ts-ignore
     const item = params.item;
+    this.props.updateCurrentMusic(item);
+
     if (isPlay(musicReducer.current, item)) {
       return;
     }
+    const mode = (await AsyncStorage.getItem('@Mode')) || 'RANDOM';
+
+    destroy();
 
     // @ts-ignore
     const songs = params.songs;
-    this.props.updateCurrentMusic(item);
-    // @ts-ignore
-    const listMusics: MSong[] = getListRamdonSong(songs, item);
-    this.props.updateListSongs(songs);
 
-    this.props.activateTrackPlayer(listMusics);
+    if (mode === 'RANDOM') {
+      this.props.playInRandom(songs, item);
+    } else {
+      this.props.playInLine(songs, item);
+    }
   }
 
   render() {
-    const {musicReducer} = this.props;
-    const item = musicReducer.current;
+    const {
+      musicReducer,
+      navigation: {
+        state: {params},
+      },
+    }: any = this.props;
 
-    if (Object.keys(item).length === 0) {
-      return <Text>empty</Text>;
-    }
+    const item =
+      Object.keys(musicReducer.current).length === 0
+        ? params.item
+        : musicReducer.current;
 
     return (
       <BackgroundLayout>
@@ -75,10 +85,7 @@ class Music extends Component<IProps, IState> {
           <Text style={style.album}>{item.album}</Text>
         </View>
 
-        <Progress
-          duration={item.duration}
-          updateMusic={this.props.updateCurrentMusicForId}
-        />
+        <Progress duration={item.duration} />
       </BackgroundLayout>
     );
   }
@@ -92,10 +99,10 @@ const mapStateToProps = ({fileReducer, musicReducer}: any) => {
 };
 
 const mapDispatchToProps = {
-  activateTrackPlayer,
+  playInLine,
   updateCurrentMusic,
   updateCurrentMusicForId,
-  updateListSongs,
+  playInRandom,
 };
 
 // eslint-disable-next-line prettier/prettier

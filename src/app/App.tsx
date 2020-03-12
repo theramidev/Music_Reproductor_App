@@ -9,20 +9,22 @@ import TrackPlayer from 'react-native-track-player';
 import Router from './Router';
 import {Provider, store} from './store';
 import {Layout} from './components/Layout';
-import {theme} from '../assets/themes';
 import database from './database';
 import {PlaybackService} from './service';
 import {connect} from 'react-redux';
-import {updateCurrentMusicForId} from '../app/redux/actions/musicActions';
+import {updateCurrentMusicForId} from './redux/actions/musicActions';
 
 const App: FC<any> = (props: any) => {
   const [mode, setMode] = useState(true);
+  const [initEvents, cleanEvents] = PlaybackService(
+    props.updateCurrentMusicForId,
+  );
 
   useEffect(() => {
     // Open Database
     database.open();
 
-    PlaybackService(props.updateCurrentMusicForId);
+    initEvents();
 
     getDarkMode();
 
@@ -55,6 +57,7 @@ const App: FC<any> = (props: any) => {
     return () => {
       // Close the reproductor when close the app
       TrackPlayer.destroy();
+      cleanEvents();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -13,27 +13,35 @@ import TrackPlayer, {
   skipToNext,
   skipToPrevious,
 } from 'react-native-track-player';
-import {Actions} from '../Actions';
+import Actions from '../Actions';
 import {getDuration} from '../../../../../utils/duration';
 
-export const Progress = ({duration, updateMusic}: any) => {
+export const Progress = ({duration}: any) => {
   const [position, setPosition] = useState(0);
   const [pauseMusic, setPauseMusic] = useState(false);
   const styles = useDynamicStyleSheet(dynamicStyles);
 
   useEffect(() => {
+    getPosition().then(seg => {
+      setPosition(+seg * 1000);
+    });
+
     var interval = setInterval(() => {
       getPosition().then(seg => {
         setPosition(+seg * 1000);
       });
     }, 700);
 
-    TrackPlayer.addEventListener('playback-state', (data: {state: number}) => {
-      data.state === 2 ? setPauseMusic(true) : setPauseMusic(false);
-    });
+    var playbackState = TrackPlayer.addEventListener(
+      'playback-state',
+      (data: {state: number}) => {
+        data.state === 2 ? setPauseMusic(true) : setPauseMusic(false);
+      },
+    );
 
     return () => {
       clearInterval(interval);
+      playbackState.remove();
     };
   }, []);
 
