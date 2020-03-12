@@ -13,31 +13,31 @@ export const ListOfPhotoCard: FC<IProps> = ({onWallpaperSelect, wallpapers = [],
     const [modalVisible, setModalVisible] = useState(false);
 
     const openModal = async (photo: string) => {
-        // console.log(photo);
-        if (photo && photo !== 'default') {
-            console.log(photo);
-            setPhoto(photo);
-            setModalVisible(true);
-            return;
+        console.log(photo);
+        if (photo === 'add') {
+            try {
+                const {uri, name} = await DocumentPicker.pick({
+                    type: [DocumentPicker.types.images]
+                });
+    
+                onWallpaperSelect({uri, name});
+            } catch (error) {
+                if (DocumentPicker.isCancel(error)) {
+                    console.log('DocumentPicker canceled!');
+                    return;
+                }
+                console.error(error);
+            }
+            return;   
         } else if (photo === 'default') {
             setPhoto('');
             onWallpaperChange(null);
             return;
         }
 
-        try {
-            const {uri, name} = await DocumentPicker.pick({
-                type: [DocumentPicker.types.images]
-            });
-
-            onWallpaperSelect({uri, name});
-        } catch (error) {
-            if (DocumentPicker.isCancel(error)) {
-                console.log('DocumentPicker canceled!');
-                return;
-            }
-            console.error(error);
-        }
+        // console.log(photo);
+        setPhoto(photo);
+        setModalVisible(true);
     }
 
     const changeCurrentWallpaper = () => {
