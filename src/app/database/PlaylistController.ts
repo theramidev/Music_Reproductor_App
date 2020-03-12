@@ -115,8 +115,8 @@ class PlaylistController {
     public async createPlaylist(database: SQLiteDatabase, name: string, image: string | null = null): Promise<void> {
         try {
             const statement: string = `INSERT INTO ${this.playlistTable} 
-            (name, image) VALUES (?, ?)`;
-            const params = [name, image];
+            (name, image, date_create) VALUES (?, ?, ?)`;
+            const params = [name, image, new Date().getTime()];
             await database.executeSql(statement, params);
         } catch (error) {
             console.error('createPlaylist Error: ', error);

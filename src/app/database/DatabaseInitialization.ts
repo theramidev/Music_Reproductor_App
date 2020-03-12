@@ -36,7 +36,8 @@ export class DatabaseInitialization {
             `CREATE TABLE IF NOT EXISTS playlist(
                 id INTEGER PRIMARY KEY NOT NULL UNIQUE,
                 name TEXT NOT NULL,
-                image TEXT
+                image TEXT,
+                date_create INTEGER NOT NULL
             )`
         );
 

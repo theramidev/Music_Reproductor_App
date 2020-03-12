@@ -9,7 +9,8 @@ import MusicScreen from './screens/Music';
 import SettingsScreen from './screens/Settings';
 import ReproductionsScreen from './screens/Reproductions';
 import ChangeImageScreen from './screens/ChangeImage';
-import FavoritesScreen from './screens/Favorites'
+import FavoritesScreen from './screens/Favorites';
+import PlaylistsScreen from './screens/Playlists';
 
 const Routes = createStackNavigator(
   {
@@ -49,6 +50,14 @@ const Routes = createStackNavigator(
     },
     ChangeImage: {
       screen: ChangeImageScreen,
+      navigationOptions: {
+        gestureDirection: 'horizontal',
+        gestureEnabled: true,
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+      }
+    },
+    Playlists: {
+      screen: PlaylistsScreen,
       navigationOptions: {
         gestureDirection: 'horizontal',
         gestureEnabled: true,
