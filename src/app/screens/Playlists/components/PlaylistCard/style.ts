@@ -23,5 +23,13 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         marginTop: -1
+    },
+    image: {
+        width: '100%',
+        height: '100%',
+        borderWidth: 1,
+        borderColor: theme().text,
+        borderRadius: 10,
+        resizeMode: 'cover'
     }
 });
