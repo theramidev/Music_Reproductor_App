@@ -11,6 +11,8 @@ import {
   updateCurrentMusicForId,
   playInLine,
   playInRandom,
+  changeToLineMode,
+  changeToRandomMode,
 } from '../../redux/actions/musicActions';
 import style from './style';
 import {Progress} from './components/Progress';
@@ -85,7 +87,12 @@ class Music extends Component<IProps, IState> {
           <Text style={style.album}>{item.album}</Text>
         </View>
 
-        <Progress duration={item.duration} />
+        <Progress
+          duration={item.duration}
+          changeToLineMode={this.props.changeToLineMode}
+          changeToRandomMode={this.props.changeToRandomMode}
+          musicReducer={musicReducer}
+        />
       </BackgroundLayout>
     );
   }
@@ -103,6 +110,8 @@ const mapDispatchToProps = {
   updateCurrentMusic,
   updateCurrentMusicForId,
   playInRandom,
+  changeToLineMode,
+  changeToRandomMode,
 };
 
 // eslint-disable-next-line prettier/prettier

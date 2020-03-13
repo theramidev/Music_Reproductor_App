@@ -26,18 +26,16 @@ const Actions: FC<any> = (props: any) => {
   };
 
   const changeMode = async () => {
-    const {listSongs, current} = props.musicReducer;
-    console.log(mode);
     if (mode === 'RANDOM') {
       await AsyncStorage.setItem('@Mode', 'LINE');
 
-      props.changeToLineMode(listSongs, current);
+      props.changeToLineMode();
 
       setMode('LINE');
     } else {
       await AsyncStorage.setItem('@Mode', 'RANDOM');
 
-      props.changeToRandomMode(listSongs, current);
+      props.changeToRandomMode();
 
       setMode('RANDOM');
     }

@@ -7,7 +7,6 @@ import TrackPlayer, {Track} from 'react-native-track-player';
 import {
   getListRamdonSong,
   getListLineSong,
-  alphabeticalOrder,
 } from '../../../utils/orderListMusic';
 
 /**
@@ -105,37 +104,52 @@ export const playInRandom = (
   }
 };
 
-export const changeToLineMode = (
-  songs: MSong[],
-  current: MSong,
-) => async () => {
+export const changeToLineMode = () => async (
+  dispatch: Dispatch,
+  getsState: any,
+) => {
   try {
-    const listMusics: MSong[] = getListLineSong(songs, current);
+    const {
+      musicReducer: {listSongs, current},
+    } = getsState();
+    const listMusics: MSong[] = getListLineSong(listSongs, current);
 
     const tracks: Track[] = getList(listMusics);
-    const elementsRemove = songs.filter(element => element.id !== current.id);
+    const elementsRemove = listSongs.filter(
+      (element: MSong) => element.id !== current.id,
+    );
 
-    TrackPlayer.remove(elementsRemove.map(element => element.id));
-    TrackPlayer.add(tracks);
-    TrackPlayer.play();
+    await TrackPlayer.remove(
+      elementsRemove.map((element: MSong) => element.id),
+    );
+    await TrackPlayer.add(tracks);
+    await TrackPlayer.play();
   } catch (error) {
     console.log('Error activateTrackPlayer: ', error);
   }
 };
 
-export const changeToRandomMode = (
-  songs: MSong[],
-  current: MSong,
-) => async () => {
+export const changeToRandomMode = () => async (
+  dispatch: Dispatch,
+  getsState: any,
+) => {
   try {
-    const listMusics: MSong[] = getListRamdonSong(songs, current);
+    const {
+      musicReducer: {listSongs, current},
+    } = getsState();
+    const listMusics: MSong[] = getListRamdonSong(listSongs, current);
 
     const tracks: Track[] = getList(listMusics);
-    const elementsRemove = songs.filter(element => element.id !== current.id);
 
-    TrackPlayer.remove(elementsRemove.map(element => element.id));
-    TrackPlayer.add(tracks);
-    TrackPlayer.play();
+    const elementsRemove = listSongs.filter(
+      (element: MSong) => element.id !== current.id,
+    );
+
+    await TrackPlayer.remove(
+      elementsRemove.map((element: MSong) => element.id),
+    );
+    await TrackPlayer.add(tracks);
+    await TrackPlayer.play();
   } catch (error) {
     console.log('Error activateTrackPlayer: ', error);
   }

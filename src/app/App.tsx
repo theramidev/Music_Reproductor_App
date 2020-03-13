@@ -12,12 +12,18 @@ import {Layout} from './components/Layout';
 import database from './database';
 import {PlaybackService} from './service';
 import {connect} from 'react-redux';
-import {updateCurrentMusicForId} from './redux/actions/musicActions';
+import {
+  updateCurrentMusicForId,
+  changeToLineMode,
+  changeToRandomMode,
+} from './redux/actions/musicActions';
 
 const App: FC<any> = (props: any) => {
   const [mode, setMode] = useState(true);
   const [initEvents, cleanEvents] = PlaybackService(
     props.updateCurrentMusicForId,
+    props.changeToRandomMode,
+    props.changeToLineMode,
   );
 
   useEffect(() => {
@@ -105,6 +111,8 @@ const mapStateToProps = ({musicReducer}: any) => {
 
 const mapDispatchToProps = {
   updateCurrentMusicForId,
+  changeToLineMode,
+  changeToRandomMode,
 };
 
 // eslint-disable-next-line prettier/prettier

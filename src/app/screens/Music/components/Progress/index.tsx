@@ -12,11 +12,18 @@ import TrackPlayer, {
   play,
   skipToNext,
   skipToPrevious,
+  skip,
+  getQueue,
 } from 'react-native-track-player';
 import Actions from '../Actions';
 import {getDuration} from '../../../../../utils/duration';
+import AsyncStorage from '@react-native-community/async-storage';
 
-export const Progress = ({duration}: any) => {
+export const Progress = ({
+  duration,
+  changeToLineMode,
+  changeToRandomMode,
+}: any) => {
   const [position, setPosition] = useState(0);
   const [pauseMusic, setPauseMusic] = useState(false);
   const styles = useDynamicStyleSheet(dynamicStyles);
@@ -56,15 +63,33 @@ export const Progress = ({duration}: any) => {
   };
 
   const previousSong = async () => {
-    await skipToPrevious();
-    /* const id: string = await getCurrentTrack();
-    await updateMusic(id); */
+    try {
+      await skipToPrevious();
+    } catch (err) {
+      if (err.toString() === 'Error: There is no previous track') {
+        const songs = await getQueue();
+        skip(songs[songs.length - 1].id);
+      }
+    }
   };
 
   const nextSong = async () => {
-    await skipToNext();
-    /* const id: string = await getCurrentTrack();
-    await updateMusic(id); */
+    try {
+      await skipToNext();
+    } catch (err) {
+      if (err.toString() === 'Error: There is no tracks left to play') {
+        const data = await AsyncStorage.getItem('@Mode');
+        const mode = data || 'RANDOM';
+
+        if (mode === 'RANDOM') {
+          await changeToRandomMode();
+        } else {
+          await changeToLineMode();
+        }
+
+        await skipToNext();
+      }
+    }
   };
 
   return (

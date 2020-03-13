@@ -23,4 +23,6 @@ export interface IProps {
    */
   updateListSongs(songs: MSong[]): void;
   playInRandom(songs: MSong[], songSelected?: MSong): void;
+  changeToLineMode(): void;
+  changeToRandomMode(): void;
 }

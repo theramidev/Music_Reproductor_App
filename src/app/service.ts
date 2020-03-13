@@ -1,8 +1,13 @@
 import TrackPlayer from 'react-native-track-player';
 import {EmitterSubscription} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 var pass: number = 0;
 
-export const PlaybackService = (updateMusic: any) => {
+export const PlaybackService = (
+  updateMusic: any,
+  changeToRandomMode: any,
+  changeToLineMode: any,
+) => {
   var remotePlay: EmitterSubscription | any;
   var remotePause: EmitterSubscription | any;
   var remoteNext: EmitterSubscription | any;
@@ -17,35 +22,44 @@ export const PlaybackService = (updateMusic: any) => {
       if (pass > 0) {
         return;
       }
-      console.log('events');
       pass++;
-      remotePlay = TrackPlayer.addEventListener('remote-play', (data: any) => {
+      remotePlay = TrackPlayer.addEventListener('remote-play', () => {
         // console.log('Remote Play: ', data);
         TrackPlayer.play();
       });
-      remotePause = TrackPlayer.addEventListener(
-        'remote-pause',
-        (data: any) => {
-          //console.log('Remote Pause: ', data);
-          TrackPlayer.pause();
-        },
-      );
-      remoteNext = TrackPlayer.addEventListener(
-        'remote-next',
-        async (data: any) => {
-          console.log('Remote Next: ', data);
+      remotePause = TrackPlayer.addEventListener('remote-pause', () => {
+        //console.log('Remote Pause: ', data);
+        TrackPlayer.pause();
+      });
+      remoteNext = TrackPlayer.addEventListener('remote-next', async () => {
+        try {
           await TrackPlayer.skipToNext();
-          /* const id: string = await getCurrentTrack();
-        updateMusic(id); */
-        },
-      );
+        } catch (err) {
+          if (err.toString() === 'Error: There is no tracks left to play') {
+            const data = await AsyncStorage.getItem('@Mode');
+            const mode = data || 'RANDOM';
+            if (mode === 'RANDOM') {
+              await changeToRandomMode();
+            } else {
+              await changeToLineMode();
+            }
+
+            await TrackPlayer.skipToNext();
+          }
+        }
+      });
       remotePrevious = TrackPlayer.addEventListener(
         'remote-previous',
         async (data: any) => {
           console.log('Remote Provious: ', data);
-          await TrackPlayer.skipToPrevious();
-          /* const id: string = await getCurrentTrack();
-        updateMusic(id); */
+          try {
+            await TrackPlayer.skipToPrevious();
+          } catch (err) {
+            if (err.toString() === 'Error: There is no previous track') {
+              const songs = await TrackPlayer.getQueue();
+              TrackPlayer.skip(songs[songs.length - 1].id);
+            }
+          }
         },
       );
       playbackTrackChanged = TrackPlayer.addEventListener(
@@ -55,9 +69,8 @@ export const PlaybackService = (updateMusic: any) => {
           // const id: string = await getCurrentTrack();
           // cuando se cambia de cancion se ejecutara esta funcion
           // que cabiara el estado a la cancion actual
-          if (data.track) {
+          if (data.track && data.nextTrack) {
             const currentTrack = await TrackPlayer.getTrack(data.nextTrack);
-
             if (currentTrack) {
               updateMusic(data.nextTrack);
             }
@@ -66,8 +79,19 @@ export const PlaybackService = (updateMusic: any) => {
       );
       playbackQueueEnded = TrackPlayer.addEventListener(
         'playback-queue-ended',
-        (data: any) => {
+        async (data: any) => {
           console.log('playback-queue-ended: ', data);
+          if (data.track) {
+            const dataStorage = await AsyncStorage.getItem('@Mode');
+            const mode = dataStorage || 'RANDOM';
+            if (mode === 'RANDOM') {
+              await changeToRandomMode();
+              await TrackPlayer.skipToNext();
+            } else {
+              const songs = await TrackPlayer.getQueue();
+              TrackPlayer.skip(songs[0].id);
+            }
+          }
         },
       );
       remoteStop = TrackPlayer.addEventListener('remote-stop', () => {
