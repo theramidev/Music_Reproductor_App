@@ -2,7 +2,7 @@
 export class MPlaylist {
     public playListId: number;
     public name: string;
-    public image: string;
+    public image: string | null;
     public created: Date;
 
     constructor(playlist: IPlaylist) {
@@ -16,6 +16,6 @@ export class MPlaylist {
 export interface IPlaylist {
     id: number,
     name: string,
-    image: string,
+    image: string | null,
     date_create: number
 }

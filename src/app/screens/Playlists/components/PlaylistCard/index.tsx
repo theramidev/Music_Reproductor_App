@@ -5,8 +5,10 @@ import styles from './style';
 import IconMa from 'react-native-vector-icons/MaterialIcons';
 import AutoScrolling from 'react-native-auto-scrolling';
 
-export const PlaylistCard: FC<IProps> = ({mode, title, image = null, onCreate}) => {
-    
+export const PlaylistCard: FC<IProps> = ({mode, playlist, onCreate, title, navigation}) => {
+
+    const goToPlaylistSongs = () => navigation.navigate('PlaylistSongs', playlist);
+
     return(
         <View style={styles.container}>
             {
@@ -20,24 +22,26 @@ export const PlaylistCard: FC<IProps> = ({mode, title, image = null, onCreate}) 
             }
             {
                 mode === 'playlist' &&
-                <TouchableOpacity>
+                <TouchableOpacity onPress={goToPlaylistSongs}>
                     <Image style={styles.image}
                         source={
-                            image ? {uri: 'file://'+image} :
+                            playlist?.image ? {uri: 'file://'+playlist.image} :
                             require('../../../../../assets/images/music_notification.png')
                         }
                     />
                 </TouchableOpacity>
             }
             {
-                title.length > 20 ?
+                playlist && playlist.name.length > 20 ?
                 <AutoScrolling>
                     <Text style={styles.cardText}>
-                        {title}
+                        {playlist.name}
                     </Text>
                 </AutoScrolling> :
                 <Text style={styles.cardText}>
-                    {title}
+                    {
+                        playlist ? playlist.name : title
+                    }
                 </Text>
             }
         </View>

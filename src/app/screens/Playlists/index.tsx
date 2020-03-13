@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { BackgroundLayout } from '../../components/BackgroundLayout';
 import { IProps } from './interfaces/Props';
 import { IState } from './interfaces/State';
-import { getPlaylists } from '../../redux/actions/playlistActions';
+import { getPlaylists, createPlaylist } from '../../redux/actions/playlistActions';
 import Modal from 'react-native-modal';
 
 import { Header } from '../../components/Header';
 import { ListOfPlaylists } from './components/ListOfPlaylists';
-import { Text } from 'react-native';
 import { ContentModalCreate } from './components/ContentModalCreate';
+import { DocumentPickerResponse } from 'react-native-document-picker';
 
 class PlaylistsScreen extends Component<IProps, IState> {
 
@@ -29,6 +29,10 @@ class PlaylistsScreen extends Component<IProps, IState> {
     createPlaylist = () => {
         console.log('Created!');
         this.setState({isModalVisible: true});
+    }
+
+    _onCreate = (image: DocumentPickerResponse | null, playlistName: string) => {
+        this.props.createPlaylist(image, playlistName);
     }
 
     render() {
@@ -55,7 +59,10 @@ class PlaylistsScreen extends Component<IProps, IState> {
                     animationIn="slideInUp"
                     style={{margin: 0, position: 'absolute', bottom: 0, width: '100%'}}
                 >
-                    <ContentModalCreate />
+                    <ContentModalCreate 
+                        onClose={this.closeModal}
+                        onCreate={this._onCreate}
+                    />
                 </Modal>
             </BackgroundLayout>
         )
@@ -69,7 +76,8 @@ const mapStateToProps = ({playlistReducer}: any) => {
 }
 
 const mapDispatchToProps = {
-    getPlaylists
+    getPlaylists,
+    createPlaylist
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlaylistsScreen);

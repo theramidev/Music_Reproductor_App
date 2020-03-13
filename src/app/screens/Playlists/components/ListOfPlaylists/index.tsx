@@ -10,14 +10,14 @@ export const ListOfPlaylists: FC<IProps> = ({navigation, playlists, onCreate}) =
     return(
         <ScrollView>
             <View style={styles.container}>
-                <PlaylistCard mode="add" title="Crear nueva lista" onCreate={onCreate} />
+                <PlaylistCard mode="add" title="Crear nueva lista" onCreate={onCreate} navigation={navigation} />
                 {
                     playlists.map((playlist, i) => {
                         return(
                             <PlaylistCard key={i}
                                 mode="playlist" 
-                                title={playlist.name}
-                                image={playlist.image}
+                                playlist={playlist}
+                                navigation={navigation}
                             />
                         )
                     })

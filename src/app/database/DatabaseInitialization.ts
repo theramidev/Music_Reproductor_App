@@ -32,6 +32,8 @@ export class DatabaseInitialization {
             )`
         );
 
+        // transaction.executeSql(`DROP TABLE IF EXISTS playlist`);
+
         transaction.executeSql(
             `CREATE TABLE IF NOT EXISTS playlist(
                 id INTEGER PRIMARY KEY NOT NULL UNIQUE,

@@ -5,10 +5,9 @@ import { theme } from '../../../../../assets/themes';
 export const staticStyle = StyleSheet.create({
     container: {
         backgroundColor: theme(.5).dark,
-        height: 240,
+        height: 220,
         flexDirection: 'row',
-        flexWrap: 'wrap',
-        paddingTop: 20
+        flexWrap: 'wrap'
     },
     left: {
         width: '50%',
@@ -85,5 +84,10 @@ export const staticStyle = StyleSheet.create({
         borderEndWidth: 1,
         borderTopColor: theme().text,
         borderTopWidth: 2
+    },
+    image: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 5
     }
 });

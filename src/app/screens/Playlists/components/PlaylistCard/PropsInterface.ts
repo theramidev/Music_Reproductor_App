@@ -1,8 +1,11 @@
 import { GestureResponderEvent } from "react-native";
+import { MPlaylist } from "../../../../models/playlist.model";
+import { NavigationScreenProp, NavigationState, NavigationParams } from "react-navigation";
 
 export interface IProps {
+    navigation: NavigationScreenProp<NavigationState, NavigationParams>,
     mode: 'add' | 'playlist',
-    title: string,
-    image?: string | null,
-    onCreate?: (event: GestureResponderEvent) => void
+    playlist?: MPlaylist
+    onCreate?: (event: GestureResponderEvent) => void,
+    title?: string
 }
