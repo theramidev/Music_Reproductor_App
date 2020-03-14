@@ -8,7 +8,7 @@ import Modal from 'react-native-modal';
 
 import { Header } from '../../components/Header';
 import { ListOfPlaylists } from './components/ListOfPlaylists';
-import { ContentModalCreate } from './components/ContentModalCreate';
+import { ModalPlaylist } from '../../components/ModalPlaylist';
 import { DocumentPickerResponse } from 'react-native-document-picker';
 
 class PlaylistsScreen extends Component<IProps, IState> {
@@ -26,12 +26,11 @@ class PlaylistsScreen extends Component<IProps, IState> {
 
     closeModal = () => this.setState({isModalVisible: false});
 
-    createPlaylist = () => {
-        console.log('Created!');
+    _oncreate = () => {
         this.setState({isModalVisible: true});
     }
 
-    _onCreate = (image: DocumentPickerResponse | null, playlistName: string) => {
+    createPlaylist = (image: DocumentPickerResponse | null, playlistName: string) => {
         this.props.createPlaylist(image, playlistName);
     }
 
@@ -46,24 +45,14 @@ class PlaylistsScreen extends Component<IProps, IState> {
                 <ListOfPlaylists 
                     navigation={this.props.navigation}
                     playlists={this.props.playlistReducer.data.playlists}
-                    onCreate={this.createPlaylist}
+                    onCreate={this._oncreate}
                 />
 
-                <Modal 
+                <ModalPlaylist 
                     isVisible={this.state.isModalVisible}
-                    onBackButtonPress={this.closeModal}
-                    onBackdropPress={this.closeModal}
-                    hasBackdrop={true}
-                    useNativeDriver={true}
-                    backdropOpacity={0.3}
-                    animationIn="slideInUp"
-                    style={{margin: 0, position: 'absolute', bottom: 0, width: '100%'}}
-                >
-                    <ContentModalCreate 
-                        onClose={this.closeModal}
-                        onCreate={this._onCreate}
-                    />
-                </Modal>
+                    onClose={this.closeModal}
+                    onCreate={this.createPlaylist}
+                />
             </BackgroundLayout>
         )
     }

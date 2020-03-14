@@ -39,7 +39,7 @@ export class DatabaseInitialization {
                 id INTEGER PRIMARY KEY NOT NULL UNIQUE,
                 name TEXT NOT NULL,
                 image TEXT,
-                date_create INTEGER NOT NULL
+                date_create TEXT NOT NULL
             )`
         );
 

@@ -21,6 +21,18 @@ export default (state = INITIAL_STATE, {type, payload}: any) => {
                 ...state,
                 loadings: {...state.loadings, loadingPlaylists: true}
             }
+
+        case playlistTypes.getCurrentPLaylist:
+            return {
+                ...state,
+                data: {...state.data, currentPlaylist: payload}
+            }
+        
+        case playlistTypes.cleanCurrentPlaylist:
+            return {
+                ...state,
+                data: {...state.data, currentPLaylist: null}
+            }
         
         default:
             return state;

@@ -17,5 +17,5 @@ export interface IPlaylist {
     id: number,
     name: string,
     image: string | null,
-    date_create: number
+    date_create: string
 }

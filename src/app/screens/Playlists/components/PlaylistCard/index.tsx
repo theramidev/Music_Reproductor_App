@@ -7,7 +7,7 @@ import AutoScrolling from 'react-native-auto-scrolling';
 
 export const PlaylistCard: FC<IProps> = ({mode, playlist, onCreate, title, navigation}) => {
 
-    const goToPlaylistSongs = () => navigation.navigate('PlaylistSongs', playlist);
+    const goToPlaylistSongs = () => navigation.navigate('PlaylistSongs', {playlist});
 
     return(
         <View style={styles.container}>

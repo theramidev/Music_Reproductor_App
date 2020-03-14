@@ -65,6 +65,14 @@ class Database implements IDatabase {
         return PlaylistController.createPlaylist(this.database, name, image);
     }
     /**
+     * @description Obtiene una lista de reproducción por su id
+     * @param playlistId Id de la lista de reproducción
+     * @return Promise<MPlaylist | null>
+     */
+    public getPlaylistById(playlistId: number): Promise<MPlaylist | null> {
+        return PlaylistController.getPLaylistById(this.database, playlistId);
+    }
+    /**
      * @description Obtiene las listas de reproducción
      * @return Promise<MPlaylist[]>
      */
@@ -128,7 +136,7 @@ class Database implements IDatabase {
     public async open(): Promise<SQLiteDatabase> {
         return new Promise(async (resolve) => {
             try {
-                SQLite.DEBUG(__DEV__);
+                SQLite.DEBUG(false);
                 SQLite.enablePromise(true);
                 const db: SQLiteDatabase = await SQLite.openDatabase({name: this.dbName, location: 'default'});
                 const initialization: DatabaseInitialization = new DatabaseInitialization();

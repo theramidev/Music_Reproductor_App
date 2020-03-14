@@ -116,12 +116,31 @@ class PlaylistController {
         try {
             const statement: string = `INSERT INTO ${this.playlistTable} 
             (name, image, date_create) VALUES (?, ?, ?)`;
-            const params = [name, image, new Date().getTime()];
+            const params = [name, image, new Date().toDateString()];
             await database.executeSql(statement, params);
         } catch (error) {
             console.error('createPlaylist Error: ', error);
             Promise.reject(error);
         }
+    }
+    /**
+     * @description Busca un playlist por su id
+     * @param database Base de datos local
+     * @param playlistId Id de la lista de reproducción
+     * @return Promise<Mplaylist | null>
+     */
+    public getPLaylistById(database: SQLiteDatabase, playlistId: number): Promise<MPlaylist | null> {
+        return new Promise(  async(resolve, reject) => {
+            try {
+                const statement: string = `SELECT *  FROM ${this.playlistTable} WHERE id = ?`;
+                const [result]: [ResultSet] = await database.executeSql(statement, [playlistId]);
+                const playlist: MPlaylist | null = result.rows.item(0) ? new MPlaylist(result.rows.item(0)) : null;
+                resolve(playlist);
+            } catch (error) {
+                console.error('error getPlaylistById: ', error);
+                reject(error);
+            }
+        });
     }
     /**
      * @description Obtiene todas las listas de reproducción de la base de datos

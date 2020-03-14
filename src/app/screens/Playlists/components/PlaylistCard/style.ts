@@ -4,12 +4,12 @@ import { theme } from '../../../../../assets/themes/index';
 export default StyleSheet.create({
     container: {
         width: '45%',
-        height: 150,
+        height: 160,
         marginHorizontal: 8,
-        marginVertical: 15
+        marginVertical: 10
     },
     add: {
-        height: '100%',
+        height: 150,
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: theme().text,
@@ -21,12 +21,11 @@ export default StyleSheet.create({
         color: theme().text,
         fontSize: 15,
         fontWeight: 'bold',
-        textAlign: 'center',
-        marginTop: -1
+        textAlign: 'center'
     },
     image: {
         width: '100%',
-        height: '100%',
+        height: 150,
         borderWidth: 1,
         borderColor: theme().text,
         borderRadius: 10,

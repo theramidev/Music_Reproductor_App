@@ -1,16 +1,19 @@
 import { StyleSheet } from "react-native";
-import { theme } from '../../../../../assets/themes';
-
+import { theme } from '../../../assets/themes';
+import { DynamicStyleSheet, DynamicValue } from 'react-native-dark-mode';
 
 export const staticStyle = StyleSheet.create({
     container: {
-        backgroundColor: theme(.5).dark,
-        height: 220,
+        backgroundColor: theme().dark,
+        height: 245,
         flexDirection: 'row',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        paddingTop: 20,
+        borderRadius: 10,
+        borderWidth: 1
     },
     left: {
-        width: '50%',
+        width: '40%',
         height: 150,
         justifyContent: 'center',
         alignItems: 'center',
@@ -18,7 +21,7 @@ export const staticStyle = StyleSheet.create({
         paddingTop: 15
     },
     right: {
-        width: '50%',
+        width: '60%',
         height: 150,
         justifyContent: 'center',
         alignItems: 'center',
@@ -73,21 +76,19 @@ export const staticStyle = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 17
     },
-    buttonAccept: {
-        borderStartColor: theme().text,
-        borderStartWidth: 1,
-        borderTopColor: theme().text,
-        borderTopWidth: 2
-    },
-    buttonCancel: {
-        borderEndColor: theme().text,
-        borderEndWidth: 1,
-        borderTopColor: theme().text,
-        borderTopWidth: 2
-    },
     image: {
         width: '100%',
         height: '100%',
         borderRadius: 5
+    }
+});
+
+export const dynamicStyleSheet = new DynamicStyleSheet({
+    container: {
+        backgroundColor: new DynamicValue(theme().light, theme().dark),
+        borderColor: new DynamicValue('#cdcdcd', theme().text)
+    },
+    textColor: {
+        color: new DynamicValue(theme().text, theme().light)
     }
 });
