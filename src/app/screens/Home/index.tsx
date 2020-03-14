@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
+import {Image} from 'react-native';
 import {connect} from 'react-redux';
-import {getSongs} from '../../redux/actions/fileActions';
 import {getCurrentWallpaper} from '../../redux/actions/wallpaperActions';
+import {getSongs} from '../../redux/actions/musicActions';
 
 import {
   updateCurrentMusicForId,
@@ -14,7 +15,6 @@ import {Sections} from './components/Sections';
 import {Footer} from './components/Footer';
 import {ListOfMusic} from '../../components/ListOfMusic';
 import {BackgroundLayout} from '../../components/BackgroundLayout';
-import {Image} from 'react-native';
 import style from './style';
 
 class HomeScreen extends Component<IProps, IState> {
@@ -25,17 +25,14 @@ class HomeScreen extends Component<IProps, IState> {
   async componentDidMount() {
     this.props.getCurrentWallpaper();
     await this.props.getSongs();
-    this.props.updateListSongs(this.props.fileReducer.data.songs);
   }
 
   render() {
-    const {navigation, fileReducer} = this.props;
-    const {
-      data: {songs},
-    } = fileReducer;
+    const {navigation, musicReducer} = this.props;
+    const {listSongs} = musicReducer;
     // ordena las canciones por orden alfabetico
-    if (songs) {
-      songs.sort(function(a, b) {
+    if (listSongs) {
+      listSongs.sort(function(a, b) {
         if (a.title.toLowerCase() > b.title.toLowerCase()) {
           return 1;
         }
@@ -61,7 +58,7 @@ class HomeScreen extends Component<IProps, IState> {
 
         <Sections navigation={this.props.navigation} />
 
-        <ListOfMusic songs={songs} navigate={navigation.navigate} />
+        <ListOfMusic songs={listSongs} navigate={navigation.navigate} />
 
         <Footer />
       </BackgroundLayout>

@@ -34,6 +34,7 @@ class Music extends Component<IProps, IState> {
     } = this.props;
     // @ts-ignore
     const item = params.item;
+    console.log(item);
     this.props.updateCurrentMusic(item);
 
     if (isPlay(musicReducer.current, item)) {

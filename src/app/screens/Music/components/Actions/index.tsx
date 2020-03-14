@@ -1,5 +1,5 @@
 import React, {useEffect, useState, FC} from 'react';
-import {View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, ActivityIndicator} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -10,7 +10,9 @@ import {connect} from 'react-redux';
 import {
   changeToLineMode,
   changeToRandomMode,
+  updateFavorite,
 } from '../../../../redux/actions/musicActions';
+import {ShowToast} from '../../../../../utils/toast';
 
 const Actions: FC<any> = (props: any) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
@@ -19,6 +21,12 @@ const Actions: FC<any> = (props: any) => {
   useEffect(() => {
     getMode();
   }, []);
+
+  useEffect(() => {
+    if (props.musicReducer.errorFavorite) {
+      ShowToast('Ocurrio un error al momento de agregar a favoritos');
+    }
+  }, [props.musicReducer]);
 
   const getMode = async () => {
     const data = await AsyncStorage.getItem('@Mode');
@@ -41,6 +49,20 @@ const Actions: FC<any> = (props: any) => {
     }
   };
 
+  const updateFavoriteSong = async () => {
+    await props.updateFavorite();
+  };
+
+  const getStateFavorite = () => {
+    if (props.musicReducer.current.isFavorite) {
+      return (
+        <AntDesign name="star" size={20} color={styles.iconActive.color} />
+      );
+    } else {
+      return <AntDesign name="staro" size={20} color={styles.icon.color} />;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={changeMode}>
@@ -51,11 +73,18 @@ const Actions: FC<any> = (props: any) => {
           <Entypo name="retweet" size={20} color={styles.icon.color} />
         )}
       </TouchableOpacity>
+      {!props.musicReducer.loadingFavorite && (
+        <TouchableOpacity onPress={updateFavoriteSong}>
+          {getStateFavorite()}
+        </TouchableOpacity>
+      )}
+      {props.musicReducer.loadingFavorite && (
+        <View>
+          <ActivityIndicator size="small" color="#00F1DF" />
+        </View>
+      )}
       <TouchableOpacity>
-        <AntDesign name="star" size={20} color={styles.icon.color} />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Entypo name="list" size={20} color={styles.icon.color} />
+        <AntDesign name="sharealt" size={20} color={styles.icon.color} />
       </TouchableOpacity>
     </View>
   );
@@ -70,6 +99,7 @@ const mapStateToProps = ({musicReducer}: any) => {
 const mapDispatchToProps = {
   changeToLineMode,
   changeToRandomMode,
+  updateFavorite,
 };
 
 // eslint-disable-next-line prettier/prettier

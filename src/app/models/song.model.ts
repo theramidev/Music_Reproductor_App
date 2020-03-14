@@ -29,7 +29,7 @@ export interface ISong {
   duration: string;
   path: string;
   title: string;
-  isFavorite: number;
+  isFavorite: number | boolean;
   album: string | null;
   author: string | null;
   genre: string | null;

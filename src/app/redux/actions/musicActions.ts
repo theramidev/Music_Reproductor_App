@@ -1,13 +1,83 @@
+import {PermissionsAndroid} from 'react-native';
 import {Dispatch} from 'redux';
+import MusicFiles from 'react-native-get-music-files';
+import TrackPlayer, {Track} from 'react-native-track-player';
 
-import {MSong} from '../../models/song.model';
+import {MSong, ISong} from '../../models/song.model';
 import musicTypes from '../types/musicTypes';
 import database from '../../database';
-import TrackPlayer, {Track} from 'react-native-track-player';
 import {
   getListRamdonSong,
   getListLineSong,
 } from '../../../utils/orderListMusic';
+
+/**
+ * @description Obtiene las canciones del dispositivo
+ */
+export const getSongs = () => async (dispatch: Dispatch) => {
+  try {
+    dispatch({
+      type: musicTypes.loadingListSongs,
+    });
+    const hasExternalReadPermissions: boolean = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+    );
+    // Request Permissions
+    if (!hasExternalReadPermissions) {
+      await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+        {
+          title: 'Permitir lectura',
+          message: 'Permitir que esta aplicación lea sus archivos',
+          buttonPositive: 'Permitir',
+          buttonNegative: 'Rechazar',
+        },
+      );
+    }
+
+    const songsDB: MSong[] = await database.getSongs();
+
+    dispatch({
+      type: musicTypes.updateListSongs,
+      payload: songsDB,
+    });
+
+    const musicFiles: ISong[] = await MusicFiles.getAll({
+      id: true,
+      blured: true,
+      artist: true,
+      duration: true,
+      cover: true,
+      genre: true,
+      title: true,
+      minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration
+    });
+
+    const newMusicFiles: ISong[] | any = musicFiles.map(song => {
+      const songDB: MSong | any = songsDB.find(
+        songData => songData.id === song.id,
+      );
+
+      if (songDB) {
+        return {
+          ...song,
+          isFavorite: songDB.isFavorite ? true : false,
+        };
+      }
+
+      return song;
+    });
+    console.log(newMusicFiles);
+    const songs: MSong[] = newMusicFiles.map((song: ISong) => new MSong(song));
+    dispatch({
+      type: musicTypes.updateListSongs,
+      payload: songs,
+    });
+    await database.setSongs(musicFiles);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 /**
  * @description modifica la cancion que esta actualmente seleccionada
@@ -88,6 +158,11 @@ export const playInLine = (songs: MSong[], songSelected: MSong) => async () => {
   }
 };
 
+/**
+ * @description inicia el listado de musica el aleatorio
+ * @param songs
+ * @param songSelected
+ */
 export const playInRandom = (
   songs: MSong[],
   songSelected?: MSong,
@@ -104,6 +179,9 @@ export const playInRandom = (
   }
 };
 
+/**
+ * @description cambia el listado de reproduccion a seguido
+ */
 export const changeToLineMode = () => async (
   dispatch: Dispatch,
   getsState: any,
@@ -129,6 +207,9 @@ export const changeToLineMode = () => async (
   }
 };
 
+/**
+ * @description cambia el listado de reproduccion a aleatorio
+ */
 export const changeToRandomMode = () => async (
   dispatch: Dispatch,
   getsState: any,
@@ -173,4 +254,52 @@ const getList = (listMusics: MSong[]) => {
       } as Track;
     },
   );
+};
+
+/**
+ * @description setea o modifica el estado favorito de una cancion
+ */
+export const updateFavorite = () => async (
+  dispatch: Dispatch,
+  getsState: any,
+) => {
+  try {
+    const {
+      musicReducer: {current, listSongs},
+    } = getsState();
+
+    dispatch({
+      type: musicTypes.loadingFavorite,
+    });
+
+    const isFavorite = !current.isFavorite;
+
+    const updateSongs = listSongs.map((music: MSong) => {
+      if (music.id === current.id) {
+        return {...music, isFavorite};
+      }
+
+      return music;
+    });
+
+    await database.updateSongToFavorite(current.id, isFavorite);
+
+    dispatch({
+      type: musicTypes.updateListSongs,
+      payload: updateSongs,
+    });
+    dispatch({
+      type: musicTypes.updateCurrentMusic,
+      payload: {...current, isFavorite},
+    });
+  } catch (err) {
+    dispatch({
+      type: musicTypes.errorFavorite,
+      payload: err,
+    });
+    dispatch({
+      type: musicTypes.errorFavorite,
+      payload: null,
+    });
+  }
 };

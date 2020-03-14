@@ -65,7 +65,7 @@ class Database implements IDatabase {
     public async open(): Promise<SQLiteDatabase> {
         return new Promise(async (resolve) => {
             try {
-                SQLite.DEBUG(__DEV__);
+                SQLite.DEBUG(false);
                 SQLite.enablePromise(true);
                 const db: SQLiteDatabase = await SQLite.openDatabase({name: this.dbName, location: 'default'});
                 const initialization: DatabaseInitialization = new DatabaseInitialization();

@@ -18,6 +18,7 @@ export interface StylesProgress {
 export interface StylesActions {
   container: ViewStyle | DynamicViewStyle;
   icon: TextStyle | DynamicTextStyle;
+  iconActive: TextStyle | DynamicTextStyle;
 }
 
 export interface StylesListOfMusic {

@@ -17,6 +17,9 @@ const styles: StylesActions = {
   icon: {
     color: colorText,
   },
+  iconActive: {
+    color: '#F7DC6F',
+  },
 };
 
 const dynamicStyles = new DynamicStyleSheet(styles);

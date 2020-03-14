@@ -11,6 +11,19 @@ export interface IProps {
    * @description Manda a buscar las canciones dentro del dispositivo
    */
   getSongs(): Promise<void>;
+  musicReducer: {
+    listSongs: MSong[];
+    loadingListSongs: boolean;
+    errorListSongs: any;
+
+    current: MSong;
+    mode: string;
+    loading: boolean;
+    error: any;
+
+    loadingFavorite: boolean;
+    errorFavorite: any;
+  };
   fileReducer: {
     data: {
       songs: MSong[];
