@@ -80,7 +80,6 @@ export const PlaybackService = (
       playbackQueueEnded = TrackPlayer.addEventListener(
         'playback-queue-ended',
         async (data: any) => {
-          console.log('playback-queue-ended: ', data);
           if (data.track) {
             const dataStorage = await AsyncStorage.getItem('@Mode');
             const mode = dataStorage || 'RANDOM';

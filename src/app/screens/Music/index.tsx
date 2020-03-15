@@ -34,7 +34,10 @@ class Music extends Component<IProps, IState> {
     } = this.props;
     // @ts-ignore
     const item = params.item;
-    console.log(item);
+
+    // guarda la ultima cancion reproducida
+    AsyncStorage.setItem('@LastMusic', JSON.stringify(item));
+
     this.props.updateCurrentMusic(item);
 
     if (isPlay(musicReducer.current, item)) {
@@ -45,12 +48,12 @@ class Music extends Component<IProps, IState> {
     destroy();
 
     // @ts-ignore
-    const songs = params.songs;
+    //const songs = params.songs;
 
     if (mode === 'RANDOM') {
-      this.props.playInRandom(songs, item);
+      this.props.playInRandom(true);
     } else {
-      this.props.playInLine(songs, item);
+      this.props.playInLine(true);
     }
   }
 

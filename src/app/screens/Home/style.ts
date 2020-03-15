@@ -13,4 +13,11 @@ export default StyleSheet.create({
     position: 'absolute',
     resizeMode: 'cover',
   },
+
+  loading: {
+    height: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });

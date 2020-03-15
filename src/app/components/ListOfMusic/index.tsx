@@ -1,4 +1,4 @@
-import React, {Fragment, FC} from 'react';
+import React, {Fragment, FC, useEffect} from 'react';
 import {View, Image, FlatList, Text, TouchableOpacity} from 'react-native';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import dynamicStyles from './styles';
@@ -9,6 +9,21 @@ import {IProps} from './Interfaces/Props';
 
 export const ListOfMusic: FC<IProps> = ({songs = [], navigate}: any) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
+
+  const order = (array: MSong[]) => {
+    let arrayOrder = array;
+    arrayOrder.sort(function(a: MSong, b: MSong) {
+      if (a.title.toLowerCase() > b.title.toLowerCase()) {
+        return 1;
+      }
+      if (a.title.toLowerCase() < b.title.toLowerCase()) {
+        return -1;
+      }
+      return 0;
+    });
+
+    return array;
+  };
 
   const cutText = (txt: string): string => {
     if (txt.length > 35) {
@@ -21,7 +36,7 @@ export const ListOfMusic: FC<IProps> = ({songs = [], navigate}: any) => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={songs}
+        data={order(songs)}
         renderItem={({item}: {item: MSong}) => (
           <Fragment>
             <Ripple

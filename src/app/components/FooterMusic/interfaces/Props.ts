@@ -7,10 +7,7 @@ import {
 
 export interface IProps {
   navigation: NavigationScreenProp<NavigationState, NavigationParams>;
-  /**
-   * @description Manda a buscar las canciones dentro del dispositivo
-   */
-  getSongs(): Promise<void>;
+
   musicReducer: {
     listSongs: MSong[];
     loadingListSongs: boolean;
@@ -24,23 +21,6 @@ export interface IProps {
     loadingFavorite: boolean;
     errorFavorite: any;
   };
-  fileReducer: {
-    data: {
-      songs: MSong[];
-    };
-    loadings: {
-      loadingSongs: boolean;
-    };
-    errors: {
-      errorSongs: any;
-    };
-  };
-  wallpaperReducer: {
-    data: {
-      currentWallpaper: string | null;
-    };
-  };
-  getCurrentWallpaper(): void;
   /**
    * @description Activa el Music Control y se comienza a reproducir las canciones
    * @param songs Canciones
@@ -55,15 +35,6 @@ export interface IProps {
 
   updateListSongs(songs: MSong[]): void;
 
-  /**
-   * @description Activa el Music Control
-   * @param start si se quiere inicar la reproduccion
-   */
-  playInLine(start: boolean): Promise<void>;
-  /**
-   * @description Activa el Music Control
-   * @param start si se quiere inicar la reproduccion
-   */
-  playInRandom(start: boolean): Promise<void>;
+  changeToRandomMode(): Promise<void>;
   changeToLineMode(): Promise<void>;
 }

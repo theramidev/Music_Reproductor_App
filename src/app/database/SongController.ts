@@ -207,7 +207,7 @@ class SongController {
   public async getSongs(database: SQLiteDatabase): Promise<MSong[]> {
     return new Promise(async (resolve, reject) => {
       try {
-        const statement: string = `SELECT * FROM ${this.tableSong}`;
+        const statement: string = `SELECT * FROM ${this.tableSong} ORDER BY title ASC`;
         const [result]: [ResultSet] = await database.executeSql(statement);
         // console.log('Result getSongs: ', result.rows.raw());
         const songs: MSong[] = result.rows

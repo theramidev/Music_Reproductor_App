@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {Slider, Text, View, TouchableOpacity} from 'react-native';
+import Slider from '@react-native-community/slider';
+import {Text, View, TouchableOpacity} from 'react-native';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import dynamicStyles from './style';
 
@@ -14,6 +15,7 @@ import TrackPlayer, {
   skipToPrevious,
   skip,
   getQueue,
+  getState,
 } from 'react-native-track-player';
 import Actions from '../Actions';
 import {getDuration} from '../../../../../utils/duration';
@@ -29,10 +31,16 @@ export const Progress = ({
   const styles = useDynamicStyleSheet(dynamicStyles);
 
   useEffect(() => {
+    // obtiene el estado de la reproduccion (usado para saber si esta en pausa o no)
+    getState().then(state => {
+      state === 2 ? setPauseMusic(true) : setPauseMusic(false);
+    });
+    // obtiene el tiempo en seg de la musica que se esta reproduciendo
     getPosition().then(seg => {
       setPosition(+seg * 1000);
     });
 
+    // realiza un interval para obtener el tienpo actual de la cancion
     var interval = setInterval(() => {
       getPosition().then(seg => {
         setPosition(+seg * 1000);

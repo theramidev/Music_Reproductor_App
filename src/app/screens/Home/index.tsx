@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image} from 'react-native';
+import {Image, ActivityIndicator, View} from 'react-native';
 import {connect} from 'react-redux';
 import {getCurrentWallpaper} from '../../redux/actions/wallpaperActions';
 import {getSongs} from '../../redux/actions/musicActions';
@@ -7,15 +7,18 @@ import {getSongs} from '../../redux/actions/musicActions';
 import {
   updateCurrentMusicForId,
   updateListSongs,
+  playInRandom,
+  playInLine,
 } from '../../redux/actions/musicActions';
 import {IState} from './interfaces/State';
 import {IProps} from './interfaces/Props';
 import {Header} from './components/Header';
 import {Sections} from './components/Sections';
-import {Footer} from './components/Footer';
 import {ListOfMusic} from '../../components/ListOfMusic';
 import {BackgroundLayout} from '../../components/BackgroundLayout';
 import style from './style';
+import FooterMusic from '../../components/FooterMusic';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class HomeScreen extends Component<IProps, IState> {
   constructor(props: any) {
@@ -23,15 +26,24 @@ class HomeScreen extends Component<IProps, IState> {
   }
 
   async componentDidMount() {
+    const data = await AsyncStorage.getItem('@Mode');
+    const mode = data || 'RANDOM';
+
     this.props.getCurrentWallpaper();
     await this.props.getSongs();
+
+    if (mode === 'RANDOM') {
+      await this.props.playInRandom(false);
+    } else {
+      await this.props.playInLine(false);
+    }
   }
 
   render() {
     const {navigation, musicReducer} = this.props;
     const {listSongs} = musicReducer;
     // ordena las canciones por orden alfabetico
-    if (listSongs) {
+    /* if (listSongs) {
       listSongs.sort(function(a, b) {
         if (a.title.toLowerCase() > b.title.toLowerCase()) {
           return 1;
@@ -41,6 +53,15 @@ class HomeScreen extends Component<IProps, IState> {
         }
         return 0;
       });
+    }
+    console.log(listSongs); */
+
+    if (musicReducer.loadingListSongs) {
+      return (
+        <View style={style.loading}>
+          <ActivityIndicator size="large" color="#00F1DF" />
+        </View>
+      );
     }
 
     return (
@@ -60,7 +81,8 @@ class HomeScreen extends Component<IProps, IState> {
 
         <ListOfMusic songs={listSongs} navigate={navigation.navigate} />
 
-        <Footer />
+        {/* @ts-ignore */}
+        <FooterMusic navigation={navigation} />
       </BackgroundLayout>
     );
   }
@@ -83,6 +105,8 @@ const mapDispatchToProps = {
   getCurrentWallpaper,
   updateCurrentMusicForId,
   updateListSongs,
+  playInRandom,
+  playInLine,
 };
 
 export default connect<any, any>(

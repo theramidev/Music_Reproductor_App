@@ -10,6 +10,7 @@ import {
   getListRamdonSong,
   getListLineSong,
 } from '../../../utils/orderListMusic';
+import AsyncStorage from '@react-native-community/async-storage';
 
 /**
  * @description Obtiene las canciones del dispositivo
@@ -36,6 +37,17 @@ export const getSongs = () => async (dispatch: Dispatch) => {
     }
 
     const songsDB: MSong[] = await database.getSongs();
+
+    // obtiene la ultima cancion reproducida ==============
+    const data = await AsyncStorage.getItem('@LastMusic');
+    const last = data ? JSON.parse(data) : '';
+    const lastMusic = songsDB[0] || {};
+
+    dispatch({
+      type: musicTypes.updateCurrentMusic,
+      payload: last || lastMusic,
+    });
+    // =====================================================
 
     dispatch({
       type: musicTypes.updateListSongs,
@@ -67,8 +79,9 @@ export const getSongs = () => async (dispatch: Dispatch) => {
 
       return song;
     });
-    console.log(newMusicFiles);
+
     const songs: MSong[] = newMusicFiles.map((song: ISong) => new MSong(song));
+
     dispatch({
       type: musicTypes.updateListSongs,
       payload: songs,
@@ -103,6 +116,8 @@ export const updateCurrentMusicForId = (id: string) => async (
     });
 
     const song = await database.getSongById(id);
+
+    AsyncStorage.setItem('@LastMusic', JSON.stringify(song));
 
     dispatch({
       type: musicTypes.updateCurrentMusic,
@@ -140,19 +155,21 @@ export const updateMode = (mode: 'RANDOM' | 'LINE') => (dispatch: Dispatch) => {
 
 /**
  * @description Comienza a reproducir una lista de canciones
- * @param songs Lista de reproducción que va a ser reproducida
+ * @param start indica si se quiere iniciar la reproduccion
  */
-export const playInLine = (songs: MSong[], songSelected: MSong) => async () => {
+export const playInLine = (start: boolean) => async (
+  dispatch: Dispatch,
+  getsState: any,
+) => {
   try {
-    const listMusics: MSong[] = getListLineSong(songs);
+    const {listSongs, current} = getsState().musicReducer;
+    const listMusics: MSong[] = getListLineSong(listSongs);
 
     const tracks = getList(listMusics);
-    // console.log(tracks[25]);
-    // console.log(tracks[32]);
 
     TrackPlayer.add(tracks);
-    TrackPlayer.skip(songSelected.id);
-    TrackPlayer.play();
+    TrackPlayer.skip(current.id);
+    start && TrackPlayer.play();
   } catch (error) {
     console.log('Error activateTrackPlayer: ', error);
   }
@@ -160,20 +177,20 @@ export const playInLine = (songs: MSong[], songSelected: MSong) => async () => {
 
 /**
  * @description inicia el listado de musica el aleatorio
- * @param songs
- * @param songSelected
+ * @param start indica si se quiere iniciar la reproduccion
  */
-export const playInRandom = (
-  songs: MSong[],
-  songSelected?: MSong,
-) => async () => {
+export const playInRandom = (start: boolean) => async (
+  dispatch: Dispatch,
+  getsState: any,
+) => {
   try {
-    const listMusics: MSong[] = getListRamdonSong(songs, null, songSelected);
+    const {listSongs, current} = getsState().musicReducer;
+    const listMusics: MSong[] = getListRamdonSong(listSongs, null, current);
 
     const tracks: Track[] = getList(listMusics);
 
     TrackPlayer.add(tracks);
-    TrackPlayer.play();
+    start && TrackPlayer.play();
   } catch (error) {
     console.log('Error activateTrackPlayer: ', error);
   }
@@ -201,7 +218,6 @@ export const changeToLineMode = () => async (
       elementsRemove.map((element: MSong) => element.id),
     );
     await TrackPlayer.add(tracks);
-    await TrackPlayer.play();
   } catch (error) {
     console.log('Error activateTrackPlayer: ', error);
   }
@@ -218,6 +234,7 @@ export const changeToRandomMode = () => async (
     const {
       musicReducer: {listSongs, current},
     } = getsState();
+
     const listMusics: MSong[] = getListRamdonSong(listSongs, current);
 
     const tracks: Track[] = getList(listMusics);
@@ -230,7 +247,6 @@ export const changeToRandomMode = () => async (
       elementsRemove.map((element: MSong) => element.id),
     );
     await TrackPlayer.add(tracks);
-    await TrackPlayer.play();
   } catch (error) {
     console.log('Error activateTrackPlayer: ', error);
   }

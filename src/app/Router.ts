@@ -9,7 +9,7 @@ import MusicScreen from './screens/Music';
 import SettingsScreen from './screens/Settings';
 import ReproductionsScreen from './screens/Reproductions';
 import ChangeImageScreen from './screens/ChangeImage';
-import FavoritesScreen from './screens/Favorites'
+import FavoritesScreen from './screens/Favorites';
 
 const Routes = createStackNavigator(
   {
@@ -36,25 +36,25 @@ const Routes = createStackNavigator(
       navigationOptions: {
         gestureDirection: 'horizontal',
         gestureEnabled: true,
-        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-      }
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      },
     },
     Favorites: {
       screen: FavoritesScreen,
       navigationOptions: {
         gestureDirection: 'horizontal',
         gestureEnabled: true,
-        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-      }
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      },
     },
     ChangeImage: {
       screen: ChangeImageScreen,
       navigationOptions: {
         gestureDirection: 'horizontal',
         gestureEnabled: true,
-        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-      }
-    }
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      },
+    },
   },
   {
     initialRouteName: 'Home',

@@ -10,10 +10,16 @@ export interface IProps {
   fileReducer: any;
   musicReducer: any;
   /**
-   * @description Activa el Music Control y se comienza a reproducir las canciones
-   * @param songs Canciones
+   * @description Activa el Music Control
+   * @param start si se quiere inicar la reproduccion
    */
-  playInLine(songs: MSong[], songSelected: MSong): void;
+  playInLine(start: boolean): void;
+  /**
+   * @description Activa el Music Control
+   * @param start si se quiere inicar la reproduccion
+   */
+  playInRandom(start: boolean): void;
+
   getDuration(durationInMilisecons: number): any;
   updateCurrentMusic(song: MSong): void;
   updateCurrentMusicForId(id: string): void;
@@ -22,7 +28,6 @@ export interface IProps {
    * @param song
    */
   updateListSongs(songs: MSong[]): void;
-  playInRandom(songs: MSong[], songSelected?: MSong): void;
   changeToLineMode(): void;
   changeToRandomMode(): void;
 }
