@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image, ActivityIndicator, View} from 'react-native';
+import {Image, ActivityIndicator, Animated, View} from 'react-native';
 import {connect} from 'react-redux';
 import {getCurrentWallpaper} from '../../redux/actions/wallpaperActions';
 import {getSongs} from '../../redux/actions/musicActions';
@@ -21,6 +21,12 @@ import FooterMusic from '../../components/FooterMusic';
 import AsyncStorage from '@react-native-community/async-storage';
 
 class HomeScreen extends Component<IProps, IState> {
+  state = {
+    inSplash: true,
+    springVal: new Animated.Value(0.8),
+    fadeVal: new Animated.Value(1),
+    fadePrincipal: new Animated.Value(0),
+  };
   constructor(props: any) {
     super(props);
   }
@@ -28,7 +34,8 @@ class HomeScreen extends Component<IProps, IState> {
   async componentDidMount() {
     const data = await AsyncStorage.getItem('@Mode');
     const mode = data || 'RANDOM';
-
+    setTimeout(() => this.spring(), 500);
+    this.props.getSongs();
     this.props.getCurrentWallpaper();
     await this.props.getSongs();
 
@@ -39,22 +46,36 @@ class HomeScreen extends Component<IProps, IState> {
     }
   }
 
+  spring = () => {
+    Animated.sequence([
+      Animated.spring(this.state.springVal, {
+        toValue: 0.6,
+        friction: 7,
+        tension: 20,
+      }),
+      Animated.parallel([
+        Animated.spring(this.state.springVal, {
+          toValue: 17.5,
+          friction: 7,
+          tension: 5,
+        }),
+        Animated.timing(this.state.fadeVal, {
+          toValue: 0,
+          duration: 300,
+        }),
+      ]),
+    ]).start(() => {
+      this.setState({inSplash: false});
+      Animated.timing(this.state.fadePrincipal, {
+        toValue: 1,
+        duration: 300,
+      }).start();
+    });
+  };
+
   render() {
     const {navigation, musicReducer} = this.props;
     const {listSongs} = musicReducer;
-    // ordena las canciones por orden alfabetico
-    /* if (listSongs) {
-      listSongs.sort(function(a, b) {
-        if (a.title.toLowerCase() > b.title.toLowerCase()) {
-          return 1;
-        }
-        if (a.title.toLowerCase() < b.title.toLowerCase()) {
-          return -1;
-        }
-        return 0;
-      });
-    }
-    console.log(listSongs); */
 
     if (musicReducer.loadingListSongs) {
       return (
@@ -65,25 +86,45 @@ class HomeScreen extends Component<IProps, IState> {
     }
 
     return (
-      <BackgroundLayout>
-        {this.props.wallpaperReducer.data.currentWallpaper && (
-          <Image
-            source={{
-              uri: this.props.wallpaperReducer.data.currentWallpaper,
-            }}
-            style={style.backgroundImage}
-          />
+      <>
+        {this.state.inSplash && (
+          <View style={style.wrapper}>
+            <View style={style.center}>
+              <Animated.View
+                style={{
+                  opacity: this.state.fadeVal,
+                  transform: [{scale: this.state.springVal}],
+                }}>
+                <Image
+                  source={require('../../../assets/images/splash.png')}
+                  style={style.splashImage}
+                />
+              </Animated.View>
+            </View>
+          </View>
         )}
+        <Animated.View
+          style={{flex: 1, height: '100%', opacity: this.state.fadePrincipal}}>
+          <BackgroundLayout>
+            {this.props.wallpaperReducer.data.currentWallpaper && (
+              <Image
+                source={{
+                  uri: this.props.wallpaperReducer.data.currentWallpaper,
+                }}
+                style={style.backgroundImage}
+              />
+            )}
 
-        <Header navigate={navigation.navigate} />
+            <Header navigate={navigation.navigate} />
 
-        <Sections navigation={this.props.navigation} />
+            <Sections navigation={this.props.navigation} />
 
-        <ListOfMusic songs={listSongs} navigate={navigation.navigate} />
+            <ListOfMusic songs={listSongs} navigate={navigation.navigate} />
 
-        {/* @ts-ignore */}
-        <FooterMusic navigation={navigation} />
-      </BackgroundLayout>
+            <FooterMusic navigation={navigation} />
+          </BackgroundLayout>
+        </Animated.View>
+      </>
     );
   }
 }

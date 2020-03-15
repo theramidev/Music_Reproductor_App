@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
-import IconFeather from 'react-native-vector-icons/Feather';
+import IconMac from 'react-native-vector-icons/MaterialCommunityIcons';
 import dynamicStyles from './styles';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 
@@ -10,6 +10,7 @@ export const Sections: FC<any> = ({navigation}) => {
 
   const goToReproductions = () => navigation.navigate('Reproductions');
   const goToFavorites = () => navigation.navigate('Favorites');
+  const goToPlaylists = () => navigation.navigate('Playlists');
 
   return (
     <View style={styles.content}>
@@ -32,10 +33,16 @@ export const Sections: FC<any> = ({navigation}) => {
           </View>
         </TouchableOpacity>
 
-        <View style={styles.icon}>
-          <IconFeather name="list" size={20} color={styles.icon.color} />
-          <Text style={styles.iconText}>Listas</Text>
-        </View>
+        <TouchableOpacity onPress={goToPlaylists}>
+          <View style={styles.icon}>
+            <IconMac
+              name="playlist-music-outline"
+              size={20}
+              color={styles.icon.color}
+            />
+            <Text style={styles.iconText}>Listas</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );

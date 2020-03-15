@@ -25,7 +25,7 @@ export interface IProps {
      * @description Cambia el wallpaper actual
      * @param wallpaperPath Ruta del nuevo wallpaper
      */
-    changeCurrentWallpaper(wallpaperPath: string): void,
+    changeCurrentWallpaper(wallpaperPath: string | null): void,
     /**
      * @description Elimina un wallpaper de la lista
      * @param wallpaperPath Ruta del wallpaper

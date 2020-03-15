@@ -5,6 +5,7 @@ import {DarkModeProvider, eventEmitter} from 'react-native-dark-mode';
 import AsyncStorage from '@react-native-community/async-storage';
 import SplashScreen from 'react-native-splash-screen';
 import TrackPlayer from 'react-native-track-player';
+import fs from 'react-native-fs';
 
 import Router from './Router';
 import {Provider, store} from './store';
@@ -57,6 +58,14 @@ const App: FC<any> = (props: any) => {
         TrackPlayer.CAPABILITY_PAUSE,
       ],
     });
+
+    // Creación de la carpeta temp
+    fs.exists(fs.DocumentDirectoryPath+'/temp').then(async (exists) => {
+        // await fs.unlink(fs.DocumentDirectoryPath+'/temp');
+        if (!exists) {
+          await fs.mkdir(fs.DocumentDirectoryPath+'/temp');
+        }
+    });;
 
     SplashScreen.hide();
 

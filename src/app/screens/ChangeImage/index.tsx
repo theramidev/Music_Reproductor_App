@@ -23,7 +23,7 @@ class ChangeImageScreen extends Component<IProps, IState> {
         this.props.setLocalWallpaper(uri, name);
     }
 
-    changeCurrentWallpaper = (wallpaperPath: string) => {
+    changeCurrentWallpaper = (wallpaperPath: string | null) => {
         this.props.changeCurrentWallpaper(wallpaperPath);
     }
 

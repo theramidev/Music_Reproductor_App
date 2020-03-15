@@ -5,5 +5,6 @@ export interface IProps {
     navigation: NavigationScreenProp<NavigationState, NavigationParams>,
     children?: ReactNode,
     iconName?: string,
-    title: string
+    title: string,
+    onPress?: any
 }

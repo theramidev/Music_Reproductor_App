@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { View, Image, TouchableOpacity } from 'react-native';
+import { View, Image, TouchableOpacity, Text } from 'react-native';
 import { IProps } from './PropsInterface';
 import styles from './style';
 import IconMa from 'react-native-vector-icons/MaterialIcons';
@@ -7,8 +7,8 @@ import IconMa from 'react-native-vector-icons/MaterialIcons';
 export const PhotoCard: FC<IProps> = ({mode, onPress, wallpaperPath, onDelete}) => {
 
     const press = () => {
-        if (mode === 'add') {
-            onPress(null);
+        if (mode === 'add' || mode === 'default') {
+            onPress(mode);
             return;
         }
 
@@ -31,9 +31,13 @@ export const PhotoCard: FC<IProps> = ({mode, onPress, wallpaperPath, onDelete}) 
             }
             <TouchableOpacity onPress={press}>
                 {
-                    mode == 'add' ? 
+                    mode == 'add' || mode == 'default' ? 
                     <View style={styles.add}>
-                        <IconMa name="add" size={50} color="white" />
+                        {
+                            mode === 'add' ? 
+                            <IconMa name="add" size={50} color="white" /> :
+                            <Text style={styles.textDefault}>Por defecto</Text>
+                        }
                     </View> : 
                     <Image 
                         source={{uri: `file://${wallpaperPath}`}}

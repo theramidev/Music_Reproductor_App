@@ -34,10 +34,16 @@ export const deleteWallpaper = (wallpaperPath: string) => async (dispatch: Dispa
  * @description Cambia el wallpaper actual
  * @param wallpaperPath Ruta del nuevo wallpaper
  */
-export const changeCurrentWallpaper = (wallpaperPath: string) => async (dispatch: Dispatch) => {
+export const changeCurrentWallpaper = (wallpaperPath: string | null) => async (dispatch: Dispatch) => {
     try {
-        const path: string = 'file://' + wallpaperPath;
-        await AsyncStorage.setItem('currentWallpaper', path);
+        
+        if (wallpaperPath) {
+            const path: string = 'file://' + wallpaperPath;
+            await AsyncStorage.setItem('currentWallpaper', path);
+        } else {
+            await AsyncStorage.removeItem('currentWallpaper');
+        }
+
         const currentWallpaper: string | null = await AsyncStorage.getItem('currentWallpaper');
 
         dispatch({

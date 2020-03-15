@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {View, Text} from 'react-native';
 import {connect} from 'react-redux';
 import {BackgroundLayout} from '../../components/BackgroundLayout';
 import {IProps} from './interfaces/Props';
@@ -8,6 +8,7 @@ import {Header} from '../../components/Header';
 import {ListOfMusic} from '../../components/ListOfMusic';
 import {MSong} from '../../models/song.model';
 import {getRecents} from '../../redux/actions/fileActions';
+import {theme} from '../../../assets/themes';
 import FooterMusic from '../../components/FooterMusic';
 
 class ReproductionsScreen extends Component<IProps, IState> {
@@ -34,12 +35,27 @@ class ReproductionsScreen extends Component<IProps, IState> {
       <BackgroundLayout>
         <Header navigation={this.props.navigation} title="Recientes" />
 
-        <View style={{marginTop: 10, height: '100%'}}>
-          <ListOfMusic
-            songs={this.state.songs}
-            navigate={this.props.navigation.navigate}
-          />
-        </View>
+        {this.state.songs.length > 0 ? (
+          <View style={{marginTop: 10, height: '100%'}}>
+            <ListOfMusic
+              songs={this.state.songs}
+              navigate={this.props.navigation.navigate}
+            />
+          </View>
+        ) : (
+          <Text
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{
+              marginTop: 10,
+              textAlign: 'center',
+              color: theme().text,
+              fontSize: 20,
+              fontWeight: 'bold',
+            }}>
+            No se han reproducido canciones :(
+          </Text>
+        )}
+
         <FooterMusic navigation={this.props.navigation} />
       </BackgroundLayout>
     );

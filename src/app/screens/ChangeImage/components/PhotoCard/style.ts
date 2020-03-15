@@ -35,5 +35,10 @@ export default StyleSheet.create({
         height: 30,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    textDefault: {
+        color: 'white',
+        fontSize: 20,
+        fontWeight: 'bold'
     }
 });

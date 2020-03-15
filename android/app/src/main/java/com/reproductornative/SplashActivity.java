@@ -1,4 +1,4 @@
-package com.reproductornative; // make sure this is your package name
+package com.reproductornative; // Change this to your package name.
 
 import android.content.Intent;
 import android.os.Bundle;
