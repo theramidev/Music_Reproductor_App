@@ -7,6 +7,8 @@ const styles: any = {
     paddingTop: 23,
     flex: 1,
     backgroundColor: new DynamicValue(theme().light, theme(0.9).dark),
+    position: 'relative',
+    zIndex: 0
   },
 };
 
