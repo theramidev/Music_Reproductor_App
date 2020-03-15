@@ -1,6 +1,7 @@
 import TrackPlayer from 'react-native-track-player';
 import {EmitterSubscription} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import database from './database';
 var pass: number = 0;
 
 export const PlaybackService = (
@@ -72,6 +73,9 @@ export const PlaybackService = (
           if (data.track && data.nextTrack) {
             const currentTrack = await TrackPlayer.getTrack(data.nextTrack);
             if (currentTrack) {
+              // guarda la ulta reproduccion
+              database.setReproduction(data.nextTrack);
+
               updateMusic(data.nextTrack);
             }
           }

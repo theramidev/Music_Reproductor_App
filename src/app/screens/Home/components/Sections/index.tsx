@@ -14,7 +14,6 @@ export const Sections: FC<any> = ({navigation}) => {
   return (
     <View style={styles.content}>
       <View style={styles.container}>
-
         <TouchableOpacity onPress={goToReproductions}>
           <View style={styles.icon}>
             <IconAntDesign
@@ -37,7 +36,6 @@ export const Sections: FC<any> = ({navigation}) => {
           <IconFeather name="list" size={20} color={styles.icon.color} />
           <Text style={styles.iconText}>Listas</Text>
         </View>
-
       </View>
     </View>
   );

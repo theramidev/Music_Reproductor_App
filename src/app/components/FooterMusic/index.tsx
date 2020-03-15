@@ -9,7 +9,12 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 import dynamicStyles from './styles';
 import {IProps} from './interfaces/Props';
-import TrackPlayer, {pause, play, skipToNext} from 'react-native-track-player';
+import TrackPlayer, {
+  pause,
+  play,
+  skipToNext,
+  getState,
+} from 'react-native-track-player';
 import {
   changeToRandomMode,
   changeToLineMode,
@@ -21,6 +26,10 @@ const FooterMusic: FC<any> = (props: IProps) => {
   const [pauseMusic, setPauseMusic] = useState(true);
 
   useEffect(() => {
+    getState().then(state => {
+      state === 2 ? setPauseMusic(true) : setPauseMusic(false);
+    });
+
     var playbackState = TrackPlayer.addEventListener(
       'playback-state',
       (data: {state: number}) => {

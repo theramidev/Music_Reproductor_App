@@ -1,4 +1,4 @@
-import React, {Fragment, FC, useEffect} from 'react';
+import React, {Fragment, FC} from 'react';
 import {View, Image, FlatList, Text, TouchableOpacity} from 'react-native';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import dynamicStyles from './styles';
