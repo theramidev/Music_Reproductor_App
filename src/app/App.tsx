@@ -3,7 +3,7 @@ import {StatusBar} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-view';
 import {DarkModeProvider, eventEmitter} from 'react-native-dark-mode';
 import AsyncStorage from '@react-native-community/async-storage';
-// import SplashScreen from 'react-native-splash-screen';
+import SplashScreen from 'react-native-splash-screen';
 import TrackPlayer from 'react-native-track-player';
 import fs from 'react-native-fs';
 
@@ -59,7 +59,7 @@ const App: FC<any> = (props: any) => {
         }
     });;
 
-    // SplashScreen.hide();
+    SplashScreen.hide();
 
     return () => {
       // Close the reproductor when close the app
