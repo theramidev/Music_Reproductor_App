@@ -6,6 +6,11 @@ import {
 } from 'react-native-dark-mode';
 
 export interface StylesListOfMusic {
+  options: ViewStyle | DynamicViewStyle;
+  random: ViewStyle | DynamicViewStyle;
+  textRandom: TextStyle | DynamicTextStyle;
+  iconOptions: TextStyle | DynamicTextStyle;
+
   container: ViewStyle | DynamicViewStyle;
   containerItem: ViewStyle | DynamicViewStyle;
   item: ViewStyle | DynamicViewStyle;

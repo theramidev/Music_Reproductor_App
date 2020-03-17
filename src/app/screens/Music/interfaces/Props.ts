@@ -30,4 +30,9 @@ export interface IProps {
   updateListSongs(songs: MSong[]): void;
   changeToLineMode(): void;
   changeToRandomMode(): void;
+  /**
+   * @description modifica el listdo de reproduccion de las canciones
+   * @param song
+   */
+  updateListSongsCurrent(song: MSong[]): Promise<void>;
 }

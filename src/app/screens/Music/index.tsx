@@ -13,6 +13,7 @@ import {
   playInRandom,
   changeToLineMode,
   changeToRandomMode,
+  updateListSongsCurrent,
 } from '../../redux/actions/musicActions';
 import style from './style';
 import {Progress} from './components/Progress';
@@ -48,7 +49,8 @@ class Music extends Component<IProps, IState> {
     destroy();
 
     // @ts-ignore
-    //const songs = params.songs;
+    const songs = params.songs;
+    await this.props.updateListSongsCurrent(songs);
 
     if (mode === 'RANDOM') {
       this.props.playInRandom(true);
@@ -116,6 +118,7 @@ const mapDispatchToProps = {
   playInRandom,
   changeToLineMode,
   changeToRandomMode,
+  updateListSongsCurrent,
 };
 
 // eslint-disable-next-line prettier/prettier

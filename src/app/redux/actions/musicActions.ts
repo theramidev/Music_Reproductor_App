@@ -143,6 +143,17 @@ export const updateListSongs = (songs: MSong[]) => (dispatch: Dispatch) => {
 };
 
 /**
+ * @description modifica el listdo de reproduccion de las canciones
+ * @param song
+ */
+export const updateListSongsCurrent = (song: MSong) => (dispatch: Dispatch) => {
+  dispatch({
+    type: musicTypes.updateListSongsCurrent,
+    payload: song,
+  });
+};
+
+/**
  * @description modifica el modo de reproduccion
  * @param mode 'RANDOM' | 'LINE'
  */
@@ -162,8 +173,8 @@ export const playInLine = (start: boolean) => async (
   getsState: any,
 ) => {
   try {
-    const {listSongs, current} = getsState().musicReducer;
-    const listMusics: MSong[] = getListLineSong(listSongs);
+    const {listSongsCurrent, current} = getsState().musicReducer;
+    const listMusics: MSong[] = getListLineSong(listSongsCurrent);
 
     const tracks = getList(listMusics);
 
@@ -184,8 +195,12 @@ export const playInRandom = (start: boolean) => async (
   getsState: any,
 ) => {
   try {
-    const {listSongs, current} = getsState().musicReducer;
-    const listMusics: MSong[] = getListRamdonSong(listSongs, null, current);
+    const {listSongsCurrent, current} = getsState().musicReducer;
+    const listMusics: MSong[] = getListRamdonSong(
+      listSongsCurrent,
+      null,
+      current,
+    );
 
     const tracks: Track[] = getList(listMusics);
 
@@ -205,12 +220,12 @@ export const changeToLineMode = () => async (
 ) => {
   try {
     const {
-      musicReducer: {listSongs, current},
+      musicReducer: {listSongsCurrent, current},
     } = getsState();
-    const listMusics: MSong[] = getListLineSong(listSongs, current);
+    const listMusics: MSong[] = getListLineSong(listSongsCurrent, current);
 
     const tracks: Track[] = getList(listMusics);
-    const elementsRemove = listSongs.filter(
+    const elementsRemove = listSongsCurrent.filter(
       (element: MSong) => element.id !== current.id,
     );
 
@@ -232,14 +247,14 @@ export const changeToRandomMode = () => async (
 ) => {
   try {
     const {
-      musicReducer: {listSongs, current},
+      musicReducer: {listSongsCurrent, current},
     } = getsState();
 
-    const listMusics: MSong[] = getListRamdonSong(listSongs, current);
+    const listMusics: MSong[] = getListRamdonSong(listSongsCurrent, current);
 
     const tracks: Track[] = getList(listMusics);
 
-    const elementsRemove = listSongs.filter(
+    const elementsRemove = listSongsCurrent.filter(
       (element: MSong) => element.id !== current.id,
     );
 

@@ -4,12 +4,15 @@ import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {useActionSheet} from '@expo/react-native-action-sheet';
 
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import dynamicStyles from './styles';
 import {MSong} from 'src/app/models/song.model';
 import Ripple from 'react-native-material-ripple';
 import {IProps} from './Interfaces/Props';
 import {ShowToast} from '../../../utils/toast';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export const ListOfMusic: FC<IProps> = ({
   songs = [],
@@ -54,7 +57,6 @@ export const ListOfMusic: FC<IProps> = ({
         separatorStyle: {backgroundColor: '#646464'},
       },
       async (index: number) => {
-        console.log(index);
         switch (index) {
           case 0:
             await updateFavorite(item);
@@ -80,8 +82,46 @@ export const ListOfMusic: FC<IProps> = ({
     return txt;
   };
 
+  const getRandomMusic = async (max: number, min: number) => {
+    const position = Math.floor(Math.random() * (max - min) + min);
+
+    await AsyncStorage.setItem('@Mode', 'RANDOM');
+
+    navigate('Music', {item: songs[position], songs});
+  };
+
   return (
     <View style={styles.container}>
+      <View style={styles.options}>
+        <TouchableOpacity
+          onPress={() => {
+            getRandomMusic(songs.length - 1, 0);
+          }}
+          style={styles.random}>
+          <FontAwesome name="random" size={15} color={styles.icon.color} />
+          <Text style={styles.textRandom}>Reproduccion aleatoria</Text>
+        </TouchableOpacity>
+
+        <View>
+          <TouchableOpacity style={styles.iconOptions}>
+            <MaterialIcons
+              name="swap-calls"
+              size={20}
+              color={styles.iconOptions.color}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <View
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{
+          backgroundColor: '#CECECE',
+          height: 1,
+          marginHorizontal: 10,
+        }}
+      />
+
       <FlatList
         data={order(songs)}
         renderItem={({item}: {item: MSong}) => (
