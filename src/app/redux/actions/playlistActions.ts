@@ -5,6 +5,44 @@ import { DocumentPickerResponse } from 'react-native-document-picker';
 import fs, { StatResult } from 'react-native-fs';
 import { ShowToast } from '../../../utils/toast';
 
+export const addAndDeleteSongsOfPLaylist = (playlistId: number, songsAdd: string[] = [], songsDelete: string[] = []) => async (dispatch: Dispatch) => {
+    try {
+        if (songsAdd.length) {
+            await Database.addSongToPlaylist(playlistId, songsAdd);
+        }
+
+        if (songsDelete.length) {
+            await Database.deleteSongFromPlaylist(playlistId, songsDelete);
+        }
+
+        const songs = await Database.getPlaylistSongs(playlistId);
+
+        dispatch({
+            type: playlistTypes.getPlaylistSongs,
+            payload: songs
+        });
+
+    } catch (error) {
+        console.error('Error addAndDeleteSongsOfPLaylist: ', error);
+    }
+}
+
+/**
+ * @description Obtiene las canciones de una lista de reproducción
+ */
+export const getPlaylistSongs = (playlistId: number) => async (dispatch: Dispatch) => {
+    try {
+        const songs = await Database.getPlaylistSongs(playlistId);
+
+        dispatch({
+            type: playlistTypes.getPlaylistSongs,
+            payload: songs
+        });
+    } catch (error) {
+        console.error('Error getPLaylistSongs: ', error);
+    }
+}
+
 /**
  * @description Limpia el playlist actual
  */

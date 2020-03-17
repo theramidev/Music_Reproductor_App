@@ -12,7 +12,7 @@ export class DatabaseInitialization {
         // Coin table
         transaction.executeSql(
             `CREATE TABLE IF NOT EXISTS song(
-                id TEXT PRIMARY KEY NOT NULL UNIQUE,
+                id TEXT PRIMARY KEY NOT NULL,
                 title TEXT NOT NULL,
                 duration TEXT NOT NULL,
                 path TEXT NOT NULL,
@@ -27,7 +27,7 @@ export class DatabaseInitialization {
 
         transaction.executeSql(
             `CREATE TABLE IF NOT EXISTS reproduction(
-                id INTEGER PRIMARY KEY NOT NULL UNIQUE,
+                id INTEGER PRIMARY KEY NOT NULL,
                 id_song TEXT NOT NULL UNIQUE
             )`
         );
@@ -36,7 +36,7 @@ export class DatabaseInitialization {
 
         transaction.executeSql(
             `CREATE TABLE IF NOT EXISTS playlist(
-                id INTEGER PRIMARY KEY NOT NULL UNIQUE,
+                id INTEGER PRIMARY KEY NOT NULL,
                 name TEXT NOT NULL,
                 image TEXT,
                 date_create TEXT NOT NULL
@@ -45,7 +45,7 @@ export class DatabaseInitialization {
 
         transaction.executeSql(
             `CREATE TABLE IF NOT EXISTS playlist_song(
-                id INTEGER PRIMARY KEY NOT NULL UNIQUE,
+                id INTEGER PRIMARY KEY NOT NULL,
                 id_playlist INTEGER NOT NULL,
                 id_song TEXT NOT NULL
             )`

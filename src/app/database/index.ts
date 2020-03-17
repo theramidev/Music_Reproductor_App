@@ -17,8 +17,8 @@ class Database implements IDatabase {
      * @param songId Id de la canción
      * @return Promise<void>
      */
-    public deleteSongFromPlaylist(playlistId: number, songId: string): Promise<void> {
-        return PlaylistController.deleteSongFromPlaylist(this.database, playlistId, songId);
+    public deleteSongFromPlaylist(playlistId: number, songIds: string[]): Promise<void> {
+        return PlaylistController.deleteSongFromPlaylist(this.database, playlistId, songIds);
     }
     /**
      * @description Agrega una canción a una lista de reproducción
@@ -26,8 +26,8 @@ class Database implements IDatabase {
      * @param songId Id de la canción que se va a agregar
      * @return Promise<void>
      */
-    public addSongToPlaylist(playlistId: number, songId: string): Promise<void> {
-        return PlaylistController.addSongToPlaylist(this.database, playlistId, songId);
+    public addSongToPlaylist(playlistId: number, songIds: string[]): Promise<void> {
+        return PlaylistController.addSongToPlaylist(this.database, playlistId, songIds);
     }
     /**
      * @description Obtiene las canciones de una lista de reproducción

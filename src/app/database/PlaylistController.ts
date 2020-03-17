@@ -14,12 +14,15 @@ class PlaylistController {
      * @param songId Id de la canción que se va a quitar
      * @return Promise<void>
      */
-    public async deleteSongFromPlaylist(database: SQLiteDatabase, playlistId: number, songId: string): Promise<void> {
+    public async deleteSongFromPlaylist(database: SQLiteDatabase, playlistId: number, songIds: string[]): Promise<void> {
         try {
             const statement: string = `DELETE FROM ${this.playlistSongTable} 
             WHERE id_playlist = ? AND id_song = ?`;
-            const params = [playlistId, songId];
-            await database.executeSql(statement, params);
+            
+            for (const songId of songIds) {
+                const params = [playlistId, songId];
+                await database.executeSql(statement, params);
+            }
         } catch (error) {
             console.error('deleteSongFromPlaylist Error: ', error);
             Promise.reject(error);
@@ -32,13 +35,26 @@ class PlaylistController {
      * @param songId Id de la canción que se va a agregar
      * @return Promise<void>
      */
-    public async addSongToPlaylist(database: SQLiteDatabase, playlistId: number, songId: string): Promise<void> {
+    public async addSongToPlaylist(database: SQLiteDatabase, playlistId: number, songIds: string[]): Promise<void> {
         try {
             const statement: string = `INSERT INTO ${this.playlistSongTable} 
-            (id_playlist, id_song) VALUE (?, ?)`;
-            const params = [playlistId, songId];
+            (id_playlist, id_song) VALUES (?, ?)`;
 
-            await database.executeSql(statement, params);
+            const songs: MSong[] = await this.getPlaylistSongs(database, playlistId);
+            
+            for (const songId of songIds) {
+                const found = songs.find(song => {
+                    if (song.id === songId) {
+                        return true;
+                    }
+                });
+
+                if (!found) {
+                    const params = [playlistId, songId];
+    
+                    await database.executeSql(statement, params);
+                }
+            }
         } catch (error) {
             console.error('addSongToPlaylist Error: ', error);
             Promise.reject(error);

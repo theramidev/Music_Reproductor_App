@@ -8,7 +8,7 @@ export const stataticStyle = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         flexWrap: 'wrap',
-        height: 300
+        height: 250
     },
     right: {
         width: '45%',

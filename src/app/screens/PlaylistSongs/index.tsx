@@ -3,8 +3,17 @@ import React, { Component } from 'react';
 import { IProps } from './interfaces/Props';
 import { IState } from './interfaces/State';
 import { connect } from 'react-redux';
-import { deletePlaylist, updatePlaylist, cleanCurrentPlaylist, getCurrentPLaylist } from '../../redux/actions/playlistActions';
+import { 
+    deletePlaylist, 
+    updatePlaylist, 
+    cleanCurrentPlaylist, 
+    getCurrentPLaylist, 
+    getPlaylistSongs, 
+    addAndDeleteSongsOfPLaylist
+} from '../../redux/actions/playlistActions';
+import { getSongs } from '../../redux/actions/musicActions';
 import { ShowToast } from '../../../utils/toast';
+import { DocumentPickerResponse } from 'react-native-document-picker';
 
 import { Header } from '../../components/Header';
 import { BackgroundLayout } from '../../components/BackgroundLayout';
@@ -12,7 +21,8 @@ import { MPlaylist } from '../../models/playlist.model';
 import { PlaylistInfo } from './components/PlaylistInfo';
 import { ModalDelete } from './components/ModalDelete';
 import { ModalPlaylist } from '../../components/ModalPlaylist';
-import { DocumentPickerResponse } from 'react-native-document-picker';
+import { ModalAdd } from './components/ModalAdd';
+import { ListOfMusic } from '../../components/ListOfMusic';
 
 class PlaylistSongsScreen extends Component<IProps, IState> {
 
@@ -30,7 +40,10 @@ class PlaylistSongsScreen extends Component<IProps, IState> {
     }
 
     componentDidMount() {
-        this.props.getCurrentPLaylist(this.state.playlist.playListId);
+        const { playListId } = this.state.playlist;
+        this.props.getCurrentPLaylist(playListId);
+        this.props.getSongs();
+        this.props.getPlaylistSongs(playListId);
     }
 
     componentWillUnmount() {
@@ -46,7 +59,7 @@ class PlaylistSongsScreen extends Component<IProps, IState> {
     }
 
     _onAdd = () => {
-
+        this.setState({isAddVisible: true})
     }
 
     deletePlaylist = () => {
@@ -59,6 +72,14 @@ class PlaylistSongsScreen extends Component<IProps, IState> {
     editPlaylist = async (picker: DocumentPickerResponse | null, playlistName: string) => {
         const { playListId } = this.state.playlist;
         this.props.updatePlaylist(playListId, playlistName, picker);
+    }
+
+    addSongsToPLaylist = (songsAdd: string[], songsDelete: string[]) => {
+        this.props.addAndDeleteSongsOfPLaylist(
+            this.state.playlist.playListId,
+            songsAdd,
+            songsDelete
+        );
     }
 
     render() {
@@ -74,6 +95,11 @@ class PlaylistSongsScreen extends Component<IProps, IState> {
                     onEdit={this._onEdit}
                 />
 
+                <ListOfMusic 
+                    navigate={this.props.navigation.navigate}
+                    songs={this.props.playlistReducer.data.playlistSongs}
+                />
+
                 <ModalDelete
                     isVisible={this.state.isDeleteVisible}
                     onClose={() => this.setState({isDeleteVisible: false})}
@@ -86,15 +112,24 @@ class PlaylistSongsScreen extends Component<IProps, IState> {
                     onEdit={this.editPlaylist}
                     playlist={this.state.playlist}
                 />
+
+                <ModalAdd 
+                    isVisible={this.state.isAddVisible}
+                    onClose={() => this.setState({isAddVisible: false})}
+                    onAdd={this.addSongsToPLaylist}
+                    songs={this.props.musicReducer.listSongs}
+                    oldSongs={this.props.playlistReducer.data.playlistSongs}
+                />
                 
             </BackgroundLayout>
         )
     }
 }
 
-const mapStateToProps = ({playlistReducer}: any) => {
+const mapStateToProps = ({playlistReducer, musicReducer}: any) => {
     return {
-        playlistReducer
+        playlistReducer,
+        musicReducer
     }
 }
 
@@ -102,7 +137,10 @@ const mapDispatchToProps = {
     deletePlaylist,
     updatePlaylist,
     cleanCurrentPlaylist,
-    getCurrentPLaylist
+    getCurrentPLaylist,
+    getSongs,
+    getPlaylistSongs,
+    addAndDeleteSongsOfPLaylist
 }
 
 export default connect<any>(mapStateToProps, mapDispatchToProps)(PlaylistSongsScreen);
