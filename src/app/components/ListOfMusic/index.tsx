@@ -1,14 +1,23 @@
-import React, {Fragment, FC} from 'react';
+import React, {FC} from 'react';
 import {View, Image, FlatList, Text, TouchableOpacity} from 'react-native';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
-import dynamicStyles from './styles';
+import {useActionSheet} from '@expo/react-native-action-sheet';
+
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+
+import dynamicStyles from './styles';
 import {MSong} from 'src/app/models/song.model';
 import Ripple from 'react-native-material-ripple';
 import {IProps} from './Interfaces/Props';
+import {ShowToast} from '../../../utils/toast';
 
-export const ListOfMusic: FC<IProps> = ({songs = [], navigate}: any) => {
+export const ListOfMusic: FC<IProps> = ({
+  songs = [],
+  navigate,
+  updateFavorite,
+}: any) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
+  const {showActionSheetWithOptions} = useActionSheet();
 
   const order = (array: MSong[]) => {
     let arrayOrder = array;
@@ -25,6 +34,44 @@ export const ListOfMusic: FC<IProps> = ({songs = [], navigate}: any) => {
     return array;
   };
 
+  // abre la ventana de opciones
+  const openOptions = (item: MSong) => {
+    showActionSheetWithOptions(
+      {
+        title: item.title,
+        options: [
+          item.isFavorite ? 'Eliminar de favoritos' : 'Agregar a Favoritos',
+          'Agregar a lista de reproduccion',
+          'Compartir',
+          'Eliminar',
+          'Cancel',
+        ],
+        destructiveButtonIndex: 4,
+        containerStyle: styles.actions,
+        textStyle: styles.actionsText,
+        titleTextStyle: styles.actionsText,
+        showSeparators: true,
+        separatorStyle: {backgroundColor: '#646464'},
+      },
+      async (index: number) => {
+        console.log(index);
+        switch (index) {
+          case 0:
+            await updateFavorite(item);
+            ShowToast(
+              !item.isFavorite
+                ? 'Se agrego a favoritos'
+                : 'Se elimino de favoritos',
+            );
+            break;
+
+          default:
+            break;
+        }
+      },
+    );
+  };
+
   const cutText = (txt: string): string => {
     if (txt.length > 35) {
       return txt.substring(0, 35) + '...';
@@ -38,9 +85,10 @@ export const ListOfMusic: FC<IProps> = ({songs = [], navigate}: any) => {
       <FlatList
         data={order(songs)}
         renderItem={({item}: {item: MSong}) => (
-          <Fragment>
+          <View style={styles.containerItem}>
             <Ripple
               rippleColor={styles.title.color}
+              style={styles.containerItem}
               onPress={() => navigate('Music', {item, songs})}>
               <View style={styles.item}>
                 <Image
@@ -56,17 +104,20 @@ export const ListOfMusic: FC<IProps> = ({songs = [], navigate}: any) => {
                   <Text style={styles.title}>{cutText(item.title)}</Text>
                   <Text style={styles.group}>{item.author}</Text>
                 </View>
-
-                <TouchableOpacity style={styles.icon}>
-                  <SimpleLineIcons
-                    name="options-vertical"
-                    color={styles.title.color}
-                    size={15}
-                  />
-                </TouchableOpacity>
               </View>
             </Ripple>
-          </Fragment>
+            <TouchableOpacity
+              onPress={() => {
+                openOptions(item);
+              }}
+              style={styles.icon}>
+              <SimpleLineIcons
+                name="options-vertical"
+                color={styles.title.color}
+                size={15}
+              />
+            </TouchableOpacity>
+          </View>
         )}
       />
     </View>

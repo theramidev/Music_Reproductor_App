@@ -275,13 +275,13 @@ const getList = (listMusics: MSong[]) => {
 /**
  * @description setea o modifica el estado favorito de una cancion
  */
-export const updateFavorite = () => async (
+export const updateFavorite = (current: MSong) => async (
   dispatch: Dispatch,
   getsState: any,
 ) => {
   try {
     const {
-      musicReducer: {current, listSongs},
+      musicReducer: {listSongs},
     } = getsState();
 
     dispatch({

@@ -66,4 +66,9 @@ export interface IProps {
    */
   playInRandom(start: boolean): Promise<void>;
   changeToLineMode(): Promise<void>;
+  /**
+   * @description cambia el estado favorito de la cancion
+   * @param current
+   */
+  updateFavorite(current: MSong): Promise<void>;
 }

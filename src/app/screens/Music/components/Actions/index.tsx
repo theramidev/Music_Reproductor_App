@@ -50,7 +50,9 @@ const Actions: FC<any> = (props: any) => {
   };
 
   const updateFavoriteSong = async () => {
-    await props.updateFavorite();
+    await props.updateFavorite(props.musicReducer.current);
+
+    ShowToast('Se agrego a favoritos');
   };
 
   const getStateFavorite = () => {

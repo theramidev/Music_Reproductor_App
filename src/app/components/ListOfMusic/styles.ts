@@ -3,16 +3,21 @@ import {DynamicValue, DynamicStyleSheet} from 'react-native-dark-mode';
 import {StylesListOfMusic} from './interfaces/Style';
 
 const colorText = new DynamicValue(theme().text, theme().light);
+const backgroundActions = new DynamicValue(theme().light, theme(0.9).dark);
 
 const styles: StylesListOfMusic = {
   container: {
     flex: 1,
     paddingBottom: 62,
   },
+  containerItem: {
+    position: 'relative',
+    flexDirection: 'row',
+    width: '100%',
+  },
   item: {
     paddingHorizontal: 10,
     position: 'relative',
-    marginHorizontal: 10,
     paddingBottom: 5,
     paddingTop: 5,
     flexDirection: 'row',
@@ -22,7 +27,7 @@ const styles: StylesListOfMusic = {
     flexDirection: 'column',
     marginLeft: 8,
     alignContent: 'center',
-    width: '77%',
+    width: '80%',
   },
   title: {
     color: colorText,
@@ -37,7 +42,19 @@ const styles: StylesListOfMusic = {
   icon: {
     position: 'absolute',
     right: 10,
-    top: 5,
+    top: 20,
+    zIndex: 10,
+  },
+
+  actions: {
+    backgroundColor: backgroundActions,
+    borderRadius: 10,
+  },
+  actionsText: {
+    color: colorText,
+    fontSize: 15,
+    width: '100%',
+    textAlign: 'center',
   },
 };
 

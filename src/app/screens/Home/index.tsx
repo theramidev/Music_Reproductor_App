@@ -9,6 +9,7 @@ import {
   updateListSongs,
   playInRandom,
   playInLine,
+  updateFavorite,
 } from '../../redux/actions/musicActions';
 import {IState} from './interfaces/State';
 import {IProps} from './interfaces/Props';
@@ -104,6 +105,7 @@ class HomeScreen extends Component<IProps, IState> {
           </View>
         )}
         <Animated.View
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{flex: 1, height: '100%', opacity: this.state.fadePrincipal}}>
           <BackgroundLayout>
             {this.props.wallpaperReducer.data.currentWallpaper && (
@@ -119,7 +121,11 @@ class HomeScreen extends Component<IProps, IState> {
 
             <Sections navigation={this.props.navigation} />
 
-            <ListOfMusic songs={listSongs} navigate={navigation.navigate} />
+            <ListOfMusic
+              songs={listSongs}
+              updateFavorite={this.props.updateFavorite}
+              navigate={navigation.navigate}
+            />
 
             <FooterMusic navigation={navigation} />
           </BackgroundLayout>
@@ -148,6 +154,7 @@ const mapDispatchToProps = {
   updateListSongs,
   playInRandom,
   playInLine,
+  updateFavorite,
 };
 
 export default connect<any, any>(

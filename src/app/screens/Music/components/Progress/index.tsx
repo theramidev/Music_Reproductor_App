@@ -33,7 +33,11 @@ export const Progress = ({
   useEffect(() => {
     // obtiene el estado de la reproduccion (usado para saber si esta en pausa o no)
     getState().then(state => {
-      state === 2 ? setPauseMusic(true) : setPauseMusic(false);
+      if (state === 2) {
+        setPauseMusic(true);
+      } else if (state === 3) {
+        setPauseMusic(false);
+      }
     });
     // obtiene el tiempo en seg de la musica que se esta reproduciendo
     getPosition().then(seg => {
@@ -50,7 +54,12 @@ export const Progress = ({
     var playbackState = TrackPlayer.addEventListener(
       'playback-state',
       (data: {state: number}) => {
-        data.state === 2 ? setPauseMusic(true) : setPauseMusic(false);
+        if (data.state === 2) {
+          setPauseMusic(true);
+        } else if (data.state === 3) {
+          setPauseMusic(false);
+        }
+        //data.state === 2 ? setPauseMusic(true) : setPauseMusic(false);
       },
     );
 
