@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState, Fragment} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
@@ -14,6 +14,7 @@ import TrackPlayer, {
   play,
   skipToNext,
   getState,
+  getPosition,
 } from 'react-native-track-player';
 import {
   changeToRandomMode,
@@ -22,10 +23,17 @@ import {
 
 const FooterMusic: FC<any> = (props: IProps) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
-  const {title, author} = props.musicReducer.current;
+  const {title, author, duration} = props.musicReducer.current;
+  const [position, setPosition] = useState(0);
   const [pauseMusic, setPauseMusic] = useState(true);
 
   useEffect(() => {
+    var interval = setInterval(() => {
+      getPosition().then(seg => {
+        setPosition(+seg * 1000);
+      });
+    }, 700);
+
     getState().then(state => {
       state === 2 ? setPauseMusic(true) : setPauseMusic(false);
     });
@@ -39,6 +47,7 @@ const FooterMusic: FC<any> = (props: IProps) => {
 
     return () => {
       playbackState.remove();
+      clearInterval(interval);
     };
   }, []);
 
@@ -87,58 +96,70 @@ const FooterMusic: FC<any> = (props: IProps) => {
   }
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={goToMusic} style={styles.music}>
-        <Image
-          style={styles.image}
-          source={{
-            uri:
-              'https://upload.wikimedia.org/wikipedia/en/thumb/e/ed/Green_Day_-_American_Idiot_album_cover.png/220px-Green_Day_-_American_Idiot_album_cover.png',
+    <Fragment>
+      <View style={styles.container}>
+        <View
+          // eslint-disable-next-line react-native/no-inline-styles
+          style={{
+            height: 1,
+            width: Math.floor((position * 100) / duration) + '%',
+            backgroundColor: '#00F1DF',
+            position: 'absolute',
+            top: 0,
           }}
         />
+        <TouchableOpacity onPress={goToMusic} style={styles.music}>
+          <Image
+            style={styles.image}
+            source={{
+              uri:
+                'https://upload.wikimedia.org/wikipedia/en/thumb/e/ed/Green_Day_-_American_Idiot_album_cover.png/220px-Green_Day_-_American_Idiot_album_cover.png',
+            }}
+          />
 
-        <View style={styles.info}>
-          {title.length <= 24 && <Text style={styles.title}>{title}</Text>}
-          {title.length > 24 && (
-            <AutoScrolling>
-              <Text style={styles.title}>{title}</Text>
-            </AutoScrolling>
+          <View style={styles.info}>
+            {title.length <= 24 && <Text style={styles.title}>{title}</Text>}
+            {title.length > 24 && (
+              <AutoScrolling>
+                <Text style={styles.title}>{title}</Text>
+              </AutoScrolling>
+            )}
+            <Text style={styles.group}>{author}</Text>
+          </View>
+        </TouchableOpacity>
+
+        <View style={styles.options}>
+          {pauseMusic && (
+            <TouchableOpacity onPress={playSond}>
+              <Entypo
+                style={styles.icon}
+                name="controller-play"
+                size={27}
+                color={styles.icon.color}
+              />
+            </TouchableOpacity>
           )}
-          <Text style={styles.group}>{author}</Text>
-        </View>
-      </TouchableOpacity>
-
-      <View style={styles.options}>
-        {pauseMusic && (
-          <TouchableOpacity onPress={playSond}>
+          {!pauseMusic && (
+            <TouchableOpacity onPress={stop}>
+              <AntDesign
+                name="pause"
+                size={27}
+                style={styles.icon}
+                color={styles.icon.color}
+              />
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity onPress={nextSong}>
             <Entypo
               style={styles.icon}
-              name="controller-play"
+              name="controller-next"
               size={27}
               color={styles.icon.color}
             />
           </TouchableOpacity>
-        )}
-        {!pauseMusic && (
-          <TouchableOpacity onPress={stop}>
-            <AntDesign
-              name="pause"
-              size={27}
-              style={styles.icon}
-              color={styles.icon.color}
-            />
-          </TouchableOpacity>
-        )}
-        <TouchableOpacity onPress={nextSong}>
-          <Entypo
-            style={styles.icon}
-            name="controller-next"
-            size={27}
-            color={styles.icon.color}
-          />
-        </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </Fragment>
   );
 };
 

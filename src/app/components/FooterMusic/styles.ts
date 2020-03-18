@@ -9,9 +9,7 @@ const styles: StylesFooter = {
     position: 'absolute',
     bottom: 0,
     paddingVertical: 10,
-    paddingHorizontal: 10,
     flexDirection: 'row',
-    borderTopColor: '#939393',
     borderWidth: 1,
     backgroundColor: new DynamicValue('white', '#131313'),
     alignItems: 'center',
@@ -20,6 +18,7 @@ const styles: StylesFooter = {
   music: {
     flex: 1,
     flexDirection: 'row',
+    marginLeft: 10,
   },
   info: {
     flexDirection: 'column',
@@ -38,6 +37,7 @@ const styles: StylesFooter = {
 
   options: {
     flexDirection: 'row',
+    marginRight: 10,
   },
   icon: {
     marginRight: 8,
