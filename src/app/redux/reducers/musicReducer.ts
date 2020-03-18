@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   listSongsCurrent: [],
   loadingListSongs: true,
   errorListSongs: null,
+  searchSongs: [],
 
   current: {},
   mode: 'RANDOM',
@@ -76,6 +77,18 @@ export default (state = INITIAL_STATE, {type, payload}: any) => {
         errorFavorite: payload,
         loadingFavorite: false,
       };
+    
+    case musicTypes.getSearch:
+      return {
+        ...state,
+        searchSongs: payload
+      }
+
+    case musicTypes.clearSearch:
+      return {
+        ...state,
+        searchSongs: []
+      }
 
     default:
       return state;

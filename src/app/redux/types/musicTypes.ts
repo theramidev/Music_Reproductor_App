@@ -10,4 +10,6 @@ export default {
   updateMode: 'UPDATE_MODE',
   loadingFavorite: 'LOADING_FAVORITE',
   errorFavorite: 'ERROR_FAVORITE',
+  getSearch: 'MUSIC_GET_sEARCH',
+  clearSearch: 'MUSIC_CLEAR_SEARCH'
 };

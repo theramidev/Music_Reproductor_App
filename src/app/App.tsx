@@ -7,6 +7,7 @@ import SplashScreen from 'react-native-splash-screen';
 import TrackPlayer from 'react-native-track-player';
 import fs from 'react-native-fs';
 import {ActionSheetProvider} from '@expo/react-native-action-sheet';
+import Orientation from 'react-native-orientation-locker';
 
 import Router from './Router';
 import {Provider, store} from './store';
@@ -29,6 +30,8 @@ const App: FC<any> = (props: any) => {
   );
 
   useEffect(() => {
+    Orientation.lockToPortrait();
+
     // Open Database
     database.open();
 

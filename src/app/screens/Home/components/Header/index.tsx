@@ -12,9 +12,11 @@ export const Header: FC<any> = ({navigate}: any) => {
     navigate('Settings');
   };
 
+  const goToSearch = () => navigate('SearchSong');
+
   return (
     <View style={styles.container}>
-      <View style={styles.inputIcon}>
+      <TouchableOpacity style={styles.inputIcon} onPress={goToSearch}>
         <Icon
           style={styles.searchIcon}
           name="search1"
@@ -26,8 +28,9 @@ export const Header: FC<any> = ({navigate}: any) => {
           placeholder="Search"
           underlineColorAndroid="transparent"
           placeholderTextColor={styles.searchIcon.color}
+          editable={false}
         />
-      </View>
+      </TouchableOpacity>
 
       <TouchableOpacity onPress={goSettings} style={styles.settings}>
         <IconFeather

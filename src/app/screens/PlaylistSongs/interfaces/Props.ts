@@ -1,14 +1,19 @@
 import { NavigationScreenProp, NavigationState, NavigationParams } from "react-navigation";
 import { DocumentPickerResponse } from "react-native-document-picker";
 import { MPlaylist } from "../../../models/playlist.model";
+import { MSong } from "../../../models/song.model";
 
 export interface IProps {
     navigation: NavigationScreenProp<NavigationState, NavigationParams>,
     playlistReducer: {
         data: {
-            currentPlaylist: MPlaylist | null
+            currentPlaylist: MPlaylist | null,
+            playlistSongs: MSong[]
         }
-    }
+    },
+    musicReducer: {
+        listSongs: MSong[]
+    },
     /**
      * @description Elimina una lista de reproducción
      * @param playlistId Id de la lista de reproducción
@@ -32,5 +37,24 @@ export interface IProps {
      * @param playlistId Id de la lista de reproducción
      * @return void
      */
-    getCurrentPLaylist(playlistId: number): void
+    getCurrentPLaylist(playlistId: number): void,
+    /**
+     * @description Trae todas las canciones
+     * @return void
+     */
+    getSongs(): void,
+    /**
+     * @description Obtiene las canciones de la lista de reproducción
+     * @param playlistId Id de la lista de reproducción
+     * @return void
+     */
+    getPlaylistSongs(playlistId: number): void,
+    /**
+     * @description Agrega o limina canciones de la lista de reproducción
+     * @param playlistId Id de la lista de reproducción
+     * @param songsAdd Ids de las canciones que se van a agregar a la lista
+     * @param songsDelete Ids de las canciones que se van a eliminar de la lista
+     * @return void
+     */
+    addAndDeleteSongsOfPLaylist(playlistId: number, songsAdd?: string[], songsDelete?: string[]): void
 }

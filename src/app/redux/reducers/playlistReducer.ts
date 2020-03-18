@@ -2,7 +2,8 @@ import playlistTypes from '../types/playlistType';
 
 const INITIAL_STATE = {
     data: {
-        playlists: []
+        playlists: [],
+        playlistSongs: []
     },
     loadings: {},
     errors: {}
@@ -31,7 +32,13 @@ export default (state = INITIAL_STATE, {type, payload}: any) => {
         case playlistTypes.cleanCurrentPlaylist:
             return {
                 ...state,
-                data: {...state.data, currentPLaylist: null}
+                data: {...state.data, currentPLaylist: null, playlistSongs: []}
+            }
+
+        case playlistTypes.getPlaylistSongs:
+            return {
+                ...state,
+                data: {...state.data, playlistSongs: payload}
             }
         
         default:

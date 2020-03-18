@@ -13,6 +13,31 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 
 /**
+ * @description Limipia el estado de buscar
+ */
+export const clearSearch = () => (dispatch: Dispatch) => {
+  dispatch({
+    type: musicTypes.clearSearch
+  });
+}
+
+/**
+ * @description Busca una canción
+ */
+export const searchSong = (words: string) => async (dispatch: Dispatch) => {
+  try {
+    const songs = await database.searchSongs(words);
+
+    dispatch({
+      type: musicTypes.getSearch,
+      payload: songs
+    });
+  } catch (error) {
+    console.error('Search Error: ', error);
+  }
+}
+
+/**
  * @description Obtiene las canciones del dispositivo
  */
 export const getSongs = () => async (dispatch: Dispatch) => {
