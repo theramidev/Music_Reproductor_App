@@ -7,6 +7,28 @@ class SongController {
   private tableReproduction: string = 'reproduction';
 
   /**
+   * @description Busca una o unas canciones especificas
+   * @param database Base de datos local
+   * @param words Palabras o nombre de la canción que se va a buscar
+   * @return Promise<MSong[]>
+   */
+  public getSongsSearch(database: SQLiteDatabase, words: string): Promise<MSong[]> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const allSongs = await this.getSongs(database);
+
+        const searchSongs: MSong[] = allSongs.filter(song => {
+          return song.title.toLowerCase().indexOf(words.toLowerCase()) !== -1;
+        });
+
+        resolve(searchSongs);
+      } catch (error) {
+        console.error('Error getSongsSearch: ', error);
+        reject(error);
+      }
+    });
+  }
+  /**
    * @description Actualiza una canción a favorito o no
    * @param database Base de datos local
    * @param songId Id de la canción que se va a modificar

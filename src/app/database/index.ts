@@ -12,6 +12,14 @@ class Database implements IDatabase {
     private dbName: string = 'music_dm';
 
     /**
+     * @description Busca una o unas canciones
+     * @param words Palabra o canción que se va a buscar
+     * @return Promise<MSong[]>
+     */
+    public searchSongs(words: string): Promise<MSong[]> {
+        return SongController.getSongsSearch(this.database, words);
+    }
+    /**
      * @description Elimina una canción de la lista de reproducción
      * @param playlistId Id de la lista de reproducción
      * @param songId Id de la canción
