@@ -97,7 +97,7 @@ export const updatePlaylist = (playlistId: number, playlistName: string, picker:
         const currentPLaylist = await Database.getPlaylistById(playlistId);
 
         dispatch({
-            type: playlistTypes.getCurrentPLaylist,
+            type: playlistTypes.getCurrentPlaylist,
             payload: currentPLaylist
         });
 

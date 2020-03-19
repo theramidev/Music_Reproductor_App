@@ -57,8 +57,7 @@ export const staticStyle = StyleSheet.create({
         borderRadius: 5,
         height: 40,
         color: 'white',
-        paddingHorizontal: 10,
-        fontSize: 16
+        paddingHorizontal: 10
     },
     buttonContainer: {
         width: '100%',
