@@ -44,13 +44,13 @@ class FavoritesScreen extends Component<IProps, {}> {
       <BackgroundLayout>
         <Header title="Favoritos" navigation={this.props.navigation} />
 
-        <View style={{marginTop: 10, height: '100%'}}>
+        <View style={{marginTop: 0, height: '100%'}}>
           {this.props.favoritesReducer.listFavorites.length > 0 ? (
             <ListOfMusic
               navigate={this.props.navigation.navigate}
               songs={this.props.favoritesReducer.listFavorites}
               updateFavorite={this.props.updateFavorite}
-              paddingBottom={165}
+              paddingBottom={155}
             />
           ) : (
             <Text
