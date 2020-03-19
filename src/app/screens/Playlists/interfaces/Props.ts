@@ -5,9 +5,8 @@ import { DocumentPickerResponse } from "react-native-document-picker";
 export interface IProps {
     navigation: NavigationScreenProp<NavigationState, NavigationParams>,
     playlistReducer: {
-        data: {
-            playlists: MPlaylist[]
-        }
+        playlists: MPlaylist[],
+        loadingPlaylists: boolean
     }
     /**
      * @description Obtiene las listas de reproducción

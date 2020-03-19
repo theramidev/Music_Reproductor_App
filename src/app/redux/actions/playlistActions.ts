@@ -60,7 +60,7 @@ export const getCurrentPLaylist = (playlistId: number) => async (dispatch: Dispa
         const playlist = await Database.getPlaylistById(playlistId);
         // console.log(playlist);
         dispatch({
-            type: playlistTypes.getCurrentPLaylist,
+            type: playlistTypes.getCurrentPlaylist,
             payload: playlist
         });
     } catch (error) {

@@ -6,10 +6,8 @@ import { MSong } from "../../../models/song.model";
 export interface IProps {
     navigation: NavigationScreenProp<NavigationState, NavigationParams>,
     playlistReducer: {
-        data: {
-            currentPlaylist: MPlaylist | null,
-            playlistSongs: MSong[]
-        }
+        currentPlaylist: MPlaylist | null,
+        playlistSongs: MSong[]
     },
     musicReducer: {
         listSongs: MSong[]

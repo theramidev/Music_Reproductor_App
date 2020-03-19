@@ -44,7 +44,7 @@ class PlaylistsScreen extends Component<IProps, IState> {
 
                 <ListOfPlaylists 
                     navigation={this.props.navigation}
-                    playlists={this.props.playlistReducer.data.playlists}
+                    playlists={this.props.playlistReducer.playlists}
                     onCreate={this._oncreate}
                 />
 
