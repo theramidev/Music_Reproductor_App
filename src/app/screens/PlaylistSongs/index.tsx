@@ -46,10 +46,6 @@ class PlaylistSongsScreen extends Component<IProps, IState> {
         this.props.getPlaylistSongs(playListId);
     }
 
-    componentDidUpdate() {
-        console.log(this.props);
-    }
-
     componentWillUnmount() {
         this.props.cleanCurrentPlaylist();
     }
