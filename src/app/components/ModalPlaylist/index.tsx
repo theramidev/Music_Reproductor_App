@@ -31,14 +31,15 @@ export const ModalPlaylist: FC<IProps> = ({onClose, onCreate, playlist, onEdit, 
                     await fs.unlink(`${fs.DocumentDirectoryPath}/temp/playlist`);
                 }
             });
-            clearStates();
+            close();
         }
     }, []);
 
-    const clearStates = () => {
+    const close = () => {
         setImage('');
         setPickerImage(null);
         setPLaylistName('');
+        onClose();
     }
 
     const _onAccept = () => {
@@ -101,8 +102,8 @@ export const ModalPlaylist: FC<IProps> = ({onClose, onCreate, playlist, onEdit, 
     return(
         <Modal
             isVisible={isVisible}
-            onBackButtonPress={onClose}
-            onBackdropPress={onClose}
+            onBackButtonPress={close}
+            onBackdropPress={close}
             hasBackdrop={true}
             useNativeDriver={true}
             backdropOpacity={0.0}
@@ -135,14 +136,14 @@ export const ModalPlaylist: FC<IProps> = ({onClose, onCreate, playlist, onEdit, 
                 </View>
 
                 <View style={staticStyle.right}>
-                    <View>
+                    <View style={{width: '100%'}}>
                         <Text style={[staticStyle.inputLabel, dynamicStyle.textColor]}>
                             Nombre de la lista
                         </Text>
                         <TextInput 
                             autoCapitalize="none"
                             autoCompleteType="off"
-                            placeholder="Escriba el nombre de la lista"
+                            placeholder="Nombre..."
                             style={staticStyle.input}
                             onChange={_onChange}
                             value={playlistName}
@@ -151,7 +152,7 @@ export const ModalPlaylist: FC<IProps> = ({onClose, onCreate, playlist, onEdit, 
                 </View>
 
                 <View style={staticStyle.buttonContainer}>
-                    <TouchableOpacity style={[staticStyle.button]} onPress={onClose}>
+                    <TouchableOpacity style={[staticStyle.button]} onPress={close}>
                         <Text style={[staticStyle.buttonText, dynamicStyle.textColor]}>
                             Cancelar
                         </Text>

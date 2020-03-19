@@ -5,3 +5,7 @@ declare module 'react-native-auto-scrolling';
 declare module '@react-native-community/checkbox';
 declare module '@react-native-community/masked-view';
 declare module 'react-native-orientation-locker';
+declare module '*.json' {
+  const value: any;
+  export default value;
+}

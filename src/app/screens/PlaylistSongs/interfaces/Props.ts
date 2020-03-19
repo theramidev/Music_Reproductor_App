@@ -10,10 +10,8 @@ import {MSong} from '../../../models/song.model';
 export interface IProps {
   navigation: NavigationScreenProp<NavigationState, NavigationParams>;
   playlistReducer: {
-    data: {
-      currentPlaylist: MPlaylist | null;
-      playlistSongs: MSong[];
-    };
+    currentPlaylist: MPlaylist | null;
+    playlistSongs: MSong[];
   };
   musicReducer: {
     listSongs: MSong[];
@@ -71,8 +69,8 @@ export interface IProps {
   ): void;
 
   /**
-   * @description setea o modifica el estado favorito de una cancion
-   * @param current cancion actual
+   * @description modifica el estado favorito de una cancion
+   * @param current
    */
   updateFavorite(current: MSong): Promise<void>;
 }

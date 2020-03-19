@@ -8,6 +8,8 @@ import TrackPlayer from 'react-native-track-player';
 import fs from 'react-native-fs';
 import {ActionSheetProvider} from '@expo/react-native-action-sheet';
 import Orientation from 'react-native-orientation-locker';
+import {I18nextProvider} from 'react-i18next';
+import i18n from './i18n';
 
 import Router from './Router';
 import {Provider, store} from './store';
@@ -100,20 +102,22 @@ const App: FC<any> = (props: any) => {
 
   return (
     <Provider store={store}>
-      <DarkModeProvider mode={mode ? 'dark' : 'light'}>
-        <SafeAreaProvider>
+      <I18nextProvider i18n={i18n}>
+        <DarkModeProvider mode={mode ? 'dark' : 'light'}>
           <ActionSheetProvider>
-            <Layout>
-              <StatusBar
-                barStyle={mode ? 'light-content' : 'dark-content'}
-                translucent={true}
-                backgroundColor={'transparent'}
-              />
-              <Router />
-            </Layout>
+            <SafeAreaProvider>
+              <Layout>
+                <StatusBar
+                  barStyle={mode ? 'light-content' : 'dark-content'}
+                  translucent={true}
+                  backgroundColor={'transparent'}
+                />
+                <Router />
+              </Layout>
+            </SafeAreaProvider>
           </ActionSheetProvider>
-        </SafeAreaProvider>
-      </DarkModeProvider>
+        </DarkModeProvider>
+      </I18nextProvider>
     </Provider>
   );
 };

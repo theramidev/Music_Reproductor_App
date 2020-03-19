@@ -95,7 +95,7 @@ class PlaylistSongsScreen extends Component<IProps, IState> {
         />
 
         <PlaylistInfo
-          playlist={this.props.playlistReducer.data.currentPlaylist}
+          playlist={this.props.playlistReducer.currentPlaylist}
           quantitySongs={0}
           onAdd={this._onAdd}
           onDelete={this._onDelete}
@@ -104,13 +104,14 @@ class PlaylistSongsScreen extends Component<IProps, IState> {
 
         <ListOfMusic
           navigate={this.props.navigation.navigate}
-          songs={this.props.playlistReducer.data.playlistSongs}
+          songs={this.props.playlistReducer.playlistSongs}
+          updateFavorite={this.props.updateFavorite}
           paddingBottom={405}
         />
 
         <FooterMusic
           // @ts-ignore
-          navigation={this.props.navigation}
+          navigation={this.props.navigation.navigate}
         />
 
         <ModalDelete
@@ -131,7 +132,7 @@ class PlaylistSongsScreen extends Component<IProps, IState> {
           onClose={() => this.setState({isAddVisible: false})}
           onAdd={this.addSongsToPLaylist}
           songs={this.props.musicReducer.listSongs}
-          oldSongs={this.props.playlistReducer.data.playlistSongs}
+          oldSongs={this.props.playlistReducer.playlistSongs}
         />
       </BackgroundLayout>
     );
