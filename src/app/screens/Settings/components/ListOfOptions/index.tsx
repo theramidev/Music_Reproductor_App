@@ -3,7 +3,11 @@ import { FlatList } from 'react-native';
 import { DarkMode } from '../DarkMode';
 import { Option } from '../Option';
 
-export const ListOfOptions: FC<any> = ({navigation}) => {
+export const ListOfOptions: FC<any> = ({navigation, onLanguageChange}) => {
+
+    const goToChangeImage = () => {
+        navigation.navigate('ChangeImage')
+    }
 
     const dataList = [
         {
@@ -14,10 +18,22 @@ export const ListOfOptions: FC<any> = ({navigation}) => {
             id: '1',
             Component: 
             <Option 
-                navigation={navigation} 
+                onNavigation={goToChangeImage}
                 title="Cambiar imagen de fondo" 
                 iconLibrary="Feather"
                 iconName="image"
+            />
+        },
+        {
+            id: '2',
+            Component:
+            <Option 
+                title="Cambiar idioma"
+                iconLibrary="MaterialIcons"
+                iconName="language"
+                mode="select"
+                selectData={[{label: 'Español', value: 'es'},{label: 'English', value: 'en'}]}
+                onLanguageChange={onLanguageChange}
             />
         }
     ]
