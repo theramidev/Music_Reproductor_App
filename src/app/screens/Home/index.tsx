@@ -125,6 +125,7 @@ class HomeScreen extends Component<IProps, IState> {
               songs={listSongs}
               updateFavorite={this.props.updateFavorite}
               navigate={navigation.navigate}
+              paddingBottom={230}
             />
 
             <FooterMusic navigation={navigation} />

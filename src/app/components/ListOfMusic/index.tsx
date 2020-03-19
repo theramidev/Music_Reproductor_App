@@ -18,6 +18,7 @@ export const ListOfMusic: FC<IProps> = ({
   songs = [],
   navigate,
   updateFavorite,
+  paddingBottom = 0,
 }: any) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
   const {showActionSheetWithOptions} = useActionSheet();
@@ -91,7 +92,7 @@ export const ListOfMusic: FC<IProps> = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {paddingBottom}]}>
       <View style={styles.options}>
         <TouchableOpacity
           onPress={() => {
@@ -123,6 +124,7 @@ export const ListOfMusic: FC<IProps> = ({
       />
 
       <FlatList
+        style={{paddingBottom: 270}}
         data={order(songs)}
         renderItem={({item}: {item: MSong}) => (
           <View style={styles.containerItem}>

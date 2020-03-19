@@ -8,7 +8,7 @@ const styles: any = {
     flex: 1,
     backgroundColor: new DynamicValue(theme().light, theme(0.9).dark),
     position: 'relative',
-    zIndex: 0
+    zIndex: 0,
   },
 };
 

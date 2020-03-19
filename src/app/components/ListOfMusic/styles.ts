@@ -8,7 +8,7 @@ const background = new DynamicValue(theme(0.9).light, theme(0.9).text);
 
 const styles: StylesListOfMusic = {
   container: {
-    paddingBottom: 230,
+    paddingBottom: 0,
   },
   options: {
     padding: 8,

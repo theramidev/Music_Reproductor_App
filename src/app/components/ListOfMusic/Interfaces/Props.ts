@@ -9,4 +9,6 @@ export interface IProps {
    * @param current
    */
   updateFavorite(current: MSong): Promise<void>;
+
+  paddingBottom: number;
 }

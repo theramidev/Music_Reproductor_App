@@ -17,9 +17,9 @@ import AsyncStorage from '@react-native-community/async-storage';
  */
 export const clearSearch = () => (dispatch: Dispatch) => {
   dispatch({
-    type: musicTypes.clearSearch
+    type: musicTypes.clearSearch,
   });
-}
+};
 
 /**
  * @description Busca una canción
@@ -30,12 +30,12 @@ export const searchSong = (words: string) => async (dispatch: Dispatch) => {
 
     dispatch({
       type: musicTypes.getSearch,
-      payload: songs
+      payload: songs,
     });
   } catch (error) {
     console.error('Search Error: ', error);
   }
-}
+};
 
 /**
  * @description Obtiene las canciones del dispositivo
@@ -314,6 +314,7 @@ const getList = (listMusics: MSong[]) => {
 
 /**
  * @description setea o modifica el estado favorito de una cancion
+ * @param current cancion actual
  */
 export const updateFavorite = (current: MSong) => async (
   dispatch: Dispatch,
@@ -322,6 +323,9 @@ export const updateFavorite = (current: MSong) => async (
   try {
     const {
       musicReducer: {listSongs},
+      playlistReducer: {
+        data: {playlistSongs},
+      },
     } = getsState();
 
     dispatch({
