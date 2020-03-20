@@ -3,6 +3,8 @@ import React, {Component} from 'react';
 import {IProps} from './interfaces/Props';
 import {IState} from './interfaces/State';
 import {connect} from 'react-redux';
+import {DocumentPickerResponse} from 'react-native-document-picker';
+
 import {
   deletePlaylist,
   updatePlaylist,
@@ -11,11 +13,9 @@ import {
   getPlaylistSongs,
   addAndDeleteSongsOfPLaylist,
 } from '../../redux/actions/playlistActions';
-import {updateFavorite} from '../../redux/actions/musicActions';
+import {updateFavorite} from '../../redux/actions/allSongsActions';
 import {getSongs} from '../../redux/actions/musicActions';
 import {ShowToast} from '../../../utils/toast';
-import {DocumentPickerResponse} from 'react-native-document-picker';
-
 import {Header} from '../../components/Header';
 import {BackgroundLayout} from '../../components/BackgroundLayout';
 import {MPlaylist} from '../../models/playlist.model';
@@ -25,6 +25,7 @@ import {ModalPlaylist} from '../../components/ModalPlaylist';
 import {ModalAdd} from './components/ModalAdd';
 import {ListOfMusic} from '../../components/ListOfMusic';
 import FooterMusic from '../../components/FooterMusic';
+import {View, ActivityIndicator} from 'react-native';
 
 class PlaylistSongsScreen extends Component<IProps, IState> {
   constructor(props: IProps) {
@@ -87,6 +88,8 @@ class PlaylistSongsScreen extends Component<IProps, IState> {
   };
 
   render() {
+    const {playlistSongs, loadingPlaylists} = this.props.playlistReducer;
+
     return (
       <BackgroundLayout>
         <Header
@@ -102,16 +105,29 @@ class PlaylistSongsScreen extends Component<IProps, IState> {
           onEdit={this._onEdit}
         />
 
-        <ListOfMusic
-          navigate={this.props.navigation.navigate}
-          songs={this.props.playlistReducer.playlistSongs}
-          updateFavorite={this.props.updateFavorite}
-          paddingBottom={405}
-        />
+        {loadingPlaylists ? (
+          <View
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{
+              height: '100%',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <ActivityIndicator size="large" color="#00F1DF" />
+          </View>
+        ) : (
+          <ListOfMusic
+            navigate={this.props.navigation.navigate}
+            songs={playlistSongs}
+            updateFavorite={this.props.updateFavorite}
+            paddingBottom={405}
+          />
+        )}
 
         <FooterMusic
           // @ts-ignore
-          navigation={this.props.navigation.navigate}
+          navigation={this.props.navigation}
         />
 
         <ModalDelete

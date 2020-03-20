@@ -11,5 +11,5 @@ export default {
   loadingFavorite: 'LOADING_FAVORITE',
   errorFavorite: 'ERROR_FAVORITE',
   getSearch: 'MUSIC_GET_sEARCH',
-  clearSearch: 'MUSIC_CLEAR_SEARCH'
+  clearSearch: 'MUSIC_CLEAR_SEARCH',
 };

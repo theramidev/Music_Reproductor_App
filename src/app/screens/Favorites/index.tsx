@@ -4,7 +4,7 @@ import {Header} from '../../components/Header';
 import {IProps} from './interfaces/Props';
 import {connect} from 'react-redux';
 import {getFavoriteSongs} from '../../redux/actions/favoritesActions';
-import {updateFavorite} from '../../redux/actions/musicActions';
+import {updateFavorite} from '../../redux/actions/allSongsActions';
 import {ListOfMusic} from '../../components/ListOfMusic';
 import {Text, View, ActivityIndicator} from 'react-native';
 import {theme} from '../../../assets/themes';

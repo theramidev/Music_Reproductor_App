@@ -12,6 +12,7 @@ export interface IProps {
   playlistReducer: {
     currentPlaylist: MPlaylist | null;
     playlistSongs: MSong[];
+    loadingPlaylists: boolean;
   };
   musicReducer: {
     listSongs: MSong[];

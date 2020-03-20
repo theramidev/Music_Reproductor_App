@@ -323,9 +323,6 @@ export const updateFavorite = (current: MSong) => async (
   try {
     const {
       musicReducer: {listSongs},
-      playlistReducer: {
-        data: {playlistSongs},
-      },
     } = getsState();
 
     dispatch({

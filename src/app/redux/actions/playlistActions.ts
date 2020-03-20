@@ -1,4 +1,4 @@
-import playlistTypes from '../types/playlistType';
+import playlistTypes from '../types/playlistTypes';
 import {Dispatch} from 'redux';
 import Database from '../../database';
 import {DocumentPickerResponse} from 'react-native-document-picker';
@@ -120,7 +120,7 @@ export const updatePlaylist = (
     });
 
     dispatch({
-      type: playlistTypes.getPlaylists,
+      type: playlistTypes.updatePlaylists,
       payload: playlists,
     });
   } catch (error) {
@@ -146,7 +146,7 @@ export const deletePlaylist = (playlistId: number) => async (
     const playlists = await Database.getPlaylists();
 
     dispatch({
-      type: playlistTypes.getPlaylists,
+      type: playlistTypes.updatePlaylists,
       payload: playlists,
     });
   } catch (error) {
@@ -202,7 +202,7 @@ export const createPlaylist = (
     const playlists = await Database.getPlaylists();
 
     dispatch({
-      type: playlistTypes.getPlaylists,
+      type: playlistTypes.updatePlaylists,
       payload: playlists,
     });
   } catch (error) {
@@ -222,7 +222,7 @@ export const getPlaylists = () => async (dispatch: Dispatch) => {
     const playlists = await Database.getPlaylists();
 
     dispatch({
-      type: playlistTypes.getPlaylists,
+      type: playlistTypes.updatePlaylists,
       payload: playlists,
     });
   } catch (error) {
