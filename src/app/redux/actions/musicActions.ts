@@ -171,10 +171,12 @@ export const updateListSongs = (songs: MSong[]) => (dispatch: Dispatch) => {
  * @description modifica el listdo de reproduccion de las canciones
  * @param song
  */
-export const updateListSongsCurrent = (song: MSong) => (dispatch: Dispatch) => {
+export const updateListSongsCurrent = (songs: MSong[]) => (
+  dispatch: Dispatch,
+) => {
   dispatch({
     type: musicTypes.updateListSongsCurrent,
-    payload: song,
+    payload: songs,
   });
 };
 
@@ -221,6 +223,7 @@ export const playInRandom = (start: boolean) => async (
 ) => {
   try {
     const {listSongsCurrent, current} = getsState().musicReducer;
+
     const listMusics: MSong[] = getListRamdonSong(
       listSongsCurrent,
       null,

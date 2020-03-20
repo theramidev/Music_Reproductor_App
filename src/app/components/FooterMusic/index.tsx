@@ -15,11 +15,16 @@ import TrackPlayer, {
   skipToNext,
   getState,
   getPosition,
+  getQueue,
 } from 'react-native-track-player';
 import {
+  updateListSongsCurrent,
   changeToRandomMode,
   changeToLineMode,
+  playInRandom,
+  playInLine,
 } from '../../redux/actions/musicActions';
+import {LoadingComponent} from '../LoadingComponent';
 
 const FooterMusic: FC<any> = (props: IProps) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
@@ -28,6 +33,10 @@ const FooterMusic: FC<any> = (props: IProps) => {
   const [pauseMusic, setPauseMusic] = useState(true);
 
   useEffect(() => {
+    getPosition().then(seg => {
+      setPosition(+seg * 1000);
+    });
+
     var interval = setInterval(() => {
       getPosition().then(seg => {
         setPosition(+seg * 1000);
@@ -35,13 +44,21 @@ const FooterMusic: FC<any> = (props: IProps) => {
     }, 700);
 
     getState().then(state => {
-      state === 2 ? setPauseMusic(true) : setPauseMusic(false);
+      if (state === 2) {
+        setPauseMusic(true);
+      } else if (state === 3) {
+        setPauseMusic(false);
+      }
     });
 
     var playbackState = TrackPlayer.addEventListener(
       'playback-state',
       (data: {state: number}) => {
-        data.state === 2 ? setPauseMusic(true) : setPauseMusic(false);
+        if (data.state === 2) {
+          setPauseMusic(true);
+        } else if (data.state === 3) {
+          setPauseMusic(false);
+        }
       },
     );
 
@@ -64,33 +81,65 @@ const FooterMusic: FC<any> = (props: IProps) => {
   };
 
   const playSond = async () => {
-    await play();
-    setPauseMusic(false);
+    const queue = (await getQueue()).length;
+
+    if (queue === 1 || queue === 0) {
+      props.updateListSongsCurrent(props.musicReducer.listSongs);
+
+      const data = await AsyncStorage.getItem('@Mode');
+      const mode = data || 'RANDOM';
+      if (mode === 'RANDOM') {
+        props.playInRandom(true);
+      } else {
+        props.playInLine(true);
+      }
+    } else {
+      await play();
+      setPauseMusic(false);
+    }
   };
 
   const nextSong = async () => {
-    try {
-      await skipToNext();
-    } catch (err) {
-      if (err.toString() === 'Error: There is no tracks left to play') {
-        const data = await AsyncStorage.getItem('@Mode');
-        const mode = data || 'RANDOM';
+    const queue = (await getQueue()).length;
 
-        if (mode === 'RANDOM') {
-          await props.changeToRandomMode();
-        } else {
-          await props.changeToLineMode();
-        }
+    if (queue === 1 || queue === 0) {
+      props.updateListSongsCurrent(props.musicReducer.listSongs);
 
+      const data = await AsyncStorage.getItem('@Mode');
+      const mode = data || 'RANDOM';
+      if (mode === 'RANDOM') {
+        props.playInRandom(true);
+      } else {
+        props.playInLine(true);
+      }
+    } else {
+      try {
         await skipToNext();
+      } catch (err) {
+        if (err.toString() === 'Error: There is no tracks left to play') {
+          const data = await AsyncStorage.getItem('@Mode');
+          const mode = data || 'RANDOM';
+
+          if (mode === 'RANDOM') {
+            await props.changeToRandomMode();
+          } else {
+            await props.changeToLineMode();
+          }
+
+          await skipToNext();
+        }
       }
     }
   };
 
   if (Object.keys(props.musicReducer.current).length === 0) {
+    return <Fragment />;
+  }
+
+  if (props.musicReducer.listSongs.length === 0) {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>No se encontraron canciones</Text>
+        <LoadingComponent />
       </View>
     );
   }
@@ -170,8 +219,11 @@ const mapStateToProps = ({musicReducer}: any) => {
 };
 
 const mapDispatchToProps = {
+  updateListSongsCurrent,
   changeToRandomMode,
   changeToLineMode,
+  playInRandom,
+  playInLine,
 };
 
 export default connect<any, any>(

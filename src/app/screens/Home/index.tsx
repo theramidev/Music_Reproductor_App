@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Image, ActivityIndicator, Animated, View} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
 
 import {getCurrentWallpaper} from '../../redux/actions/wallpaperActions';
@@ -33,18 +32,10 @@ class HomeScreen extends Component<IProps, IState> {
   }
 
   async componentDidMount() {
-    const data = await AsyncStorage.getItem('@Mode');
-    const mode = data || 'RANDOM';
     setTimeout(() => this.spring(), 500);
     this.props.getSongs();
     this.props.getCurrentWallpaper();
     await this.props.getSongs();
-
-    if (mode === 'RANDOM') {
-      await this.props.playInRandom(false);
-    } else {
-      await this.props.playInLine(false);
-    }
   }
 
   spring = () => {
@@ -113,7 +104,16 @@ class HomeScreen extends Component<IProps, IState> {
                 source={{
                   uri: this.props.wallpaperReducer.data.currentWallpaper,
                 }}
-                style={style.backgroundImage}
+                style={[
+                  style.backgroundImage,
+                  // eslint-disable-next-line react-native/no-inline-styles
+                  {
+                    height:
+                      Object.keys(this.props.musicReducer.current).length === 0
+                        ? '103%'
+                        : '95%',
+                  },
+                ]}
               />
             )}
 
@@ -125,7 +125,11 @@ class HomeScreen extends Component<IProps, IState> {
               songs={listSongs}
               updateFavorite={this.props.updateFavorite}
               navigate={navigation.navigate}
-              paddingBottom={230}
+              paddingBottom={
+                Object.keys(this.props.musicReducer.current).length === 0
+                  ? 170
+                  : 230
+              }
             />
 
             <FooterMusic
