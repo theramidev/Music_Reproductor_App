@@ -4,9 +4,11 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import IconFeather from 'react-native-vector-icons/Feather';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import dynamicStyles from './styles';
+import { useTranslation } from 'react-i18next';
 
 export const Header: FC<any> = ({navigate}: any) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
+  const { t } = useTranslation('Header');
 
   const goSettings = () => {
     navigate('Settings');
@@ -25,7 +27,7 @@ export const Header: FC<any> = ({navigate}: any) => {
         />
         <TextInput
           style={styles.search}
-          placeholder="Search"
+          placeholder={t('search')}
           underlineColorAndroid="transparent"
           placeholderTextColor={styles.searchIcon.color}
           editable={false}

@@ -2,8 +2,9 @@ import { NavigationScreenProp, NavigationState, NavigationParams } from "react-n
 import { DocumentPickerResponse } from "react-native-document-picker";
 import { MPlaylist } from "../../../models/playlist.model";
 import { MSong } from "../../../models/song.model";
+import { WithTranslation } from "react-i18next";
 
-export interface IProps {
+export interface IProps extends WithTranslation {
     navigation: NavigationScreenProp<NavigationState, NavigationParams>,
     playlistReducer: {
         currentPlaylist: MPlaylist | null,

@@ -121,7 +121,9 @@ class HomeScreen extends Component<IProps, IState> {
 
             <ListOfMusic songs={listSongs} navigate={navigation.navigate} />
 
-            <FooterMusic navigation={navigation} />
+            <FooterMusic 
+            // @ts-ignore
+            navigation={navigation} />
           </BackgroundLayout>
         </Animated.View>
       </>

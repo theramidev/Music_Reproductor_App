@@ -10,6 +10,7 @@ import {MSong} from '../../models/song.model';
 import {getRecents} from '../../redux/actions/fileActions';
 import {theme} from '../../../assets/themes';
 import FooterMusic from '../../components/FooterMusic';
+import { withTranslation } from 'react-i18next';
 
 class ReproductionsScreen extends Component<IProps, IState> {
   state = {
@@ -33,7 +34,7 @@ class ReproductionsScreen extends Component<IProps, IState> {
   render() {
     return (
       <BackgroundLayout>
-        <Header navigation={this.props.navigation} title="Recientes" />
+        <Header navigation={this.props.navigation} title={this.props.t('headerTitle')} />
 
         {this.state.songs.length > 0 ? (
           <View style={{marginTop: 10, height: '100%'}}>
@@ -52,11 +53,13 @@ class ReproductionsScreen extends Component<IProps, IState> {
               fontSize: 20,
               fontWeight: 'bold',
             }}>
-            No se han reproducido canciones :(
+            {this.props.t('notSongs')}
           </Text>
         )}
 
-        <FooterMusic navigation={this.props.navigation} />
+        <FooterMusic 
+        // @ts-ignore
+        navigation={this.props.navigation} />
       </BackgroundLayout>
     );
   }
@@ -75,4 +78,4 @@ const mapDispatchToProps = {
 export default connect<any>(
   mapStateToProps,
   mapDispatchToProps,
-)(ReproductionsScreen);
+)(withTranslation('Reproductions')(ReproductionsScreen));

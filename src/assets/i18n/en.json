@@ -1,5 +1,96 @@
 {
+    "ChangeImage": {
+        "headerTitle": "Change image"
+    },
+    "ListOfPhotoCard": {
+        "accept": "Accept",
+        "cancel": "Cancel"
+    },
+    "messages": {
+        "changeWallpaperToast": "Background successfully changed"
+    },
+    "PhotoCard": {
+        "default": "Default"
+    },
+    "Favorites": {
+        "headerTitle": "Favorites",
+        "noSongs": "You don't have favorite songs :("
+    },
+    "Header": {
+        "search": "Search..."
+    },
+    "Sections": {
+        "recent": "Recent",
+        "favorites": "Favorites",
+        "lists": "Lists"
+    },
+    "Playlists": {
+        "headerTitle": "Playlists"
+    },
+    "ListOfPlaylists": {
+        "createList": "Create new list"
+    },
+    "ModalPlaylist": {
+        "nameRequired": "Name required",
+        "addImage": "Add image (optional)",
+        "listName": "List name",
+        "inputNamePlaceholder": "Name...",
+        "cancel": "Cancel",
+        "accept": "Accept"
+    },
+    "PlaylistSongs": {
+        "deleteMessage": "Playlist removed"
+    },
+    "ModalAdd": {
+        "searchPlaceholder": "Find the song here",
+        "all": "All",
+        "added": "Added",
+        "notAdded": "Not added",
+        "cancel": "Cancel",
+        "accept": "Accept"
+    },
+    "ModalDelete": {
+        "title": "Delete playlist",
+        "message": "Are you sure you want to delete the list?",
+        "cancel": "Cancel",
+        "accept": "Accept"
+    },
+    "PlaylistInfo": {
+        "january": "January",
+        "february": "February",
+        "march": "March",
+        "april": "April",
+        "may": "May",
+        "june": "June",
+        "july": "July",
+        "august": "August",
+        "september": "September",
+        "october": "October",
+        "november": "November",
+        "december": "December",
+        "date": "Created on {{month}} {{day}}, {{year}}",
+        "delete": "Delete",
+        "edit": "Edit",
+        "add": "Add",
+        "song": "song",
+        "sOne": "",
+        "sMore": "s"
+    },
+    "Reproductions": {
+        "headerTitle": "Recents",
+        "notSongs": "No songs have been played :("
+    },
+    "SearchSong": {
+        "inputPlaceholder": "Find the song here",
+        "notResults": "No results found"
+    },
     "Settings": {
-        "hello": "Hello!"
+        "headerTitle": "Settings"
+    },
+    "DarkMode": {
+        "mode": "Dark mode"
+    },
+    "ListOfOptions": {
+        "changeImageTitle": "Change background image"
     }
 }

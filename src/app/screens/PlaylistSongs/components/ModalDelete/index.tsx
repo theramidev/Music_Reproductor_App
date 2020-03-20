@@ -4,9 +4,11 @@ import Modal from 'react-native-modal';
 import { IProps } from './PropsInterface';
 import { staticStyle, dynamicStyleSheet } from './style';
 import { useDynamicStyleSheet } from 'react-native-dark-mode';
+import { useTranslation } from 'react-i18next';
 
 export const ModalDelete: FC<IProps> = ({isVisible, onClose, onAccept}) => {
     const dynamicStyle = useDynamicStyleSheet(dynamicStyleSheet);
+    const { t } = useTranslation('ModalDelete');
 
     return(
         <Modal
@@ -20,21 +22,21 @@ export const ModalDelete: FC<IProps> = ({isVisible, onClose, onAccept}) => {
         >
             <View style={[staticStyle.container, dynamicStyle.container]}>
                 <Text style={[staticStyle.title, dynamicStyle.textColor]}>
-                    Eliminar lista de reproducción
+                    {t('title')}
                 </Text>
                 <Text style={staticStyle.message}>
-                    ¿Está seguro que quiere eliminar la lista?
+                    {t('message')}
                 </Text>
 
                 <View style={staticStyle.buttonsContainer}>
                     <TouchableOpacity style={staticStyle.button} onPress={onClose}>
                         <Text style={[staticStyle.buttonText, dynamicStyle.textColor]}>
-                            Cancelar
+                            {t('cancel')}
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={staticStyle.button} onPress={onAccept}>
                         <Text style={[staticStyle.buttonText, dynamicStyle.textColor]}>
-                            Aceptar
+                            {t('accept')}
                         </Text>
                     </TouchableOpacity>
                 </View>

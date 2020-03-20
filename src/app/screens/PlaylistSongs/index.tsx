@@ -14,6 +14,7 @@ import {
 import { getSongs } from '../../redux/actions/musicActions';
 import { ShowToast } from '../../../utils/toast';
 import { DocumentPickerResponse } from 'react-native-document-picker';
+import { withTranslation } from 'react-i18next';
 
 import { Header } from '../../components/Header';
 import { BackgroundLayout } from '../../components/BackgroundLayout';
@@ -66,7 +67,7 @@ class PlaylistSongsScreen extends Component<IProps, IState> {
         this.setState({isDeleteVisible: false});
         this.props.navigation.goBack();
         this.props.deletePlaylist(this.state.playlist.playListId);
-        ShowToast('Lista de reproducción eliminada');
+        ShowToast(this.props.t('deleteMessage'));
     }
 
     editPlaylist = async (picker: DocumentPickerResponse | null, playlistName: string) => {
@@ -143,4 +144,4 @@ const mapDispatchToProps = {
     addAndDeleteSongsOfPLaylist
 }
 
-export default connect<any>(mapStateToProps, mapDispatchToProps)(PlaylistSongsScreen);
+export default connect<any>(mapStateToProps, mapDispatchToProps)(withTranslation('PlaylistSongs')(PlaylistSongsScreen));

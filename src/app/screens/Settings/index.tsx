@@ -19,7 +19,7 @@ class Settings extends Component<IProps, IState> {
   render() {
     return (
       <BackgroundLayout>
-        <Header navigation={this.props.navigation} title="Configuración" />
+        <Header navigation={this.props.navigation} title={this.props.t('headerTitle')} />
 
         <ListOfOptions 
           navigation={this.props.navigation}

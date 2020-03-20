@@ -2,8 +2,10 @@ import React, { FC } from 'react';
 import { FlatList } from 'react-native';
 import { DarkMode } from '../DarkMode';
 import { Option } from '../Option';
+import { useTranslation } from 'react-i18next';
 
 export const ListOfOptions: FC<any> = ({navigation, onLanguageChange}) => {
+    const { t } = useTranslation('ListOfOptions');
 
     const goToChangeImage = () => {
         navigation.navigate('ChangeImage')
@@ -19,7 +21,7 @@ export const ListOfOptions: FC<any> = ({navigation, onLanguageChange}) => {
             Component: 
             <Option 
                 onNavigation={goToChangeImage}
-                title="Cambiar imagen de fondo" 
+                title={t('changeImageTitle')}
                 iconLibrary="Feather"
                 iconName="image"
             />

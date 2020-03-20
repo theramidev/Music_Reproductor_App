@@ -5,6 +5,7 @@ import IconIo from 'react-native-vector-icons/Ionicons';
 import { staticStyles } from './style';
 import { searchSong, clearSearch } from '../../redux/actions/musicActions';
 import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
 
 import { BackgroundLayout } from '../../components/BackgroundLayout';
 import { Header } from '../../components/Header';
@@ -40,7 +41,7 @@ class SearchSongScreen extends Component<IProps, {search: string}> {
                     <View style={staticStyles.inputSearch}>
                         <IconIo name="ios-search" size={30} color="white" />
                         <TextInput 
-                            placeholder="Busca la canción aquí"
+                            placeholder={this.props.t('inputPlaceholder')}
                             autoCapitalize="none"
                             autoCompleteType="off"
                             placeholderTextColor="white"
@@ -58,7 +59,7 @@ class SearchSongScreen extends Component<IProps, {search: string}> {
                             source={require('../../../assets/images/crying.png')}
                             style={staticStyles.imageNotFound}
                         />
-                        <Text style={staticStyles.textNotFound}>No se encontraron resultados</Text>
+                        <Text style={staticStyles.textNotFound}>{this.props.t('notResults')}</Text>
                     </View> : 
                     <ListOfMusic 
                         navigate={this.props.navigation.navigate}
@@ -81,4 +82,4 @@ const mapDispatchToProps = {
     clearSearch
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchSongScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation('SearchSong')(SearchSongScreen));

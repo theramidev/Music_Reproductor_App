@@ -11,16 +11,18 @@ i18n
         es,
         en
     },
+    lng: 'en',
     fallbackLng: 'en',
     debug: __DEV__,
     keySeparator: false,
     interpolation: {
         escapeValue: false,
-        formatSeparator: ','
+        formatSeparator: '.'
     },
     react: {
         wait: true
-    }
+    },
+    defaultNS: 'messages'
 });
 
 export default i18n;

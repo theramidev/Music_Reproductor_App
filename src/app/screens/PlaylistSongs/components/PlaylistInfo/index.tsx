@@ -7,16 +7,19 @@ import { useDynamicStyleSheet, useDarkMode } from 'react-native-dark-mode';
 import IconFa from 'react-native-vector-icons/FontAwesome';
 import IconMa from 'react-native-vector-icons/MaterialIcons';
 import { theme } from '../../../../../assets/themes';
+import { useTranslation } from 'react-i18next';
 
 export const PlaylistInfo: FC<IProps> = ({playlist, quantitySongs = 0, onDelete, onEdit, onAdd}) => {
     const dynamicStyle = useDynamicStyleSheet(dynamicStyles);
     const isDarkMode = useDarkMode();
+    const { t } = useTranslation('PlaylistInfo');
 
     const getDate = (date: Date): string => {
-        const months: string[] = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 
-        'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        const months: string[] = [t('january'), t('februeary'), t('march'), t('april'), t('may'), 
+        t('june'), t('july'), t('august'), t('september'), t('october'), t('november'), t('december')];
 
-        return `${date.getDate()} de ${months[date.getMonth()]}, ${date.getFullYear()}`;
+        return  t('date', {day: date.getDate(), month: months[date.getMonth()], year: date.getFullYear()}); 
+        // `${date.getDate()} de ${months[date.getMonth()]}, ${date.getFullYear()}`;
 
     }
 
@@ -45,11 +48,11 @@ export const PlaylistInfo: FC<IProps> = ({playlist, quantitySongs = 0, onDelete,
                 }
                 <AutoScrolling style={{height: 20}}>
                     <Text style={[stataticStyle.created, dynamicStyle.colorText]}>
-                        {`Creado el ${ playlist ? getDate(playlist.created) : ''}`}
+                        {`${ playlist ? getDate(playlist.created) : ''}`}
                     </Text>
                 </AutoScrolling>
                 <Text style={[stataticStyle.songs, dynamicStyle.colorText]}>
-                    {`${quantitySongs} canci${quantitySongs === 1 ? 'ón' : 'ones'}`}
+                    {`${quantitySongs} ${t('song')}${quantitySongs === 1 ? `${t('sOne')}` : `${t('sMore')}`}`}
                 </Text>
             </View>
 
@@ -57,21 +60,21 @@ export const PlaylistInfo: FC<IProps> = ({playlist, quantitySongs = 0, onDelete,
                 <TouchableOpacity style={stataticStyle.button} onPress={onDelete}>
                     <IconFa name="trash" size={30} color={isDarkMode ? theme().light : theme().text} />
                     <Text style={[stataticStyle.buttonText, dynamicStyle.colorText]}>
-                        Eliminar
+                        {t('delete')}
                     </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={stataticStyle.button} onPress={onEdit}>
                     <IconFa name="edit" size={30} color={isDarkMode ? theme().light : theme().text} />
                     <Text style={[stataticStyle.buttonText, dynamicStyle.colorText]}>
-                        Editar
+                        {t('edit')}
                     </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={stataticStyle.button} onPress={onAdd}>
                     <IconMa name="library-add" size={30} color={isDarkMode ? theme().light : theme().text} />
                     <Text style={[stataticStyle.buttonText, dynamicStyle.colorText]}>
-                        Agregar 
+                        {t('add')} 
                     </Text>
                 </TouchableOpacity>
             </View>

@@ -9,6 +9,7 @@ import CheckBox from '@react-native-community/checkbox';
 import Ripple from 'react-native-material-ripple';
 import { theme } from '../../../../../assets/themes';
 import { useDynamicStyleSheet, useDarkMode } from 'react-native-dark-mode';
+import { useTranslation } from 'react-i18next';
 
 export const ModalAdd: FC<IProps> = ({isVisible, onAdd, onClose, songs, oldSongs}) => {
     const [songsAdd, setSongsAdd] = useState<string[]>([]);
@@ -18,6 +19,7 @@ export const ModalAdd: FC<IProps> = ({isVisible, onAdd, onClose, songs, oldSongs
     const [filterSelected, setFilterSelected] = useState<'all' | 'checked' | 'noChecked'>('all');
     const dynamicStyles = useDynamicStyleSheet(dynamicStyleSheet);
     const isDarkMode = useDarkMode();
+    const { t } = useTranslation('ModalAdd');
 
     useEffect(() => {
         setVisibleSongs(songs);
@@ -183,7 +185,7 @@ export const ModalAdd: FC<IProps> = ({isVisible, onAdd, onClose, songs, oldSongs
                     <View style={staticStyles.inputSearch}>
                         <IconIo name="ios-search" size={30} color="white" />
                         <TextInput 
-                            placeholder="Busca la canción aquí"
+                            placeholder={t('searchPlaceholder')}
                             autoCapitalize="none"
                             autoCompleteType="off"
                             placeholderTextColor="white"
@@ -217,7 +219,7 @@ export const ModalAdd: FC<IProps> = ({isVisible, onAdd, onClose, songs, oldSongs
                                     }
                                 ]}
                             >
-                                Todas
+                                {t('all')}
                             </Text>
                         </TouchableOpacity>
 
@@ -238,7 +240,7 @@ export const ModalAdd: FC<IProps> = ({isVisible, onAdd, onClose, songs, oldSongs
                                     }
                                 ]}
                             >
-                                Agregadas
+                                {t('added')}
                             </Text>
                         </TouchableOpacity>
 
@@ -259,7 +261,7 @@ export const ModalAdd: FC<IProps> = ({isVisible, onAdd, onClose, songs, oldSongs
                                     }
                                 ]}
                             >
-                                No agregadas
+                                {t('notAdded')}
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -273,10 +275,14 @@ export const ModalAdd: FC<IProps> = ({isVisible, onAdd, onClose, songs, oldSongs
 
                 <View style={staticStyles.buttonsContainer}>
                     <TouchableOpacity style={[staticStyles.button, dynamicStyles.borderColor]} onPress={onClose}>
-                        <Text style={[staticStyles.textButton, dynamicStyles.texColor]}>Cancelar</Text>
+                        <Text style={[staticStyles.textButton, dynamicStyles.texColor]}>
+                            {t('cancel')}
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[staticStyles.button, dynamicStyles.borderColor]} onPress={_onAdd}>
-                        <Text style={[staticStyles.textButton, dynamicStyles.texColor]}>Aceptar</Text>
+                        <Text style={[staticStyles.textButton, dynamicStyles.texColor]}>
+                            {t('accept')}
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </View>

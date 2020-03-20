@@ -8,12 +8,14 @@ import fs from 'react-native-fs';
 import { ShowToast } from '../../../utils/toast';
 import Modal from 'react-native-modal';
 import { useDynamicStyleSheet } from 'react-native-dark-mode';
+import { useTranslation } from 'react-i18next';
 
 export const ModalPlaylist: FC<IProps> = ({onClose, onCreate, playlist, onEdit, isVisible}) => {
     const [image, setImage] = useState('');
     const [pickerImage, setPickerImage] = useState<DocumentPickerResponse | null>(null);
     const [playlistName, setPLaylistName] = useState('');
     const dynamicStyle = useDynamicStyleSheet(dynamicStyleSheet);
+    const { t } = useTranslation('ModalPlaylist');
 
     useEffect(() => {
 
@@ -45,7 +47,7 @@ export const ModalPlaylist: FC<IProps> = ({onClose, onCreate, playlist, onEdit, 
     const _onAccept = () => {
 
         if (playlistName.trim() === '') {
-            ShowToast('Nombre requerido');
+            ShowToast(t('nameRequired'));
             return;
         }
 
@@ -130,7 +132,7 @@ export const ModalPlaylist: FC<IProps> = ({onClose, onCreate, playlist, onEdit, 
                         <Text 
                             style={staticStyle.addPhotoText}
                         >
-                            Agregar imagen (opcional)
+                            {t('addImage')}
                         </Text>
                     }
                 </View>
@@ -138,12 +140,12 @@ export const ModalPlaylist: FC<IProps> = ({onClose, onCreate, playlist, onEdit, 
                 <View style={staticStyle.right}>
                     <View style={{width: '100%'}}>
                         <Text style={[staticStyle.inputLabel, dynamicStyle.textColor]}>
-                            Nombre de la lista
+                            {t('listName')}
                         </Text>
                         <TextInput 
                             autoCapitalize="none"
                             autoCompleteType="off"
-                            placeholder="Nombre..."
+                            placeholder={t('inputNamePlaceholder')}
                             style={staticStyle.input}
                             onChange={_onChange}
                             value={playlistName}
@@ -154,12 +156,12 @@ export const ModalPlaylist: FC<IProps> = ({onClose, onCreate, playlist, onEdit, 
                 <View style={staticStyle.buttonContainer}>
                     <TouchableOpacity style={[staticStyle.button]} onPress={close}>
                         <Text style={[staticStyle.buttonText, dynamicStyle.textColor]}>
-                            Cancelar
+                            {t('cancel')}
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[staticStyle.button]} onPress={_onAccept}>
                         <Text style={[staticStyle.buttonText, dynamicStyle.textColor]}>
-                            Aceptar
+                            {t('accept')}
                         </Text>
                     </TouchableOpacity>
                 </View>

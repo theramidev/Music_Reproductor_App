@@ -3,6 +3,7 @@ import { Dispatch } from 'redux';
 import fs from 'react-native-fs';
 import AsyncStorage from '@react-native-community/async-storage';
 import { ShowToast } from '../../../utils/toast';
+import i18n from 'i18next';
 
 /**
  * @description Elimina un wallpaper de la aplicación
@@ -51,7 +52,7 @@ export const changeCurrentWallpaper = (wallpaperPath: string | null) => async (d
             payload: currentWallpaper
         });
 
-        ShowToast('Fondo cambiado con éxito', 3);
+        ShowToast(i18n.t('changeWallpaperToast'), 3);
     } catch (error) {
         console.error('setCurrentWallpaper: ', error);
     }
