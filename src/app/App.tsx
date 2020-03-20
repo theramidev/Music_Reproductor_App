@@ -9,6 +9,7 @@ import fs from 'react-native-fs';
 import Orientation from 'react-native-orientation-locker';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
+import * as RNLocalize from "react-native-localize";
 
 import Router from './Router';
 import {Provider, store} from './store';
@@ -70,7 +71,32 @@ const App: FC<any> = (props: any) => {
         if (!exists) {
           await fs.mkdir(fs.DocumentDirectoryPath+'/temp');
         }
-    });;
+    });
+
+    // Language
+    AsyncStorage.getItem('currentLanguage').then(async (result: string | null) => {
+      if (!result) {
+        const [locales] = RNLocalize.getLocales();
+        // console.log('[Line 78 App.tsx] ', locales);
+        switch(locales.languageCode.toLowerCase()) {
+          case 'en': {
+            i18n.changeLanguage('en');
+            await AsyncStorage.setItem('currentLanguage', 'en');
+          }; break;
+          case 'es': {
+            i18n.changeLanguage('es');
+            await AsyncStorage.setItem('currentLanguage', 'es');
+          }; break;
+          default: {
+            i18n.changeLanguage('es');
+            await AsyncStorage.setItem('currentLanguage', 'es');
+          }
+        }
+      } else {
+        i18n.changeLanguage(result);
+      }
+    });
+    
 
     SplashScreen.hide();
 

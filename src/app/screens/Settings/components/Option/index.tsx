@@ -1,4 +1,4 @@
-import React, { FC, useState, ReactText } from 'react';
+import React, { FC, useState, ReactText, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { IProps } from './PropsInterface';
 import { useDynamicStyleSheet } from 'react-native-dark-mode';
@@ -8,10 +8,23 @@ import IconFe from 'react-native-vector-icons/Feather';
 import IconIo from 'react-native-vector-icons/Ionicons';
 import IconMa from 'react-native-vector-icons/MaterialIcons';
 import { Picker } from '@react-native-community/picker';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export const Option: FC<IProps> = ({onNavigation, title, iconLibrary, iconName, mode = 'navigation', selectData = [], onLanguageChange}) => {
     const styles = useDynamicStyleSheet(dynamicStyles);
     const [selectedValue, setSelectedValue] = useState<| 'en' | 'es'>('es');
+
+    useEffect(() => {
+        AsyncStorage.getItem('currentLanguage').then((result: string | null) => {
+            if (result) {
+                switch(result) {
+                    case 'en': setSelectedValue('en'); break;
+                    case 'es': setSelectedValue('es'); break;
+                    default: setSelectedValue('es'); break;
+                }
+            }
+        });
+    }, []);
 
     const _onChangePicker = (itemValue: ReactText) => {
         const itemText = itemValue.toString();
