@@ -19,6 +19,7 @@ import {Progress} from './components/Progress';
 import {isPlay} from '../../../utils/isPlay';
 import {destroy} from 'react-native-track-player';
 import AsyncStorage from '@react-native-community/async-storage';
+import share from '../../../utils/share';
 
 class Music extends Component<IProps, IState> {
   constructor(props: IProps) {
@@ -55,6 +56,10 @@ class Music extends Component<IProps, IState> {
     } else {
       this.props.playInLine(true);
     }
+  }
+
+  _onShare = async () => {
+    share(this.props.musicReducer.current);
   }
 
   render() {
@@ -96,6 +101,7 @@ class Music extends Component<IProps, IState> {
           changeToLineMode={this.props.changeToLineMode}
           changeToRandomMode={this.props.changeToRandomMode}
           musicReducer={musicReducer}
+          onShare={this._onShare}
         />
       </BackgroundLayout>
     );
