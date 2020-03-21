@@ -62,7 +62,7 @@ const App: FC<any> = (props: any) => {
       compactCapabilities: [
         TrackPlayer.CAPABILITY_PLAY,
         TrackPlayer.CAPABILITY_PAUSE,
-      ],
+      ]
     });
 
     // Creación de la carpeta temp
