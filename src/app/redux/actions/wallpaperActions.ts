@@ -115,14 +115,18 @@ export const getWallpapers = () => async (dispatch: Dispatch) => {
     });
 
     try {
-        const dirPath: string = fs.DocumentDirectoryPath + '/wallpapers'
-        const wallpapersDir = await fs.readDir(dirPath);
-        const wallpapersPath: string[] = wallpapersDir.map(item => item.path);
+        const dirPath: string = fs.DocumentDirectoryPath + '/wallpapers';
+        const dirExist: boolean = await fs.exists(dirPath);
+        if (dirExist) {
+            const wallpapersDir = await fs.readDir(dirPath);
+            const wallpapersPath: string[] = wallpapersDir.map(item => item.path);
+    
+            dispatch({
+                type: wallpaperTypes.getWallpapers,
+                payload: wallpapersPath
+            });
 
-        dispatch({
-            type: wallpaperTypes.getWallpapers,
-            payload: wallpapersPath
-        });
+        }
     } catch (error) {
         console.error('getWalppapers Error: ', error);
     }
