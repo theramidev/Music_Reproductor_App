@@ -1,8 +1,12 @@
-import { NavigationScreenProp, NavigationState, NavigationParams } from 'react-navigation';
+import { TFunction } from "i18next";
+
   
 export interface IProps {
-    navigation: NavigationScreenProp<NavigationState, NavigationParams>,
+    onNavigation?: () => void
     title: string,
     iconName?: string,
-    iconLibrary?: 'FontAwesome' | 'Feather' | 'Ionicons' | 'MaterialIcons'
+    iconLibrary?: 'FontAwesome' | 'Feather' | 'Ionicons' | 'MaterialIcons',
+    mode?: 'navigation' | 'select',
+    selectData?: ({label: string, value: string})[],
+    onLanguageChange?: (language: 'es' | 'en') => void
 }

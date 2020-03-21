@@ -3,6 +3,7 @@ import { IProps } from './interfaces/Props';
 import { IState } from './interfaces/State';
 import { connect } from 'react-redux';
 import { getWallpapers, setLocalWallpaper, changeCurrentWallpaper, deleteWallpaper } from '../../redux/actions/wallpaperActions';
+import { withTranslation } from 'react-i18next';
 
 import { BackgroundLayout } from '../../components/BackgroundLayout';
 import { Header } from '../../components/Header';
@@ -34,7 +35,7 @@ class ChangeImageScreen extends Component<IProps, IState> {
     render() {
         return(
             <BackgroundLayout>
-                <Header navigation={this.props.navigation} title="Cambiar imagen" />
+                <Header navigation={this.props.navigation} title={this.props.t('headerTitle')} />
 
                 <ListOfPhotoCard 
                     wallpapers={this.props.wallpaperReducer.data.wallpapers}
@@ -60,4 +61,4 @@ const mapDispatchToProps = {
     deleteWallpaper
 }
 
-export default connect<any>(mapstateToProps, mapDispatchToProps)(ChangeImageScreen);
+export default connect<any>(mapstateToProps, mapDispatchToProps)(withTranslation('ChangeImage')(ChangeImageScreen));

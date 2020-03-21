@@ -89,7 +89,7 @@ const Actions: FC<any> = (props: any) => {
           <ActivityIndicator size="small" color="#00F1DF" />
         </View>
       )}
-      <TouchableOpacity>
+      <TouchableOpacity onPress={props.onShare}>
         <AntDesign name="sharealt" size={20} color={styles.icon.color} />
       </TouchableOpacity>
     </View>

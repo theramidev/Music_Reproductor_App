@@ -25,6 +25,7 @@ export const Progress = ({
   duration,
   changeToLineMode,
   changeToRandomMode,
+  onShare
 }: any) => {
   const [position, setPosition] = useState(0);
   const [pauseMusic, setPauseMusic] = useState(false);
@@ -163,7 +164,9 @@ export const Progress = ({
       </View>
 
       {/* Icon actions */}
-      <Actions />
+      <Actions 
+      // @ts-ignore
+      onShare={onShare} />
     </View>
   );
 };

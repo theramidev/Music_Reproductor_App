@@ -4,7 +4,7 @@ import { BackgroundLayout } from '../../components/BackgroundLayout';
 import { IProps } from './interfaces/Props';
 import { IState } from './interfaces/State';
 import { getPlaylists, createPlaylist } from '../../redux/actions/playlistActions';
-import Modal from 'react-native-modal';
+import { withTranslation } from 'react-i18next';
 
 import { Header } from '../../components/Header';
 import { ListOfPlaylists } from './components/ListOfPlaylists';
@@ -38,7 +38,7 @@ class PlaylistsScreen extends Component<IProps, IState> {
         return(
             <BackgroundLayout>
                 <Header 
-                    title="Listas de reproducción" 
+                    title={this.props.t('headerTitle')}
                     navigation={this.props.navigation} 
                 />
 
@@ -69,4 +69,4 @@ const mapDispatchToProps = {
     createPlaylist
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PlaylistsScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation('Playlists')(PlaylistsScreen));

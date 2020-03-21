@@ -4,12 +4,14 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {useDynamicStyleSheet, eventEmitter} from 'react-native-dark-mode';
 import Feather from 'react-native-vector-icons/Feather';
 import SwitchToggle from '@dooboo-ui/native-switch-toggle';
+import { useTranslation } from 'react-i18next';
 
 import dynamicStyles from './styles';
 
 export const DarkMode: FC<any> = () => {
   const styles = useDynamicStyleSheet(dynamicStyles);
   const [mode, setMode] = useState(false);
+  const { t } = useTranslation('DarkMode');
 
   const getDarkMode = async () => {
     try {
@@ -37,7 +39,7 @@ export const DarkMode: FC<any> = () => {
     <Fragment>
       <View style={styles.container}>
         <Feather name="moon" color={styles.text.color} size={20} />
-        <Text style={styles.text}>Dark mode</Text>
+        <Text style={styles.text}>{t('mode')}</Text>
         <SwitchToggle switchOn={mode} onPress={() => updateDarkMode(!mode)} />
       </View>
     </Fragment>

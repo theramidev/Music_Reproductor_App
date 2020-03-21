@@ -1,5 +1,96 @@
 {
+    "ChangeImage": {
+        "headerTitle": "Cambiar imagen"
+    },
+    "ListOfPhotoCard": {
+        "accept": "Aceptar",
+        "cancel": "Cancelar"
+    },
+    "messages": {
+        "changeWallpaperToast": "Fondo cambiado con éxito"
+    },
+    "PhotoCard": {
+        "default": "Por defecto"
+    },
+    "Favorites": {
+        "headerTitle": "Favoritos",
+        "noSongs": "No tienes canciones favoritas :("
+    },
+    "Header": {
+        "search": "Buscar..."
+    },
+    "Sections": {
+        "recent": "Recientes",
+        "favorites": "Favoritos",
+        "lists": "Listas"
+    },
+    "Playlists": {
+        "headerTitle": "Listas de reproducción"
+    },
+    "ListOfPlaylists": {
+        "createList": "Crear nueva lista"
+    },
+    "ModalPlaylist": {
+        "nameRequired": "Nombre requerido",
+        "addImage": "Agregar imagen (opcional)",
+        "listName": "Nombre de la lista",
+        "inputNamePlaceholder": "Nombre...",
+        "cancel": "Cancelar",
+        "accept": "Aceptar"
+    },
+    "PlaylistSongs": {
+        "deleteMessage": "Lista de reproducción eliminada"
+    },
+    "ModalAdd": {
+        "searchPlaceholder": "Busca la canción aquí",
+        "all": "Todas",
+        "added": "Agregadas",
+        "notAdded": "No agregadas",
+        "cancel": "Cancelar",
+        "accept": "Aceptar"
+    },
+    "ModalDelete": {
+        "title": "Eliminar lista de reproducción",
+        "message": "¿Está seguro que quiere eliminar la lista?",
+        "cancel": "Cancelar",
+        "accept": "Aceptar"
+    },
+    "PlaylistInfo": {
+        "january": "Enero",
+        "february": "Febrero",
+        "march": "Marzo",
+        "april": "Abril",
+        "may": "Mayo",
+        "june": "Junio",
+        "july": "Julio",
+        "august": "Agosto",
+        "september": "Septiembre",
+        "october": "Octubre",
+        "november": "Noviembre",
+        "december": "Diciembre",
+        "date": "Creado el {{day}} de {{month}}, {{year}}",
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "add": "Agregar",
+        "song": "canci",
+        "sOne": "ón",
+        "sMore": "ones"
+    },
+    "Reproductions": {
+        "headerTitle": "Recientes",
+        "notSongs": "No se han reproducido canciones :("
+    },
+    "SearchSong": {
+        "inputPlaceholder": "Busca la canción aquí",
+        "notResults": "No se encontraron resultados"
+    },
     "Settings": {
-        "hello": "Hola!"
+        "headerTitle": "Ajustes"
+    },
+    "DarkMode": {
+        "mode": "Modo oscuro"
+    },
+    "ListOfOptions": {
+        "changeImageTitle": "Cambiar imagen de fondo"
     }
 }

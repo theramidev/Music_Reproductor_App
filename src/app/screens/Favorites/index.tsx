@@ -9,6 +9,7 @@ import {ListOfMusic} from '../../components/ListOfMusic';
 import {Text, View, ActivityIndicator} from 'react-native';
 import {theme} from '../../../assets/themes';
 import FooterMusic from '../../components/FooterMusic';
+import { withTranslation } from 'react-i18next';
 
 class FavoritesScreen extends Component<IProps, {}> {
   constructor(props: any) {
@@ -42,7 +43,7 @@ class FavoritesScreen extends Component<IProps, {}> {
 
     return (
       <BackgroundLayout>
-        <Header title="Favoritos" navigation={this.props.navigation} />
+        <Header title={this.props.t('headerTitle')} navigation={this.props.navigation} />
 
         <View style={{marginTop: 0, height: '100%'}}>
           {this.props.favoritesReducer.listFavorites.length > 0 ? (
@@ -61,15 +62,14 @@ class FavoritesScreen extends Component<IProps, {}> {
                 fontSize: 20,
                 fontWeight: 'bold',
               }}>
-              No tienes canciones favoritas :(
+              {this.props.t('noSongs')}
             </Text>
           )}
         </View>
 
         <FooterMusic
-          // @ts-ignore
-          navigation={this.props.navigation}
-        />
+        //@ts-ignore
+        navigation={this.props.navigation} />
       </BackgroundLayout>
     );
   }
@@ -90,4 +90,4 @@ const mapDispatchToProps = {
 export default connect<any, any>(
   mapStateToProps,
   mapDispatchToProps,
-)(FavoritesScreen);
+)(withTranslation('Favorites')(FavoritesScreen));

@@ -1,7 +1,8 @@
 import { NavigationScreenProp, NavigationState, NavigationParams } from "react-navigation";
 import { MReproduction } from "../../../models/reproduction.model";
+import { WithTranslation } from "react-i18next";
 
-export interface IProps {
+export interface IProps extends WithTranslation {
     navigation: NavigationScreenProp<NavigationState, NavigationParams>,
     /**
      * @description Obtiene las canciones escuchadas recientemente

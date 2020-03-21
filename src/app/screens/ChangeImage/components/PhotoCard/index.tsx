@@ -3,8 +3,10 @@ import { View, Image, TouchableOpacity, Text } from 'react-native';
 import { IProps } from './PropsInterface';
 import styles from './style';
 import IconMa from 'react-native-vector-icons/MaterialIcons';
+import { useTranslation } from 'react-i18next';
 
 export const PhotoCard: FC<IProps> = ({mode, onPress, wallpaperPath, onDelete}) => {
+    const { t } = useTranslation('PhotoCard');
 
     const press = () => {
         if (mode === 'add' || mode === 'default') {
@@ -36,7 +38,7 @@ export const PhotoCard: FC<IProps> = ({mode, onPress, wallpaperPath, onDelete}) 
                         {
                             mode === 'add' ? 
                             <IconMa name="add" size={50} color="white" /> :
-                            <Text style={styles.textDefault}>Por defecto</Text>
+                            <Text style={styles.textDefault}>{t('default')}</Text>
                         }
                     </View> : 
                     <Image 

@@ -3,6 +3,7 @@ import { ScrollView, View, Modal, Image, TouchableOpacity, Text } from 'react-na
 import { IProps } from './PropsInterface';
 import styles from './style';
 import DocumentPicker from 'react-native-document-picker';
+import { useTranslation } from 'react-i18next';
 
 import { PhotoCard } from '../PhotoCard';
 import { BackgroundLayout } from '../../../../components/BackgroundLayout';
@@ -11,6 +12,7 @@ import { BackgroundLayout } from '../../../../components/BackgroundLayout';
 export const ListOfPhotoCard: FC<IProps> = ({onWallpaperSelect, wallpapers = [], onWallpaperChange, onDeleteWallpaper}) => {
     const [photo, setPhoto] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
+    const { t } = useTranslation('ListOfPhotoCard');
 
     const openModal = async (photo: string) => {
         console.log(photo);
@@ -82,10 +84,10 @@ export const ListOfPhotoCard: FC<IProps> = ({onWallpaperSelect, wallpapers = [],
 
                     <View style={styles.buttonsContainer}>
                         <TouchableOpacity style={styles.button} onPress={closeModal}>
-                            <Text style={styles.textButton}>Cancelar</Text>
+                        <Text style={styles.textButton}>{t('cancel')}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.button} onPress={changeCurrentWallpaper}>
-                            <Text style={styles.textButton}>Aceptar</Text>
+                        <Text style={styles.textButton}>{t('accept')}</Text>
                         </TouchableOpacity>
                     </View>
                 </BackgroundLayout>
