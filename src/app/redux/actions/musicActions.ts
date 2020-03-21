@@ -17,9 +17,9 @@ import AsyncStorage from '@react-native-community/async-storage';
  */
 export const clearSearch = () => (dispatch: Dispatch) => {
   dispatch({
-    type: musicTypes.clearSearch
+    type: musicTypes.clearSearch,
   });
-}
+};
 
 /**
  * @description Busca una canción
@@ -30,12 +30,12 @@ export const searchSong = (words: string) => async (dispatch: Dispatch) => {
 
     dispatch({
       type: musicTypes.getSearch,
-      payload: songs
+      payload: songs,
     });
   } catch (error) {
     console.error('Search Error: ', error);
   }
-}
+};
 
 /**
  * @description Obtiene las canciones del dispositivo
@@ -168,6 +168,19 @@ export const updateListSongs = (songs: MSong[]) => (dispatch: Dispatch) => {
 };
 
 /**
+ * @description modifica el listdo de reproduccion de las canciones
+ * @param song
+ */
+export const updateListSongsCurrent = (songs: MSong[]) => (
+  dispatch: Dispatch,
+) => {
+  dispatch({
+    type: musicTypes.updateListSongsCurrent,
+    payload: songs,
+  });
+};
+
+/**
  * @description modifica el modo de reproduccion
  * @param mode 'RANDOM' | 'LINE'
  */
@@ -187,8 +200,8 @@ export const playInLine = (start: boolean) => async (
   getsState: any,
 ) => {
   try {
-    const {listSongs, current} = getsState().musicReducer;
-    const listMusics: MSong[] = getListLineSong(listSongs);
+    const {listSongsCurrent, current} = getsState().musicReducer;
+    const listMusics: MSong[] = getListLineSong(listSongsCurrent);
 
     const tracks = getList(listMusics);
 
@@ -209,8 +222,13 @@ export const playInRandom = (start: boolean) => async (
   getsState: any,
 ) => {
   try {
-    const {listSongs, current} = getsState().musicReducer;
-    const listMusics: MSong[] = getListRamdonSong(listSongs, null, current);
+    const {listSongsCurrent, current} = getsState().musicReducer;
+
+    const listMusics: MSong[] = getListRamdonSong(
+      listSongsCurrent,
+      null,
+      current,
+    );
 
     const tracks: Track[] = getList(listMusics);
 
@@ -230,12 +248,12 @@ export const changeToLineMode = () => async (
 ) => {
   try {
     const {
-      musicReducer: {listSongs, current},
+      musicReducer: {listSongsCurrent, current},
     } = getsState();
-    const listMusics: MSong[] = getListLineSong(listSongs, current);
+    const listMusics: MSong[] = getListLineSong(listSongsCurrent, current);
 
     const tracks: Track[] = getList(listMusics);
-    const elementsRemove = listSongs.filter(
+    const elementsRemove = listSongsCurrent.filter(
       (element: MSong) => element.id !== current.id,
     );
 
@@ -257,14 +275,14 @@ export const changeToRandomMode = () => async (
 ) => {
   try {
     const {
-      musicReducer: {listSongs, current},
+      musicReducer: {listSongsCurrent, current},
     } = getsState();
 
-    const listMusics: MSong[] = getListRamdonSong(listSongs, current);
+    const listMusics: MSong[] = getListRamdonSong(listSongsCurrent, current);
 
     const tracks: Track[] = getList(listMusics);
 
-    const elementsRemove = listSongs.filter(
+    const elementsRemove = listSongsCurrent.filter(
       (element: MSong) => element.id !== current.id,
     );
 
@@ -299,14 +317,15 @@ const getList = (listMusics: MSong[]) => {
 
 /**
  * @description setea o modifica el estado favorito de una cancion
+ * @param current cancion actual
  */
-export const updateFavorite = () => async (
+export const updateFavorite = (current: MSong) => async (
   dispatch: Dispatch,
   getsState: any,
 ) => {
   try {
     const {
-      musicReducer: {current, listSongs},
+      musicReducer: {listSongs},
     } = getsState();
 
     dispatch({

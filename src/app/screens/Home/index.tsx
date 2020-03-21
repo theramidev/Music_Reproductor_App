@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {Image, ActivityIndicator, Animated, View} from 'react-native';
 import {connect} from 'react-redux';
-import {getCurrentWallpaper} from '../../redux/actions/wallpaperActions';
-import {getSongs} from '../../redux/actions/musicActions';
 
+import {getCurrentWallpaper} from '../../redux/actions/wallpaperActions';
+import {updateFavorite} from '../../redux/actions/allSongsActions';
 import {
+  getSongs,
   updateCurrentMusicForId,
   updateListSongs,
   playInRandom,
@@ -18,7 +19,6 @@ import {ListOfMusic} from '../../components/ListOfMusic';
 import {BackgroundLayout} from '../../components/BackgroundLayout';
 import style from './style';
 import FooterMusic from '../../components/FooterMusic';
-import AsyncStorage from '@react-native-community/async-storage';
 
 class HomeScreen extends Component<IProps, IState> {
   state = {
@@ -32,18 +32,9 @@ class HomeScreen extends Component<IProps, IState> {
   }
 
   async componentDidMount() {
-    const data = await AsyncStorage.getItem('@Mode');
-    const mode = data || 'RANDOM';
     setTimeout(() => this.spring(), 500);
     this.props.getSongs();
     this.props.getCurrentWallpaper();
-    // await this.props.getSongs();
-
-    if (mode === 'RANDOM') {
-      await this.props.playInRandom(false);
-    } else {
-      await this.props.playInLine(false);
-    }
   }
 
   spring = () => {
@@ -104,6 +95,7 @@ class HomeScreen extends Component<IProps, IState> {
           </View>
         )}
         <Animated.View
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{flex: 1, height: '100%', opacity: this.state.fadePrincipal}}>
           <BackgroundLayout>
             {this.props.wallpaperReducer.data.currentWallpaper && (
@@ -111,7 +103,16 @@ class HomeScreen extends Component<IProps, IState> {
                 source={{
                   uri: this.props.wallpaperReducer.data.currentWallpaper,
                 }}
-                style={style.backgroundImage}
+                style={[
+                  style.backgroundImage,
+                  // eslint-disable-next-line react-native/no-inline-styles
+                  {
+                    height:
+                      Object.keys(this.props.musicReducer.current).length === 0
+                        ? '103%'
+                        : '95%',
+                  },
+                ]}
               />
             )}
 
@@ -119,11 +120,21 @@ class HomeScreen extends Component<IProps, IState> {
 
             <Sections navigation={this.props.navigation} />
 
-            <ListOfMusic songs={listSongs} navigate={navigation.navigate} />
+            <ListOfMusic
+              songs={listSongs}
+              updateFavorite={this.props.updateFavorite}
+              navigate={navigation.navigate}
+              paddingBottom={
+                Object.keys(this.props.musicReducer.current).length === 0
+                  ? 170
+                  : 230
+              }
+            />
 
-            <FooterMusic 
-            // @ts-ignore
-            navigation={navigation} />
+            <FooterMusic
+              // @ts-ignore
+              navigation={navigation}
+            />
           </BackgroundLayout>
         </Animated.View>
       </>
@@ -150,6 +161,7 @@ const mapDispatchToProps = {
   updateListSongs,
   playInRandom,
   playInLine,
+  updateFavorite,
 };
 
 export default connect<any, any>(

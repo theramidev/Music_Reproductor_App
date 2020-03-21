@@ -1,8 +1,6 @@
-import {PermissionsAndroid} from 'react-native';
 import fileTypes from '../types/fileTypes';
 import {Dispatch} from 'redux';
-import {ISong, MSong} from '../../models/song.model';
-import MusicFiles from 'react-native-get-music-files';
+import {MSong} from '../../models/song.model';
 import Database from '../../database';
 import {MReproduction} from '../../models/reproduction.model';
 

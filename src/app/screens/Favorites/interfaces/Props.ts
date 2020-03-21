@@ -13,15 +13,15 @@ export interface IProps extends WithTranslation {
    * @return void
    */
   getFavoriteSongs(): void;
-  fileReducer: {
-    data: {
-      favorites: MSong[];
-    };
-    loadings: {
-      loadingGetReproductions: boolean;
-    };
-    error: {
-      errorGetReproductions: any;
-    };
+
+  /**
+   * @description Modifca el estado favorito de la cancion
+   * @return void
+   */
+  updateFavorite(current: MSong): Promise<void>;
+  favoritesReducer: {
+    listFavorites: MSong[];
+    loadingFavorites: boolean;
+    errorFavorites: any;
   };
 }

@@ -12,7 +12,10 @@ class SongController {
    * @param words Palabras o nombre de la canción que se va a buscar
    * @return Promise<MSong[]>
    */
-  public getSongsSearch(database: SQLiteDatabase, words: string): Promise<MSong[]> {
+  public getSongsSearch(
+    database: SQLiteDatabase,
+    words: string,
+  ): Promise<MSong[]> {
     return new Promise(async (resolve, reject) => {
       try {
         const allSongs = await this.getSongs(database);

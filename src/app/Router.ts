@@ -13,6 +13,7 @@ import FavoritesScreen from './screens/Favorites';
 import PlaylistsScreen from './screens/Playlists';
 import PlaylistSongsScreen from './screens/PlaylistSongs';
 import SearchSongScreen from './screens/SearchSong';
+import UpdateSongScreen from './screens/updateSong';
 
 const Routes = createStackNavigator(
   {
@@ -76,6 +77,14 @@ const Routes = createStackNavigator(
     },
     SearchSong: {
       screen: SearchSongScreen,
+      navigationOptions: {
+        gestureDirection: 'horizontal',
+        gestureEnabled: true,
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      },
+    },
+    UpdateSong: {
+      screen: UpdateSongScreen,
       navigationOptions: {
         gestureDirection: 'horizontal',
         gestureEnabled: true,

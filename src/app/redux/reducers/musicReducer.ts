@@ -2,6 +2,7 @@ import musicTypes from '../types/musicTypes';
 
 const INITIAL_STATE = {
   listSongs: [],
+  listSongsCurrent: [],
   loadingListSongs: true,
   errorListSongs: null,
   searchSongs: [],
@@ -34,6 +35,13 @@ export default (state = INITIAL_STATE, {type, payload}: any) => {
         loadingListSongs: false,
         errorListSongs: payload,
       };
+
+    case musicTypes.updateListSongsCurrent:
+      return {
+        ...state,
+        listSongsCurrent: payload,
+      };
+
     case musicTypes.updateCurrentMusic:
       return {
         ...state,
@@ -69,18 +77,18 @@ export default (state = INITIAL_STATE, {type, payload}: any) => {
         errorFavorite: payload,
         loadingFavorite: false,
       };
-    
+
     case musicTypes.getSearch:
       return {
         ...state,
-        searchSongs: payload
-      }
+        searchSongs: payload,
+      };
 
     case musicTypes.clearSearch:
       return {
         ...state,
-        searchSongs: []
-      }
+        searchSongs: [],
+      };
 
     default:
       return state;

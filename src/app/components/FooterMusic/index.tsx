@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState, Fragment} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
@@ -14,31 +14,57 @@ import TrackPlayer, {
   play,
   skipToNext,
   getState,
+  getPosition,
+  getQueue,
 } from 'react-native-track-player';
 import {
+  updateListSongsCurrent,
   changeToRandomMode,
   changeToLineMode,
+  playInRandom,
+  playInLine,
 } from '../../redux/actions/musicActions';
+import {LoadingComponent} from '../LoadingComponent';
 
 const FooterMusic: FC<any> = (props: IProps) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
-  const {title, author} = props.musicReducer.current;
+  const {title, author, duration} = props.musicReducer.current;
+  const [position, setPosition] = useState(0);
   const [pauseMusic, setPauseMusic] = useState(true);
 
   useEffect(() => {
+    getPosition().then(seg => {
+      setPosition(+seg * 1000);
+    });
+
+    var interval = setInterval(() => {
+      getPosition().then(seg => {
+        setPosition(+seg * 1000);
+      });
+    }, 700);
+
     getState().then(state => {
-      state === 2 ? setPauseMusic(true) : setPauseMusic(false);
+      if (state === 2) {
+        setPauseMusic(true);
+      } else if (state === 3) {
+        setPauseMusic(false);
+      }
     });
 
     var playbackState = TrackPlayer.addEventListener(
       'playback-state',
       (data: {state: number}) => {
-        data.state === 2 ? setPauseMusic(true) : setPauseMusic(false);
+        if (data.state === 2) {
+          setPauseMusic(true);
+        } else if (data.state === 3) {
+          setPauseMusic(false);
+        }
       },
     );
 
     return () => {
       playbackState.remove();
+      clearInterval(interval);
     };
   }, []);
 
@@ -55,90 +81,134 @@ const FooterMusic: FC<any> = (props: IProps) => {
   };
 
   const playSond = async () => {
-    await play();
-    setPauseMusic(false);
+    const queue = (await getQueue()).length;
+
+    if (queue === 1 || queue === 0) {
+      props.updateListSongsCurrent(props.musicReducer.listSongs);
+
+      const data = await AsyncStorage.getItem('@Mode');
+      const mode = data || 'RANDOM';
+      if (mode === 'RANDOM') {
+        props.playInRandom(true);
+      } else {
+        props.playInLine(true);
+      }
+    } else {
+      await play();
+      setPauseMusic(false);
+    }
   };
 
   const nextSong = async () => {
-    try {
-      await skipToNext();
-    } catch (err) {
-      if (err.toString() === 'Error: There is no tracks left to play') {
-        const data = await AsyncStorage.getItem('@Mode');
-        const mode = data || 'RANDOM';
+    const queue = (await getQueue()).length;
 
-        if (mode === 'RANDOM') {
-          await props.changeToRandomMode();
-        } else {
-          await props.changeToLineMode();
-        }
+    if (queue === 1 || queue === 0) {
+      props.updateListSongsCurrent(props.musicReducer.listSongs);
 
+      const data = await AsyncStorage.getItem('@Mode');
+      const mode = data || 'RANDOM';
+      if (mode === 'RANDOM') {
+        props.playInRandom(true);
+      } else {
+        props.playInLine(true);
+      }
+    } else {
+      try {
         await skipToNext();
+      } catch (err) {
+        if (err.toString() === 'Error: There is no tracks left to play') {
+          const data = await AsyncStorage.getItem('@Mode');
+          const mode = data || 'RANDOM';
+
+          if (mode === 'RANDOM') {
+            await props.changeToRandomMode();
+          } else {
+            await props.changeToLineMode();
+          }
+
+          await skipToNext();
+        }
       }
     }
   };
 
   if (Object.keys(props.musicReducer.current).length === 0) {
+    return <Fragment />;
+  }
+
+  if (props.musicReducer.listSongs.length === 0) {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>No se encontraron canciones</Text>
+        <LoadingComponent />
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={goToMusic} style={styles.music}>
-        <Image
-          style={styles.image}
-          source={{
-            uri:
-              'https://upload.wikimedia.org/wikipedia/en/thumb/e/ed/Green_Day_-_American_Idiot_album_cover.png/220px-Green_Day_-_American_Idiot_album_cover.png',
+    <Fragment>
+      <View style={styles.container}>
+        <View
+          // eslint-disable-next-line react-native/no-inline-styles
+          style={{
+            height: 1,
+            width: Math.floor((position * 100) / duration) + '%',
+            backgroundColor: '#00F1DF',
+            position: 'absolute',
+            top: 0,
           }}
         />
+        <TouchableOpacity onPress={goToMusic} style={styles.music}>
+          <Image
+            style={styles.image}
+            source={{
+              uri:
+                'https://upload.wikimedia.org/wikipedia/en/thumb/e/ed/Green_Day_-_American_Idiot_album_cover.png/220px-Green_Day_-_American_Idiot_album_cover.png',
+            }}
+          />
 
-        <View style={styles.info}>
-          {title.length <= 24 && <Text style={styles.title}>{title}</Text>}
-          {title.length > 24 && (
-            <AutoScrolling>
-              <Text style={styles.title}>{title}</Text>
-            </AutoScrolling>
+          <View style={styles.info}>
+            {title.length <= 24 && <Text style={styles.title}>{title}</Text>}
+            {title.length > 24 && (
+              <AutoScrolling>
+                <Text style={styles.title}>{title}</Text>
+              </AutoScrolling>
+            )}
+            <Text style={styles.group}>{author}</Text>
+          </View>
+        </TouchableOpacity>
+
+        <View style={styles.options}>
+          {pauseMusic && (
+            <TouchableOpacity onPress={playSond}>
+              <Entypo
+                style={styles.icon}
+                name="controller-play"
+                size={27}
+                color={styles.icon.color}
+              />
+            </TouchableOpacity>
           )}
-          <Text style={styles.group}>{author}</Text>
-        </View>
-      </TouchableOpacity>
-
-      <View style={styles.options}>
-        {pauseMusic && (
-          <TouchableOpacity onPress={playSond}>
+          {!pauseMusic && (
+            <TouchableOpacity onPress={stop}>
+              <AntDesign
+                name="pause"
+                size={27}
+                style={styles.icon}
+                color={styles.icon.color}
+              />
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity onPress={nextSong}>
             <Entypo
               style={styles.icon}
-              name="controller-play"
+              name="controller-next"
               size={27}
               color={styles.icon.color}
             />
           </TouchableOpacity>
-        )}
-        {!pauseMusic && (
-          <TouchableOpacity onPress={stop}>
-            <AntDesign
-              name="pause"
-              size={27}
-              style={styles.icon}
-              color={styles.icon.color}
-            />
-          </TouchableOpacity>
-        )}
-        <TouchableOpacity onPress={nextSong}>
-          <Entypo
-            style={styles.icon}
-            name="controller-next"
-            size={27}
-            color={styles.icon.color}
-          />
-        </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </Fragment>
   );
 };
 
@@ -149,8 +219,11 @@ const mapStateToProps = ({musicReducer}: any) => {
 };
 
 const mapDispatchToProps = {
+  updateListSongsCurrent,
   changeToRandomMode,
   changeToLineMode,
+  playInRandom,
+  playInLine,
 };
 
 export default connect<any, any>(

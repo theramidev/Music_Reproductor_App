@@ -5,13 +5,14 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
-import dynamicStyles from './style';
 import {connect} from 'react-redux';
+
+import dynamicStyles from './style';
 import {
   changeToLineMode,
   changeToRandomMode,
-  updateFavorite,
 } from '../../../../redux/actions/musicActions';
+import {updateFavorite} from '../../../../redux/actions/allSongsActions';
 import {ShowToast} from '../../../../../utils/toast';
 
 const Actions: FC<any> = (props: any) => {
@@ -50,7 +51,12 @@ const Actions: FC<any> = (props: any) => {
   };
 
   const updateFavoriteSong = async () => {
-    await props.updateFavorite();
+    const {current} = props.musicReducer;
+    await props.updateFavorite(current, true);
+
+    ShowToast(
+      !current.isFavorite ? 'Se agrego a favoritos' : 'Se elimino de favoritos',
+    );
   };
 
   const getStateFavorite = () => {

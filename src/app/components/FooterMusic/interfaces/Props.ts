@@ -37,4 +37,9 @@ export interface IProps {
 
   changeToRandomMode(): Promise<void>;
   changeToLineMode(): Promise<void>;
+
+  updateListSongsCurrent(songs: MSong[]): void;
+
+  playInRandom(start: boolean): void;
+  playInLine(start: boolean): void;
 }
