@@ -8,7 +8,13 @@ import AutoScrolling from 'react-native-auto-scrolling';
 import dynamicStyles from './style';
 import {HeaderBackButton} from 'react-navigation-stack';
 
-export const Header: FC<IProps> = ({navigation, iconName, title, onPress, children}) => {
+export const Header: FC<IProps> = ({
+  navigation,
+  iconName,
+  title,
+  onPress,
+  children,
+}) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
 
   const back = () => {
@@ -17,17 +23,18 @@ export const Header: FC<IProps> = ({navigation, iconName, title, onPress, childr
 
   return (
     <View style={styles.container}>
-      {
-        children ? children :
-          <View style={styles.contentText}>
-            {title.length <= 24 && <Text style={styles.text}>{title}</Text>}
-            {title.length > 24 && (
-              <AutoScrolling style={styles.scroll}>
-                <Text style={styles.text}>{title}</Text>
-              </AutoScrolling>
-            )}
+      {children ? (
+        children
+      ) : (
+        <View style={styles.contentText}>
+          {title.length <= 24 && <Text style={styles.text}>{title}</Text>}
+          {title.length > 24 && (
+            <AutoScrolling style={styles.scroll}>
+              <Text style={styles.text}>{title}</Text>
+            </AutoScrolling>
+          )}
         </View>
-      }
+      )}
 
       <TouchableOpacity style={styles.back}>
         <HeaderBackButton tintColor={styles.back.color} onPress={back} />

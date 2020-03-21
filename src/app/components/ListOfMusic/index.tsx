@@ -46,11 +46,12 @@ export const ListOfMusic: FC<IProps> = ({
         options: [
           item.isFavorite ? 'Eliminar de favoritos' : 'Agregar a Favoritos',
           'Agregar a lista de reproduccion',
+          'Editar informacion',
           'Compartir',
           'Eliminar',
           'Cancel',
         ],
-        destructiveButtonIndex: 4,
+        destructiveButtonIndex: 5,
         containerStyle: styles.actions,
         textStyle: styles.actionsText,
         titleTextStyle: styles.actionsText,
@@ -66,6 +67,9 @@ export const ListOfMusic: FC<IProps> = ({
                 ? 'Se agrego a favoritos'
                 : 'Se elimino de favoritos',
             );
+            break;
+          case 2:
+            navigate('UpdateSong', {item, songs});
             break;
 
           default:

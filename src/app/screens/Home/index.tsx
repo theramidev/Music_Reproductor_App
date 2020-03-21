@@ -35,7 +35,6 @@ class HomeScreen extends Component<IProps, IState> {
     setTimeout(() => this.spring(), 500);
     this.props.getSongs();
     this.props.getCurrentWallpaper();
-    await this.props.getSongs();
   }
 
   spring = () => {

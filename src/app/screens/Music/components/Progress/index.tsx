@@ -31,6 +31,11 @@ export const Progress = ({
   const styles = useDynamicStyleSheet(dynamicStyles);
 
   useEffect(() => {
+    // obtiene el tiempo en seg de la musica que se esta reproduciendo
+    getPosition().then(seg => {
+      setPosition(+seg * 1000);
+    });
+
     // obtiene el estado de la reproduccion (usado para saber si esta en pausa o no)
     getState().then(state => {
       if (state === 2) {
@@ -38,10 +43,6 @@ export const Progress = ({
       } else if (state === 3) {
         setPauseMusic(false);
       }
-    });
-    // obtiene el tiempo en seg de la musica que se esta reproduciendo
-    getPosition().then(seg => {
-      setPosition(+seg * 1000);
     });
 
     // realiza un interval para obtener el tienpo actual de la cancion
