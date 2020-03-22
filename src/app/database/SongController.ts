@@ -6,6 +6,9 @@ class SongController {
   private tableSong: string = 'song';
   private tableReproduction: string = 'reproduction';
 
+  public async updateSong(): Promise<void> {
+    
+  }
   /**
    * @description Busca una o unas canciones especificas
    * @param database Base de datos local
