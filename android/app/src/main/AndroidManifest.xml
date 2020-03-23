@@ -6,9 +6,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-    <meta-data
-      android:name="com.google.android.gms.ads.ca-app-pub-2449976564245125~8805520463"
-      android:value="ca-app-pub-2449976564245125~8805520463" />
+    
 
     <application
       android:name=".MainApplication"
@@ -17,6 +15,11 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
+
+      <meta-data
+          android:name="com.google.android.gms.ads.APPLICATION_ID"
+          android:value="ca-app-pub-2449976564245125~8805520463" />
+          
       <!-- Add this SplashActivity -->
       <activity
         android:name=".SplashActivity"

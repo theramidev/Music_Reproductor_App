@@ -5,7 +5,7 @@ import { AdMobBanner } from 'react-native-admob';
 export const AdBanner: FC<{}> = () => {
 
     const bannerErrorHandler = (e: any) => {
-        console.error(e);
+        console.warn('Error bannerAd: ', e);
     }
 
     return(
@@ -19,7 +19,7 @@ export const AdBanner: FC<{}> = () => {
             <AdMobBanner 
                 adSize="fullBanner"
                 adUnitID="ca-app-pub-2449976564245125/9577646279"
-                testDevices={[AdMobBanner.simulatorId]}
+                // testDeviceID={[AdMobBanner.simulatorId]}
                 onAdFailedToLoad={bannerErrorHandler}
             />
         </View>

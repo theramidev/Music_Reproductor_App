@@ -37,6 +37,7 @@ target 'ReproductorNative' do
 
   pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
 
+
   target 'ReproductorNativeTests' do
     inherit! :search_paths
     # Pods for testing
