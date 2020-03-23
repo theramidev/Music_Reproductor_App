@@ -42,7 +42,10 @@ class Music extends Component<IProps, IState> {
 
     this.props.updateCurrentMusic(item);
 
-    if (isPlay(musicReducer.current, item)) {
+    if (
+      isPlay(musicReducer.current, item) &&
+      musicReducer.listSongsCurrent.length > 0
+    ) {
       return;
     }
     const mode = (await AsyncStorage.getItem('@Mode')) || 'RANDOM';
@@ -62,7 +65,7 @@ class Music extends Component<IProps, IState> {
 
   _onShare = async () => {
     share(this.props.musicReducer.current);
-  }
+  };
 
   render() {
     const {
@@ -82,7 +85,7 @@ class Music extends Component<IProps, IState> {
         <Header
           title={item.title}
           navigation={this.props.navigation}
-          iconName="settings"
+          iconName="options-vertical"
         />
 
         <View style={style.contentImage}>

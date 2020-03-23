@@ -18,6 +18,7 @@ const styles: StylesUpdateImage = {
     height: 200,
     borderRadius: 10,
     marginTop: 10,
+    backgroundColor: theme(0.8).light,
   },
 };
 
