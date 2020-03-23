@@ -12,6 +12,30 @@ class Database implements IDatabase {
     private dbName: string = 'music_dm';
 
     /**
+     * @description Elimina una canción de la base de datos y del dispositivo
+     * @param songId Id de la canción que se va a eliminar
+     * @param path Ruta del archivo de la canción
+     * @return Promise<boolean>
+     */
+    public async deleteSong(songId: string, path: string): Promise<boolean> {
+        await SongController.deleteSong(this.database, songId);
+        return SongController.deleteFile(path);
+    }
+    /**
+     * @description Actuaiza una canción
+     * @param database Base de datos local
+     * @param songId Id de la canción
+     * @param title Título de la canción
+     * @param author Author de la canción
+     * @param album Albúm de la canción
+     * @param lyrics Letra de la canción
+     * @param cover Cover o portada de la canción
+     * @return Promise<void>
+     */
+    public updateSong(songId: string, title: string, author: string | null, album: string | null, lyrics: string | null, cover: string | null): Promise<void> {
+        return SongController.updateSong(this.database, songId, title, author, album, lyrics, cover);
+    }
+    /**
      * @description Busca una o unas canciones
      * @param words Palabra o canción que se va a buscar
      * @return Promise<MSong[]>
