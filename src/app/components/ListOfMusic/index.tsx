@@ -1,5 +1,5 @@
-import React, {FC} from 'react';
-import {View, Image, FlatList, Text, TouchableOpacity} from 'react-native';
+import React, {FC, useEffect} from 'react';
+import {View, Image, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {useActionSheet} from '@expo/react-native-action-sheet';
 
@@ -15,7 +15,7 @@ import {ShowToast} from '../../../utils/toast';
 import AsyncStorage from '@react-native-community/async-storage';
 
 export const ListOfMusic: FC<IProps> = ({
-  songs = [],
+  songs,
   navigate,
   updateFavorite,
   paddingBottom = 0,
@@ -23,9 +23,14 @@ export const ListOfMusic: FC<IProps> = ({
   const styles = useDynamicStyleSheet(dynamicStyles);
   const {showActionSheetWithOptions} = useActionSheet();
 
+  useEffect(() => {
+    //order();
+    //console.log(songs);
+  }, [songs]);
+
   const order = (array: MSong[]) => {
-    let arrayOrder = array;
-    arrayOrder.sort(function(a: MSong, b: MSong) {
+    var newArray = array;
+    newArray.sort(function(a: MSong, b: MSong) {
       if (a.title.toLowerCase() > b.title.toLowerCase()) {
         return 1;
       }
@@ -35,7 +40,7 @@ export const ListOfMusic: FC<IProps> = ({
       return 0;
     });
 
-    return array;
+    return newArray;
   };
 
   // abre la ventana de opciones
@@ -79,6 +84,30 @@ export const ListOfMusic: FC<IProps> = ({
     );
   };
 
+  const openActionOrder = () => {
+    showActionSheetWithOptions(
+      {
+        title: 'Modificar orden',
+        options: ['Alfavetico', 'Duraciòn', 'Artista'],
+        containerStyle: styles.actions,
+        textStyle: styles.actionsText,
+        titleTextStyle: styles.actionsText,
+      },
+      async (index: number) => {
+        switch (index) {
+          case 0:
+            //order();
+            break;
+          case 2:
+            break;
+
+          default:
+            break;
+        }
+      },
+    );
+  };
+
   const cutText = (txt: string): string => {
     if (txt.length > 35) {
       return txt.substring(0, 35) + '...';
@@ -95,6 +124,24 @@ export const ListOfMusic: FC<IProps> = ({
     navigate('Music', {item: songs[position], songs});
   };
 
+  if (songs.length === 0) {
+    return (
+      <Text
+        style={[
+          styles.textRandom,
+          // eslint-disable-next-line react-native/no-inline-styles
+          {
+            fontSize: 15,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            marginTop: 20,
+          },
+        ]}>
+        No se encontraron canciones
+      </Text>
+    );
+  }
+
   return (
     <View style={[styles.container, {paddingBottom}]}>
       <View style={styles.options}>
@@ -108,7 +155,9 @@ export const ListOfMusic: FC<IProps> = ({
         </TouchableOpacity>
 
         <View>
-          <TouchableOpacity style={styles.iconOptions}>
+          <TouchableOpacity
+            style={styles.iconOptions}
+            onPress={openActionOrder}>
             <MaterialIcons
               name="swap-calls"
               size={20}
@@ -127,24 +176,27 @@ export const ListOfMusic: FC<IProps> = ({
         }}
       />
 
-      <FlatList
-        style={{paddingBottom: 270}}
-        data={order(songs)}
-        renderItem={({item}: {item: MSong}) => (
-          <View style={styles.containerItem}>
+      <ScrollView>
+        {order(songs).map((item: MSong, key: number) => (
+          <View key={key} style={styles.containerItem}>
             <Ripple
               rippleColor={styles.title.color}
               style={styles.containerItem}
               onPress={() => navigate('Music', {item, songs})}>
               <View style={styles.item}>
-                <Image
-                  style={styles.image}
-                  key={item.id}
-                  source={{
-                    uri:
-                      'https://i.pinimg.com/originals/71/af/1d/71af1d7689eeb346b089aa8d56bcc6b6.jpg',
-                  }}
-                />
+                {item.cover ? (
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: 'file://' + item.cover,
+                    }}
+                  />
+                ) : (
+                  <Image
+                    style={styles.image}
+                    source={require('../../../assets/images/music_notification.png')}
+                  />
+                )}
 
                 <View style={styles.info}>
                   <Text style={styles.title}>{cutText(item.title)}</Text>
@@ -164,8 +216,8 @@ export const ListOfMusic: FC<IProps> = ({
               />
             </TouchableOpacity>
           </View>
-        )}
-      />
+        ))}
+      </ScrollView>
     </View>
   );
 };

@@ -29,7 +29,7 @@ const styles: StylesHeader = {
   },
   icon: {
     position: 'absolute',
-    right: 10,
+    right: 15,
     color: colorText,
   },
 };

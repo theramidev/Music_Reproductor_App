@@ -33,8 +33,6 @@ export interface IProps {
    */
   updateCurrentMusicForId(id: string): void;
 
-  updateListSongs(songs: MSong[]): void;
-
   changeToRandomMode(): Promise<void>;
   changeToLineMode(): Promise<void>;
 
