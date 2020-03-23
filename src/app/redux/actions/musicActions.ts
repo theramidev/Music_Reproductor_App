@@ -186,7 +186,7 @@ export const updateListSongsCurrent = (songs: MSong[]) => (
  */
 export const updateMode = (mode: 'RANDOM' | 'LINE') => (dispatch: Dispatch) => {
   dispatch({
-    type: musicTypes.updateListSongs,
+    type: musicTypes.updateMode,
     payload: mode,
   });
 };
@@ -223,15 +223,14 @@ export const playInRandom = (start: boolean) => async (
 ) => {
   try {
     const {listSongsCurrent, current} = getsState().musicReducer;
+    const auxListSongsCurrent = listSongsCurrent;
 
     const listMusics: MSong[] = getListRamdonSong(
-      listSongsCurrent,
+      auxListSongsCurrent,
       null,
       current,
     );
-
     const tracks: Track[] = getList(listMusics);
-
     TrackPlayer.add(tracks);
     start && TrackPlayer.play();
   } catch (error) {
@@ -277,8 +276,9 @@ export const changeToRandomMode = () => async (
     const {
       musicReducer: {listSongsCurrent, current},
     } = getsState();
+    const auxListSongsCurrent = listSongsCurrent;
 
-    const listMusics: MSong[] = getListRamdonSong(listSongsCurrent, current);
+    const listMusics: MSong[] = getListRamdonSong(auxListSongsCurrent, current);
 
     const tracks: Track[] = getList(listMusics);
 
@@ -313,53 +313,4 @@ const getList = (listMusics: MSong[]) => {
       } as Track;
     },
   );
-};
-
-/**
- * @description setea o modifica el estado favorito de una cancion
- * @param current cancion actual
- */
-export const updateFavorite = (current: MSong) => async (
-  dispatch: Dispatch,
-  getsState: any,
-) => {
-  try {
-    const {
-      musicReducer: {listSongs},
-    } = getsState();
-
-    dispatch({
-      type: musicTypes.loadingFavorite,
-    });
-
-    const isFavorite = !current.isFavorite;
-
-    const updateSongs = listSongs.map((music: MSong) => {
-      if (music.id === current.id) {
-        return {...music, isFavorite};
-      }
-
-      return music;
-    });
-
-    await database.updateSongToFavorite(current.id, isFavorite);
-
-    dispatch({
-      type: musicTypes.updateListSongs,
-      payload: updateSongs,
-    });
-    dispatch({
-      type: musicTypes.updateCurrentMusic,
-      payload: {...current, isFavorite},
-    });
-  } catch (err) {
-    dispatch({
-      type: musicTypes.errorFavorite,
-      payload: err,
-    });
-    dispatch({
-      type: musicTypes.errorFavorite,
-      payload: null,
-    });
-  }
 };

@@ -86,14 +86,19 @@ class Music extends Component<IProps, IState> {
         />
 
         <View style={style.contentImage}>
-          <Image
-            style={style.image}
-            key={item.id}
-            source={{
-              uri:
-                'https://i.pinimg.com/originals/71/af/1d/71af1d7689eeb346b089aa8d56bcc6b6.jpg',
-            }}
-          />
+          {item.cover ? (
+            <Image
+              style={style.image}
+              source={{
+                uri: 'file://' + item.cover,
+              }}
+            />
+          ) : (
+            <Image
+              style={[style.image, {backgroundColor: '#838383'}]}
+              source={require('../../../assets/images/music_notification.png')}
+            />
+          )}
           <Text style={style.author}>{item.author}</Text>
           <Text style={style.album}>{item.album}</Text>
         </View>

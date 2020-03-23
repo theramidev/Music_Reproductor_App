@@ -1,5 +1,5 @@
-import React, {FC} from 'react';
-import {View, Image, FlatList, Text, TouchableOpacity} from 'react-native';
+import React, {FC, useEffect} from 'react';
+import {View, Image, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {useActionSheet} from '@expo/react-native-action-sheet';
 
@@ -15,7 +15,7 @@ import {ShowToast} from '../../../utils/toast';
 import AsyncStorage from '@react-native-community/async-storage';
 
 export const ListOfMusic: FC<IProps> = ({
-  songs = [],
+  songs,
   navigate,
   updateFavorite,
   paddingBottom = 0,
@@ -23,9 +23,14 @@ export const ListOfMusic: FC<IProps> = ({
   const styles = useDynamicStyleSheet(dynamicStyles);
   const {showActionSheetWithOptions} = useActionSheet();
 
+  useEffect(() => {
+    //order();
+    //console.log(songs);
+  }, [songs]);
+
   const order = (array: MSong[]) => {
-    let arrayOrder = array;
-    arrayOrder.sort(function(a: MSong, b: MSong) {
+    var newArray = array;
+    newArray.sort(function(a: MSong, b: MSong) {
       if (a.title.toLowerCase() > b.title.toLowerCase()) {
         return 1;
       }
@@ -35,7 +40,7 @@ export const ListOfMusic: FC<IProps> = ({
       return 0;
     });
 
-    return array;
+    return newArray;
   };
 
   // abre la ventana de opciones
@@ -70,6 +75,30 @@ export const ListOfMusic: FC<IProps> = ({
             break;
           case 2:
             navigate('UpdateSong', {item, songs});
+            break;
+
+          default:
+            break;
+        }
+      },
+    );
+  };
+
+  const openActionOrder = () => {
+    showActionSheetWithOptions(
+      {
+        title: 'Modificar orden',
+        options: ['Alfavetico', 'Duraciòn', 'Artista'],
+        containerStyle: styles.actions,
+        textStyle: styles.actionsText,
+        titleTextStyle: styles.actionsText,
+      },
+      async (index: number) => {
+        switch (index) {
+          case 0:
+            //order();
+            break;
+          case 2:
             break;
 
           default:
@@ -126,7 +155,9 @@ export const ListOfMusic: FC<IProps> = ({
         </TouchableOpacity>
 
         <View>
-          <TouchableOpacity style={styles.iconOptions}>
+          <TouchableOpacity
+            style={styles.iconOptions}
+            onPress={openActionOrder}>
             <MaterialIcons
               name="swap-calls"
               size={20}
@@ -145,11 +176,9 @@ export const ListOfMusic: FC<IProps> = ({
         }}
       />
 
-      <FlatList
-        style={{paddingBottom: 270}}
-        data={order(songs)}
-        renderItem={({item}: {item: MSong}) => (
-          <View style={styles.containerItem}>
+      <ScrollView>
+        {order(songs).map((item: MSong, key: number) => (
+          <View key={key} style={styles.containerItem}>
             <Ripple
               rippleColor={styles.title.color}
               style={styles.containerItem}
@@ -158,7 +187,6 @@ export const ListOfMusic: FC<IProps> = ({
                 {item.cover ? (
                   <Image
                     style={styles.image}
-                    key={item.id}
                     source={{
                       uri: 'file://' + item.cover,
                     }}
@@ -166,7 +194,6 @@ export const ListOfMusic: FC<IProps> = ({
                 ) : (
                   <Image
                     style={styles.image}
-                    key={item.id}
                     source={require('../../../assets/images/music_notification.png')}
                   />
                 )}
@@ -189,8 +216,8 @@ export const ListOfMusic: FC<IProps> = ({
               />
             </TouchableOpacity>
           </View>
-        )}
-      />
+        ))}
+      </ScrollView>
     </View>
   );
 };

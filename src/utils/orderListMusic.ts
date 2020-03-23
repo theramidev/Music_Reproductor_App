@@ -10,7 +10,8 @@ export const getListRamdonSong = (
   currentMusic?: MSong | null,
   firstMusic?: MSong,
 ) => {
-  var list = songs.sort(() => Math.random() - 0.5);
+  var list = songs;
+  list.sort(() => Math.random() - 0.5);
 
   if (firstMusic) {
     list = list.filter((music: MSong) => music.id !== firstMusic.id);

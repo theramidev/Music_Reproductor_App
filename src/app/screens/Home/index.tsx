@@ -7,7 +7,6 @@ import {updateFavorite} from '../../redux/actions/allSongsActions';
 import {
   getSongs,
   updateCurrentMusicForId,
-  updateListSongs,
   playInRandom,
   playInLine,
 } from '../../redux/actions/musicActions';
@@ -158,7 +157,6 @@ const mapDispatchToProps = {
   getSongs,
   getCurrentWallpaper,
   updateCurrentMusicForId,
-  updateListSongs,
   playInRandom,
   playInLine,
   updateFavorite,
