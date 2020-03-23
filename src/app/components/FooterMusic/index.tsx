@@ -28,7 +28,7 @@ import {LoadingComponent} from '../LoadingComponent';
 
 const FooterMusic: FC<any> = (props: IProps) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
-  const {title, author, duration} = props.musicReducer.current;
+  const {title, author, duration, cover} = props.musicReducer.current;
   const [position, setPosition] = useState(0);
   const [pauseMusic, setPauseMusic] = useState(true);
 
@@ -158,13 +158,19 @@ const FooterMusic: FC<any> = (props: IProps) => {
           }}
         />
         <TouchableOpacity onPress={goToMusic} style={styles.music}>
-          <Image
-            style={styles.image}
-            source={{
-              uri:
-                'https://upload.wikimedia.org/wikipedia/en/thumb/e/ed/Green_Day_-_American_Idiot_album_cover.png/220px-Green_Day_-_American_Idiot_album_cover.png',
-            }}
-          />
+          {cover ? (
+            <Image
+              style={styles.image}
+              source={{
+                uri: 'file://' + cover,
+              }}
+            />
+          ) : (
+            <Image
+              style={styles.image}
+              source={require('../../../assets/images/music_notification.png')}
+            />
+          )}
 
           <View style={styles.info}>
             {title.length <= 24 && <Text style={styles.title}>{title}</Text>}

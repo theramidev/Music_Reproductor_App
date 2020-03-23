@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {IProps} from './interfaces/Props';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import AutoScrolling from 'react-native-auto-scrolling';
 
 import dynamicStyles from './style';
@@ -42,7 +42,11 @@ export const Header: FC<IProps> = ({
 
       {iconName && (
         <TouchableOpacity style={styles.icon} onPress={onPress}>
-          <Icon name={iconName} size={30} color={styles.icon.color} />
+          <SimpleLineIcons
+            name={iconName}
+            color={styles.icon.color}
+            size={15}
+          />
         </TouchableOpacity>
       )}
     </View>

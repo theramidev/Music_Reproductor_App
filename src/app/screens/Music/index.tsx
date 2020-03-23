@@ -18,9 +18,10 @@ import {
 import style from './style';
 import {Progress} from './components/Progress';
 import {isPlay} from '../../../utils/isPlay';
-import {destroy} from 'react-native-track-player';
+import {destroy, getQueue} from 'react-native-track-player';
 import AsyncStorage from '@react-native-community/async-storage';
 import share from '../../../utils/share';
+import { AdBanner } from '../../components/AdBanner';
 
 class Music extends Component<IProps, IState> {
   constructor(props: IProps) {
@@ -42,7 +43,7 @@ class Music extends Component<IProps, IState> {
 
     this.props.updateCurrentMusic(item);
 
-    if (isPlay(musicReducer.current, item)) {
+    if (isPlay(musicReducer.current, item) && (await getQueue()).length > 0) {
       return;
     }
     const mode = (await AsyncStorage.getItem('@Mode')) || 'RANDOM';
@@ -62,7 +63,7 @@ class Music extends Component<IProps, IState> {
 
   _onShare = async () => {
     share(this.props.musicReducer.current);
-  }
+  };
 
   render() {
     const {
@@ -82,18 +83,23 @@ class Music extends Component<IProps, IState> {
         <Header
           title={item.title}
           navigation={this.props.navigation}
-          iconName="settings"
+          iconName="options-vertical"
         />
 
         <View style={style.contentImage}>
-          <Image
-            style={style.image}
-            key={item.id}
-            source={{
-              uri:
-                'https://i.pinimg.com/originals/71/af/1d/71af1d7689eeb346b089aa8d56bcc6b6.jpg',
-            }}
-          />
+          {item.cover ? (
+            <Image
+              style={style.image}
+              source={{
+                uri: 'file://' + item.cover,
+              }}
+            />
+          ) : (
+            <Image
+              style={[style.image, {backgroundColor: '#838383'}]}
+              source={require('../../../assets/images/music_notification.png')}
+            />
+          )}
           <Text style={style.author}>{item.author}</Text>
           <Text style={style.album}>{item.album}</Text>
         </View>
@@ -105,6 +111,8 @@ class Music extends Component<IProps, IState> {
           musicReducer={musicReducer}
           onShare={this._onShare}
         />
+
+        <AdBanner />
       </BackgroundLayout>
     );
   }

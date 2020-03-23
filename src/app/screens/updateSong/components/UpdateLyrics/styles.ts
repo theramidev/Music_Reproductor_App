@@ -12,6 +12,7 @@ const styles: StylesUpdateImage = {
     color: colorText,
     fontSize: 20,
     fontWeight: 'bold',
+    marginVertical: 10,
   },
   image: {
     width: 200,
