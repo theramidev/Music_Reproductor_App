@@ -1,13 +1,71 @@
 import {SQLiteDatabase, ResultSet} from 'react-native-sqlite-storage';
 import {ISong, MSong} from '../models/song.model';
 import {IReproduction, MReproduction} from '../models/reproduction.model';
+import fs from 'react-native-fs';
 
 class SongController {
   private tableSong: string = 'song';
   private tableReproduction: string = 'reproduction';
 
-  public async updateSong(): Promise<void> {
-    
+  /**
+   * 
+   * @param database Base de datos local
+   * @param path Ruta del archivo que se va a borrar
+   * @return 
+   */
+  public deleteFile(path: string): Promise<boolean> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const existFile = await fs.exists(path);
+
+        if (existFile) {
+          await fs.unlink(path);
+        }
+
+        resolve(true);
+      } catch (error) {
+        console.error('Delete File Error: ', error);
+        reject(error);
+      }
+    })
+  }
+  /**
+   * @description Actuaiza una canción
+   * @param database Base de datos local
+   * @param songId Id de la canción
+   * @param title Título de la canción
+   * @param author Author de la canción
+   * @param album Albúm de la canción
+   * @param lyrics Letra de la canción
+   * @param cover Cover o portada de la canción
+   * @return Promise<void>
+   */
+  public async updateSong(database: SQLiteDatabase, songId: string, title: string, author: string | null, album: string | null, lyrics: string | null, cover: string | null): Promise<void> {
+    try {
+      const pathCover = `file://${fs.DocumentDirectoryPath}/coverSong/${songId}.jpg`;
+
+      const existDir: boolean = await fs.exists(`file://${fs.DocumentDirectoryPath}/coverSong`);
+      const existCover: boolean = await fs.exists(pathCover);
+      if (!existDir) {
+        await fs.mkdir(`file://${fs.DocumentDirectoryPath}/coverSong`);
+      }
+      if (existCover && cover) {
+        await fs.unlink(pathCover);
+      }
+
+      if (cover) {
+        await fs.moveFile(cover, pathCover);
+      }
+
+      const statement = `UPDATE ${this.tableSong} SET title=?, author=?, album=?, lyrics=?, 
+      cover=? WHERE id=?`;
+      const params = [title, author, album, cover ? pathCover : cover];
+
+      await database.executeSql(statement, params);
+    } catch (error) {
+      console.error('UpdateSong Error: ', error);
+      Promise.reject(error);
+    }
   }
   /**
    * @description Busca una o unas canciones especificas
