@@ -95,6 +95,24 @@ export const ListOfMusic: FC<IProps> = ({
     navigate('Music', {item: songs[position], songs});
   };
 
+  if (songs.length === 0) {
+    return (
+      <Text
+        style={[
+          styles.textRandom,
+          // eslint-disable-next-line react-native/no-inline-styles
+          {
+            fontSize: 15,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            marginTop: 20,
+          },
+        ]}>
+        No se encontraron canciones
+      </Text>
+    );
+  }
+
   return (
     <View style={[styles.container, {paddingBottom}]}>
       <View style={styles.options}>
@@ -137,14 +155,21 @@ export const ListOfMusic: FC<IProps> = ({
               style={styles.containerItem}
               onPress={() => navigate('Music', {item, songs})}>
               <View style={styles.item}>
-                <Image
-                  style={styles.image}
-                  key={item.id}
-                  source={{
-                    uri:
-                      'https://i.pinimg.com/originals/71/af/1d/71af1d7689eeb346b089aa8d56bcc6b6.jpg',
-                  }}
-                />
+                {item.cover ? (
+                  <Image
+                    style={styles.image}
+                    key={item.id}
+                    source={{
+                      uri: 'file://' + item.cover,
+                    }}
+                  />
+                ) : (
+                  <Image
+                    style={styles.image}
+                    key={item.id}
+                    source={require('../../../assets/images/music_notification.png')}
+                  />
+                )}
 
                 <View style={styles.info}>
                   <Text style={styles.title}>{cutText(item.title)}</Text>
