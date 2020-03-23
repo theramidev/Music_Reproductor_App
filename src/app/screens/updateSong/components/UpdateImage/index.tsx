@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useState, useEffect} from 'react';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {Text, View, Image} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -15,9 +15,20 @@ export const UpdateImage: FC<{
 }> = ({cover, onChange}: any) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
   const [image, setImage] = useState('');
-  /* const [pickerImage, setPickerImage] = useState<DocumentPickerResponse | null>(
+  const [pickerImage, setPickerImage] = useState<DocumentPickerResponse | null>(
     null,
-  ); */
+  );
+
+  useEffect(() => {
+    return () => {
+      if (pickerImage) {
+        fs.moveFile(
+          pickerImage.uri,
+          `${fs.DocumentDirectoryPath}/temp/updateCover/${pickerImage.name}`,
+        );
+      }
+    };
+  }, [pickerImage]);
 
   /**
    * @description Abre el DocimentPicker
@@ -29,30 +40,30 @@ export const UpdateImage: FC<{
       });
 
       const existsDir = await fs.exists(
-        `${fs.DocumentDirectoryPath}/temp/playlist`,
+        `${fs.DocumentDirectoryPath}/temp/updateCover`,
       );
       const existsFile = await fs.exists(
-        `${fs.DocumentDirectoryPath}/temp/playlist/${picker.name}`,
+        `${fs.DocumentDirectoryPath}/temp/updateCover/${picker.name}`,
       );
 
       if (!existsDir) {
-        await fs.mkdir(`${fs.DocumentDirectoryPath}/temp/playlist`);
+        await fs.mkdir(`${fs.DocumentDirectoryPath}/temp/updateCover`);
       }
 
       if (!existsFile) {
         await fs.moveFile(
           picker.uri,
-          `${fs.DocumentDirectoryPath}/temp/playlist/${picker.name}`,
+          `${fs.DocumentDirectoryPath}/temp/updateCover/${picker.name}`,
         );
       }
 
       const file = await fs.stat(
-        `${fs.DocumentDirectoryPath}/temp/playlist/${picker.name}`,
+        `${fs.DocumentDirectoryPath}/temp/updateCover/${picker.name}`,
       );
 
       setImage(file.path);
-      onChange(file.path);
-      //setPickerImage(picker);
+      setPickerImage(picker);
+      onChange(picker);
     } catch (error) {
       if (DocumentPicker.isCancel(error)) {
         console.log('DocumentPicker canceled!');

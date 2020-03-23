@@ -18,7 +18,7 @@ import {
 import style from './style';
 import {Progress} from './components/Progress';
 import {isPlay} from '../../../utils/isPlay';
-import {destroy} from 'react-native-track-player';
+import {destroy, getQueue} from 'react-native-track-player';
 import AsyncStorage from '@react-native-community/async-storage';
 import share from '../../../utils/share';
 
@@ -42,10 +42,7 @@ class Music extends Component<IProps, IState> {
 
     this.props.updateCurrentMusic(item);
 
-    if (
-      isPlay(musicReducer.current, item) &&
-      musicReducer.listSongsCurrent.length > 0
-    ) {
+    if (isPlay(musicReducer.current, item) && (await getQueue()).length > 0) {
       return;
     }
     const mode = (await AsyncStorage.getItem('@Mode')) || 'RANDOM';
