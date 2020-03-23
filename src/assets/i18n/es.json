@@ -7,7 +7,8 @@
         "cancel": "Cancelar"
     },
     "messages": {
-        "changeWallpaperToast": "Fondo cambiado con éxito"
+        "changeWallpaperToast": "Fondo cambiado con éxito",
+        "share": "Compartir con"
     },
     "PhotoCard": {
         "default": "Por defecto"

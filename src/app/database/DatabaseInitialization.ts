@@ -8,7 +8,7 @@ export class DatabaseInitialization {
 
   private createTables(transaction: Transaction) {
     //transaction.executeSql(`DROP TABLE IF EXISTS song`);
-    //transaction.executeSql(`DROP TABLE IF EXISTS reproduction`);
+    // transaction.executeSql(`DROP TABLE IF EXISTS reproduction`);
     //transaction.executeSql(`DROP TABLE IF EXISTS playlist`);
     //transaction.executeSql(`DROP TABLE IF EXISTS playlist_song`);
 
@@ -31,7 +31,7 @@ export class DatabaseInitialization {
     transaction.executeSql(
       `CREATE TABLE IF NOT EXISTS reproduction(
                 id INTEGER PRIMARY KEY NOT NULL,
-                id_song TEXT NOT NULL UNIQUE
+                id_song TEXT NOT NULL
             )`,
     );
 

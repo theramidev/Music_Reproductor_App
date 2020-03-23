@@ -63,7 +63,7 @@ const App: FC<any> = (props: any) => {
       compactCapabilities: [
         TrackPlayer.CAPABILITY_PLAY,
         TrackPlayer.CAPABILITY_PAUSE,
-      ],
+      ]
     });
 
     // Creación de la carpeta temp
@@ -110,9 +110,30 @@ const App: FC<any> = (props: any) => {
       // Close the reproductor when close the app
       TrackPlayer.destroy();
       cleanEvents();
+      clearShares();
+
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const clearShares = async () => {
+    try {
+      const shares = await AsyncStorage.getItem('@shares');
+      if (shares) {
+        const arraySharesPath: string[] = JSON.parse(shares);
+        for (const path of arraySharesPath) {
+          const fileExist = await fs.exists(path);
+          if (fileExist) {
+            await fs.unlink(path);
+          }
+        }
+
+        await AsyncStorage.removeItem('@shares');
+      }
+    } catch (error) {
+      console.error('Clear share: ', error);
+    }
+  }
 
   // obtiene del AsyncStorage si está en modo oscuro
   const getDarkMode = async () => {
