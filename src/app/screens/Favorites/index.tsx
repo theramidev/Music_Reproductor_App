@@ -10,6 +10,7 @@ import {Text, View, ActivityIndicator} from 'react-native';
 import {theme} from '../../../assets/themes';
 import FooterMusic from '../../components/FooterMusic';
 import {withTranslation} from 'react-i18next';
+import { showAd } from '../../../utils/interstitialAd';
 
 class FavoritesScreen extends Component<IProps, {}> {
   constructor(props: any) {
@@ -18,6 +19,10 @@ class FavoritesScreen extends Component<IProps, {}> {
 
   componentDidMount() {
     this.props.getFavoriteSongs();
+  }
+
+  componentWillUnmount() {
+    showAd();
   }
 
   render() {

@@ -13,6 +13,7 @@ import {Header} from '../../components/Header';
 import {ListOfPlaylists} from './components/ListOfPlaylists';
 import {ModalPlaylist} from '../../components/ModalPlaylist';
 import {DocumentPickerResponse} from 'react-native-document-picker';
+import { showAd } from '../../../utils/interstitialAd';
 
 class PlaylistsScreen extends Component<IProps, IState> {
   constructor(props: IProps) {
@@ -24,6 +25,10 @@ class PlaylistsScreen extends Component<IProps, IState> {
 
   componentDidMount() {
     this.props.getPlaylists();
+  }
+
+  componentWillUnmount() {
+    showAd();
   }
 
   closeModal = () => this.setState({isModalVisible: false});

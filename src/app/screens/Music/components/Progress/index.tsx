@@ -20,6 +20,7 @@ import TrackPlayer, {
 import Actions from '../Actions';
 import {getDuration} from '../../../../../utils/duration';
 import AsyncStorage from '@react-native-community/async-storage';
+import { BannerAd } from '../../../../components/BannerAd';
 
 export const Progress = ({
   duration,
@@ -168,6 +169,8 @@ export const Progress = ({
         // @ts-ignore
         onShare={onShare}
       />
+
+      <BannerAd />
     </View>
   );
 };

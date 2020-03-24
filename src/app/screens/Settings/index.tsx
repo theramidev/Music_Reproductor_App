@@ -7,10 +7,15 @@ import { ListOfOptions } from './components/ListOfOptions';
 import { withTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import AsyncStorage from '@react-native-community/async-storage';
+import { showAd } from '../../../utils/interstitialAd';
 
 class Settings extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
+  }
+
+  componentWillUnmount() {
+    showAd();
   }
 
   changeLanguage = async (language: 'es' | 'en') => {
