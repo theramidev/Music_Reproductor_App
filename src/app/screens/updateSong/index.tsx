@@ -1,4 +1,12 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {
+  ScrollView,
+  NativeSyntheticEvent,
+  TextInputChangeEventData,
+} from 'react-native';
+
+import {updateSong} from '../../redux/actions/allSongsActions';
 import {IProps} from './interfaces/Props';
 import {IState} from './interfaces/State';
 import {BackgroundLayout} from '../../components/BackgroundLayout';
@@ -6,21 +14,18 @@ import {Header} from '../../components/Header';
 import {Input} from '../../components/Input';
 import {UpdateImage} from './components/UpdateImage';
 import {UpdateLyrics} from './components/UpdateLyrics';
-import {
-  ScrollView,
-  NativeSyntheticEvent,
-  TextInputChangeEventData,
-} from 'react-native';
 import {MSong} from '../../models/song.model';
+import {ShowToast} from '../../../utils/toast';
 
-export default class UpdateSongScreen extends Component<IProps, IState> {
+class UpdateSongScreen extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
     // @ts-ignore
     const item: MSong = props.navigation.state.params.item;
-
+    console.log(item);
     this.state = {
+      id: item.id,
       title: item.title,
       author: item.author || '',
       album: item.album || '',
@@ -42,8 +47,10 @@ export default class UpdateSongScreen extends Component<IProps, IState> {
     this.setState({cover: image});
   };
 
-  submit = () => {
-    console.log(this.state);
+  submit = async () => {
+    await this.props.updateSong(this.state);
+
+    ShowToast('Se modificaron los datos de la cancion');
   };
 
   render() {
@@ -95,3 +102,18 @@ export default class UpdateSongScreen extends Component<IProps, IState> {
     );
   }
 }
+
+const mapStateToProps = ({musicReducer}: any) => {
+  return {
+    musicReducer,
+  };
+};
+
+const mapDispatchToProps = {
+  updateSong,
+};
+
+export default connect<any, any>(
+  mapStateToProps,
+  mapDispatchToProps,
+)(UpdateSongScreen);

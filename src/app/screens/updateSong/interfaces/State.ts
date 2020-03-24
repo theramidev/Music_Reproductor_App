@@ -1,4 +1,5 @@
 export interface IState {
+  id?: string;
   title?: string;
   author?: string;
   album?: string;

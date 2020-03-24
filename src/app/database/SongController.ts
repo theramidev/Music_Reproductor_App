@@ -8,10 +8,10 @@ class SongController {
   private tableReproduction: string = 'reproduction';
 
   /**
-   * 
+   *
    * @param database Base de datos local
    * @param path Ruta del archivo que se va a borrar
-   * @return 
+   * @return
    */
   public deleteFile(path: string): Promise<boolean> {
     return new Promise(async (resolve, reject) => {
@@ -27,7 +27,7 @@ class SongController {
         console.error('Delete File Error: ', error);
         reject(error);
       }
-    })
+    });
   }
   /**
    * @description Actuaiza una canción
@@ -40,26 +40,42 @@ class SongController {
    * @param cover Cover o portada de la canción
    * @return Promise<void>
    */
-  public async updateSong(database: SQLiteDatabase, songId: string, title: string, author: string | null, album: string | null, lyrics: string | null, cover: string | null): Promise<void> {
+  public async updateSong(
+    database: SQLiteDatabase,
+    songId: string,
+    title: string,
+    author: string | null = null,
+    album: string | null = null,
+    lyrics: string | null = null,
+    cover: string | null = null,
+  ): Promise<void> {
     try {
-      const pathCover = `file://${fs.DocumentDirectoryPath}/coverSong/${songId}.jpg`;
+      const pathCover = `${fs.DocumentDirectoryPath}/coverSong/${songId}.jpg`;
 
-      const existDir: boolean = await fs.exists(`file://${fs.DocumentDirectoryPath}/coverSong`);
+      const existDir: boolean = await fs.exists(
+        `file://${fs.DocumentDirectoryPath}/coverSong`,
+      );
       const existCover: boolean = await fs.exists(pathCover);
       if (!existDir) {
-        await fs.mkdir(`file://${fs.DocumentDirectoryPath}/coverSong`);
+        await fs.mkdir(`${fs.DocumentDirectoryPath}/coverSong`);
       }
       if (existCover && cover) {
         await fs.unlink(pathCover);
       }
 
       if (cover) {
-        await fs.moveFile(cover, pathCover);
+        await fs.copyFile(cover, pathCover);
       }
 
       const statement = `UPDATE ${this.tableSong} SET title=?, author=?, album=?, lyrics=?, 
       cover=? WHERE id=?`;
-      const params = [title, author, album, cover ? pathCover : cover];
+      const params = [
+        title,
+        author,
+        album,
+        lyrics,
+        cover ? 'file://' + pathCover : cover,
+      ];
 
       await database.executeSql(statement, params);
     } catch (error) {

@@ -1,5 +1,6 @@
 export default {
   getCurrent: 'GET_CURRENT_MUSIC',
+  loadingUpdateSong: 'LOADING_UPDATE_SONG',
   updateListSongs: 'UPDATE_LIST_SONGS',
   loadingListSongs: 'LOADING_LIST_SONGS',
   errorListSongs: 'ERROR_LIST_SONGS',

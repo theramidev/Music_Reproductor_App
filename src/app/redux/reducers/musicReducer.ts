@@ -12,6 +12,7 @@ const INITIAL_STATE = {
   loading: false,
   error: null,
 
+  loadingUpdateSong: false,
   loadingFavorite: false,
   errorFavorite: null,
 };
@@ -23,6 +24,7 @@ export default (state = INITIAL_STATE, {type, payload}: any) => {
         ...state,
         listSongs: payload,
         loadingListSongs: false,
+        loadingUpdateSong: false,
       };
     case musicTypes.loadingListSongs:
       return {
@@ -34,6 +36,12 @@ export default (state = INITIAL_STATE, {type, payload}: any) => {
         ...state,
         loadingListSongs: false,
         errorListSongs: payload,
+      };
+
+    case musicTypes.loadingUpdateSong:
+      return {
+        ...state,
+        loadingUpdateSong: true,
       };
 
     case musicTypes.updateListSongsCurrent:

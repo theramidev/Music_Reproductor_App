@@ -20,6 +20,7 @@ export interface IProps {
     loading: boolean;
     error: any;
 
+    loadingUpdateSong: boolean;
     loadingFavorite: boolean;
     errorFavorite: any;
   };

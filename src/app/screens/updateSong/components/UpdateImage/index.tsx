@@ -63,7 +63,7 @@ export const UpdateImage: FC<{
 
       setImage(file.path);
       setPickerImage(picker);
-      onChange(picker);
+      onChange(picker.uri);
     } catch (error) {
       if (DocumentPicker.isCancel(error)) {
         console.log('DocumentPicker canceled!');
