@@ -33,9 +33,13 @@ export const ListOfMusic: FC<IProps> = ({
   const {showActionSheetWithOptions} = useActionSheet();
 
   useEffect(() => {
-    //order();
-    //console.log(songs);
+    getOrderList();
   }, [songs]);
+
+  const getOrderList = async () => {
+    const order: any = (await AsyncStorage.getItem('@orderList')) || 'ASC';
+    setOrderList(order);
+  };
 
   const order = (
     array: MSong[],
@@ -82,6 +86,7 @@ export const ListOfMusic: FC<IProps> = ({
         titleTextStyle: styles.actionsText,
         showSeparators: true,
         separatorStyle: {backgroundColor: '#646464'},
+        cancelButtonIndex: -1,
       },
       async (index: number) => {
         switch (index) {
@@ -112,20 +117,25 @@ export const ListOfMusic: FC<IProps> = ({
         containerStyle: styles.actions,
         textStyle: styles.actionsText,
         titleTextStyle: styles.actionsText,
+        cancelButtonIndex: -1,
       },
       async (index: number) => {
         switch (index) {
           case 0:
             setOrderList('ASC');
+            AsyncStorage.setItem('@orderList', 'ASC');
             break;
           case 1:
             setOrderList('TIME');
+            AsyncStorage.setItem('@orderList', 'TIME');
             break;
           case 2:
             setOrderList('ARTIST');
+            AsyncStorage.setItem('@orderList', 'ARTIST');
             break;
           case 3:
             setOrderList('DES');
+            AsyncStorage.setItem('@orderList', 'DES');
             break;
           default:
             break;

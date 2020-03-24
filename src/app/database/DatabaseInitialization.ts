@@ -52,7 +52,7 @@ export class DatabaseInitialization {
       `CREATE TABLE IF NOT EXISTS playlist_song(
                 id INTEGER PRIMARY KEY NOT NULL,
                 id_playlist INTEGER NOT NULL,
-                id_song TEXT NOT NULL
+                id_song TEXT NOT NULL,
                 CONSTRAINT fk_songs
                   FOREIGN KEY (id_song)
                   REFERENCES song(id)
