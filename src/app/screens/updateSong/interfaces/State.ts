@@ -5,4 +5,5 @@ export interface IState {
   album?: string;
   cover?: string;
   lyrics?: string;
+  currentCover?: string;
 }

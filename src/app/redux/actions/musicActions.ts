@@ -62,7 +62,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
     }
 
     const songsDB: MSong[] = await database.getSongs();
-
+    console.log(songsDB);
     // obtiene la ultima cancion reproducida ==============
     const data = await AsyncStorage.getItem('@LastMusic');
     const last = data ? JSON.parse(data) : '';
@@ -97,7 +97,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
 
       if (songDB) {
         return {
-          ...song,
+          ...songDB,
           isFavorite: songDB.isFavorite ? true : false,
         };
       }
@@ -230,6 +230,7 @@ export const playInRandom = (start: boolean) => async (
       null,
       current,
     );
+    console.log(listMusics[0]);
     const tracks: Track[] = getList(listMusics);
     TrackPlayer.add(tracks);
     start && TrackPlayer.play();

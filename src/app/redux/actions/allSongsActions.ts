@@ -4,7 +4,11 @@ import musicTypes from '../types/musicTypes';
 import database from '../../database';
 import favoritesTypes from '../types/favoritesTypes';
 import playlistTypes from '../types/playlistTypes';
-import {updateMetadataForTrack, TrackMetadata} from 'react-native-track-player';
+import {
+  updateMetadataForTrack,
+  TrackMetadata,
+  getTrack,
+} from 'react-native-track-player';
 
 /**
  * @description setea o modifica el estado favorito de una cancion
@@ -138,7 +142,9 @@ export const updateSong = (current: {
 
     await database.updateSong(id, title, author, album, lyrics, cover);
 
-    await updateMetadataForTrack(id, getTrackData(current));
+    if (await getTrack(id)) {
+      await updateMetadataForTrack(id, getTrackData(current));
+    }
 
     dispatch({
       type: musicTypes.updateListSongs,

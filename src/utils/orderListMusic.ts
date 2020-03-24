@@ -72,3 +72,63 @@ export const alphabeticalOrder = (songs: any[]) => {
     return 0;
   });
 };
+
+export const getAlphabeticalOrder = (array: any[]) => {
+  var newArray = array;
+
+  newArray.sort(function(a: MSong, b: MSong) {
+    if (a.title.toLowerCase() > b.title.toLowerCase()) {
+      return 1;
+    }
+    if (a.title.toLowerCase() < b.title.toLowerCase()) {
+      return -1;
+    }
+    return 0;
+  });
+
+  return newArray;
+};
+
+export const getDesOrder = (array: any[]) => {
+  var newArray = array;
+
+  newArray.sort(function(a: MSong, b: MSong) {
+    if (a.title.toLowerCase() > b.title.toLowerCase()) {
+      return -1;
+    }
+    if (a.title.toLowerCase() < b.title.toLowerCase()) {
+      return 1;
+    }
+    return 0;
+  });
+
+  return newArray;
+};
+
+export const getAlphabeticalArtistOrder = (array: any[]) => {
+  var newArray = array;
+
+  newArray.sort(function(a: MSong, b: MSong) {
+    const authorA = a.author || '<unknown>';
+    const authorB = b.author || '<unknown>';
+    if (authorA.toLowerCase() > authorB.toLowerCase()) {
+      return 1;
+    }
+    if (authorA.toLowerCase() < authorB.toLowerCase()) {
+      return -1;
+    }
+    return 0;
+  });
+
+  return newArray;
+};
+
+export const getDurationOrder = (array: any[]) => {
+  var newArray = array;
+
+  newArray.sort(function(a: MSong, b: MSong) {
+    return a.duration - b.duration;
+  });
+
+  return newArray;
+};

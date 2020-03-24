@@ -50,32 +50,9 @@ class SongController {
     cover: string | null = null,
   ): Promise<void> {
     try {
-      const pathCover = `${fs.DocumentDirectoryPath}/coverSong/${songId}.jpg`;
-
-      const existDir: boolean = await fs.exists(
-        `${fs.DocumentDirectoryPath}/coverSong`,
-      );
-      const existCover: boolean = await fs.exists(pathCover);
-      if (!existDir) {
-        await fs.mkdir(`${fs.DocumentDirectoryPath}/coverSong`);
-      }
-      if (existCover && cover) {
-        await fs.unlink(pathCover);
-      }
-
-      if (cover) {
-        await fs.copyFile(cover, pathCover);
-      }
-
       const statement = `UPDATE ${this.tableSong} SET title=?, author=?, album=?, lyrics=?, 
       cover=? WHERE id=?`;
-      const params = [
-        title,
-        author,
-        album,
-        lyrics,
-        cover ? 'file://' + pathCover : cover,
-      ];
+      const params = [title, author, album, lyrics, cover, songId];
 
       await database.executeSql(statement, params);
     } catch (error) {

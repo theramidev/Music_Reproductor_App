@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {View, Image, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {useActionSheet} from '@expo/react-native-action-sheet';
@@ -13,6 +13,12 @@ import Ripple from 'react-native-material-ripple';
 import {IProps} from './Interfaces/Props';
 import {ShowToast} from '../../../utils/toast';
 import AsyncStorage from '@react-native-community/async-storage';
+import {
+  getAlphabeticalOrder,
+  getAlphabeticalArtistOrder,
+  getDurationOrder,
+  getDesOrder,
+} from '../../../utils/orderListMusic';
 
 export const ListOfMusic: FC<IProps> = ({
   songs,
@@ -20,6 +26,9 @@ export const ListOfMusic: FC<IProps> = ({
   updateFavorite,
   paddingBottom = 0,
 }: any) => {
+  const [orderList, setOrderList] = useState<'ASC' | 'DES' | 'TIME' | 'ARTIST'>(
+    'ASC',
+  );
   const styles = useDynamicStyleSheet(dynamicStyles);
   const {showActionSheetWithOptions} = useActionSheet();
 
@@ -28,17 +37,28 @@ export const ListOfMusic: FC<IProps> = ({
     //console.log(songs);
   }, [songs]);
 
-  const order = (array: MSong[]) => {
+  const order = (
+    array: MSong[],
+    mode: 'ASC' | 'DES' | 'TIME' | 'ARTIST' = 'ASC',
+  ) => {
     var newArray = array;
-    newArray.sort(function(a: MSong, b: MSong) {
-      if (a.title.toLowerCase() > b.title.toLowerCase()) {
-        return 1;
-      }
-      if (a.title.toLowerCase() < b.title.toLowerCase()) {
-        return -1;
-      }
-      return 0;
-    });
+    switch (mode) {
+      case 'ASC':
+        newArray = getAlphabeticalOrder(array);
+        break;
+      case 'ARTIST':
+        newArray = getAlphabeticalArtistOrder(array);
+        break;
+      case 'TIME':
+        newArray = getDurationOrder(array);
+        break;
+      case 'DES':
+        newArray = getDesOrder(array);
+        break;
+      default:
+        newArray = getAlphabeticalOrder(array);
+        break;
+    }
 
     return newArray;
   };
@@ -88,7 +108,7 @@ export const ListOfMusic: FC<IProps> = ({
     showActionSheetWithOptions(
       {
         title: 'Modificar orden',
-        options: ['Alfavetico', 'Duraciòn', 'Artista'],
+        options: ['Alfabetico', 'Duraciòn', 'Artista', 'Decendente'],
         containerStyle: styles.actions,
         textStyle: styles.actionsText,
         titleTextStyle: styles.actionsText,
@@ -96,11 +116,17 @@ export const ListOfMusic: FC<IProps> = ({
       async (index: number) => {
         switch (index) {
           case 0:
-            //order();
+            setOrderList('ASC');
+            break;
+          case 1:
+            setOrderList('TIME');
             break;
           case 2:
+            setOrderList('ARTIST');
             break;
-
+          case 3:
+            setOrderList('DES');
+            break;
           default:
             break;
         }
@@ -177,7 +203,7 @@ export const ListOfMusic: FC<IProps> = ({
       />
 
       <ScrollView>
-        {order(songs).map((item: MSong, key: number) => (
+        {order(songs, orderList).map((item: MSong, key: number) => (
           <View key={key} style={styles.containerItem}>
             <Ripple
               rippleColor={styles.title.color}
