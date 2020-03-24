@@ -131,6 +131,8 @@ export const ModalAdd: FC<IProps> = ({
 
     const _onChange = () => {
       // console.log(checked);
+      console.log(song.title.length);
+      
       if (!checked) {
         const found = oldSongs.find(oldSong => {
           if (oldSong.id === song.id) {
@@ -163,157 +165,187 @@ export const ModalAdd: FC<IProps> = ({
       setChecked(!checked);
     };
 
-    return (
-      <Modal visible={isVisible} animationType="slide">
-        <View style={[staticStyles.container, dynamicStyles.container]}>
-          <View style={staticStyles.header}>
-            <View style={staticStyles.inputSearch}>
-              <IconIo name="ios-search" size={30} color="white" />
-              <TextInput
-                placeholder={t('searchPlaceholder')}
-                autoCapitalize="none"
-                autoCompleteType="off"
-                placeholderTextColor="white"
-                style={{marginLeft: 10, width: '84%', color: 'white'}}
-                onChange={_onChange}
-                value={filter}
-              />
-              {filter.length > 0 && (
-                <TouchableOpacity onPress={clearSearch}>
-                  <IconIo name="ios-close" size={30} color="white" />
-                </TouchableOpacity>
-              )}
-            </View>
-
-            <View style={staticStyles.buttonsHeader}>
-              <TouchableOpacity
-                style={staticStyles.buttonHeader}
-                onPress={() => _onChangeFilter('all')}>
-                <IconIo
-                  name="ios-list"
-                  size={30}
-                  color={
-                    filterSelected === 'all'
-                      ? isDarkMode
-                        ? theme().secondary
-                        : theme().primary
-                      : isDarkMode
-                      ? theme().light
-                      : theme().text
-                  }
-                />
-                <Text
-                  style={[
-                    staticStyles.textButton,
-                    {
-                      color:
-                        filterSelected === 'all'
-                          ? isDarkMode
-                            ? theme().secondary
-                            : theme().primary
-                          : isDarkMode
-                          ? theme().light
-                          : theme().text,
-                    },
-                  ]}>
-                  {t('all')}
+    return(
+      <Ripple onPress={_onChange}>
+        <View style={staticStyles.songCardContainer}>
+          <View style={staticStyles.songLeft}>
+            {
+              song.title.length > 40 ? 
+              <AutoScrolling>
+                <Text style={dynamicStyles.texColor}>
+                  {song.title}
                 </Text>
-              </TouchableOpacity>
+              </AutoScrolling> :
+              <Text style={dynamicStyles.texColor}>
+                {song.title}
+              </Text>
+            }
+          </View>
+          <View style={staticStyles.songRight}>
+            <CheckBox 
+              value={checked}
+              tintColors={{
+                true: isDarkMode ? theme().secondary : theme().primary
+              }}
+            />
+          </View>
+        </View>
+      </Ripple>
+    )
 
-              <TouchableOpacity
-                style={staticStyles.buttonHeader}
-                onPress={() => _onChangeFilter('checked')}>
-                <IconIo
-                  name="md-checkbox-outline"
-                  size={30}
-                  color={
-                    filterSelected === 'checked'
-                      ? isDarkMode
-                        ? theme().secondary
-                        : theme().primary
-                      : isDarkMode
-                      ? theme().light
-                      : theme().text
-                  }
-                />
-                <Text
-                  style={[
-                    staticStyles.textButton,
-                    {
-                      color:
-                        filterSelected === 'checked'
-                          ? isDarkMode
-                            ? theme().secondary
-                            : theme().primary
-                          : isDarkMode
-                          ? theme().light
-                          : theme().text,
-                    },
-                  ]}>
-                  {t('added')}
-                </Text>
-              </TouchableOpacity>
+  };
 
-              <TouchableOpacity
-                style={staticStyles.buttonHeader}
-                onPress={() => _onChangeFilter('noChecked')}>
-                <IconIo
-                  name="md-square-outline"
-                  size={30}
-                  color={
-                    filterSelected === 'noChecked'
-                      ? isDarkMode
-                        ? theme().secondary
-                        : theme().primary
-                      : isDarkMode
-                      ? theme().light
-                      : theme().text
-                  }
-                />
-                <Text
-                  style={[
-                    staticStyles.textButton,
-                    {
-                      color:
-                        filterSelected === 'noChecked'
-                          ? isDarkMode
-                            ? theme().secondary
-                            : theme().primary
-                          : isDarkMode
-                          ? theme().light
-                          : theme().text,
-                    },
-                  ]}>
-                  {t('notAdded')}
-                </Text>
+
+  return (
+    <Modal visible={isVisible} animationType="slide">
+      <View style={[staticStyles.container, dynamicStyles.container]}>
+        <View style={staticStyles.header}>
+          <View style={staticStyles.inputSearch}>
+            <IconIo name="ios-search" size={30} color="white" />
+            <TextInput
+              placeholder={t('searchPlaceholder')}
+              autoCapitalize="none"
+              autoCompleteType="off"
+              placeholderTextColor="white"
+              style={{marginLeft: 10, width: '84%', color: 'white'}}
+              onChange={_onChange}
+              value={filter}
+            />
+            {filter.length > 0 && (
+              <TouchableOpacity onPress={clearSearch}>
+                <IconIo name="ios-close" size={30} color="white" />
               </TouchableOpacity>
-            </View>
+            )}
           </View>
 
-          <FlatList
-            data={visibleSongs}
-            renderItem={({item}) => <SongCard song={item} />}
-            keyExtractor={({id}) => id}
-          />
-
-          <View style={staticStyles.buttonsContainer}>
+          <View style={staticStyles.buttonsHeader}>
             <TouchableOpacity
-              style={[staticStyles.button, dynamicStyles.borderColor]}
-              onPress={onClose}>
-              <Text style={[staticStyles.textButton, dynamicStyles.texColor]}>
-                {t('cancel')}
+              style={staticStyles.buttonHeader}
+              onPress={() => _onChangeFilter('all')}>
+              <IconIo
+                name="ios-list"
+                size={30}
+                color={
+                  filterSelected === 'all'
+                    ? isDarkMode
+                      ? theme().secondary
+                      : theme().primary
+                    : isDarkMode
+                    ? theme().light
+                    : theme().text
+                }
+              />
+              <Text
+                style={[
+                  staticStyles.textButton,
+                  {
+                    color:
+                      filterSelected === 'all'
+                        ? isDarkMode
+                          ? theme().secondary
+                          : theme().primary
+                        : isDarkMode
+                        ? theme().light
+                        : theme().text,
+                  },
+                ]}>
+                {t('all')}
               </Text>
             </TouchableOpacity>
+
             <TouchableOpacity
-              style={[staticStyles.button, dynamicStyles.borderColor]}
-              onPress={_onAdd}>
-              <Text style={[staticStyles.textButton, dynamicStyles.texColor]}>
-                {t('accept')}
+              style={staticStyles.buttonHeader}
+              onPress={() => _onChangeFilter('checked')}>
+              <IconIo
+                name="md-checkbox-outline"
+                size={30}
+                color={
+                  filterSelected === 'checked'
+                    ? isDarkMode
+                      ? theme().secondary
+                      : theme().primary
+                    : isDarkMode
+                    ? theme().light
+                    : theme().text
+                }
+              />
+              <Text
+                style={[
+                  staticStyles.textButton,
+                  {
+                    color:
+                      filterSelected === 'checked'
+                        ? isDarkMode
+                          ? theme().secondary
+                          : theme().primary
+                        : isDarkMode
+                        ? theme().light
+                        : theme().text,
+                  },
+                ]}>
+                {t('added')}
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={staticStyles.buttonHeader}
+              onPress={() => _onChangeFilter('noChecked')}>
+              <IconIo
+                name="md-square-outline"
+                size={30}
+                color={
+                  filterSelected === 'noChecked'
+                    ? isDarkMode
+                      ? theme().secondary
+                      : theme().primary
+                    : isDarkMode
+                    ? theme().light
+                    : theme().text
+                }
+              />
+              <Text
+                style={[
+                  staticStyles.textButton,
+                  {
+                    color:
+                      filterSelected === 'noChecked'
+                        ? isDarkMode
+                          ? theme().secondary
+                          : theme().primary
+                        : isDarkMode
+                        ? theme().light
+                        : theme().text,
+                  },
+                ]}>
+                {t('notAdded')}
               </Text>
             </TouchableOpacity>
           </View>
         </View>
-      </Modal>
-    );
-  };
+
+        <FlatList
+          data={visibleSongs}
+          renderItem={({item}) => <SongCard song={item} />}
+          keyExtractor={({id}) => id}
+        />
+
+        <View style={staticStyles.buttonsContainer}>
+          <TouchableOpacity
+            style={[staticStyles.button, dynamicStyles.borderColor]}
+            onPress={onClose}>
+            <Text style={[staticStyles.textButton, dynamicStyles.texColor]}>
+              {t('cancel')}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[staticStyles.button, dynamicStyles.borderColor]}
+            onPress={_onAdd}>
+            <Text style={[staticStyles.textButton, dynamicStyles.texColor]}>
+              {t('accept')}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
+  );
 };
