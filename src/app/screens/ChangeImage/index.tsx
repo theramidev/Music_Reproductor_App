@@ -9,7 +9,6 @@ import { BackgroundLayout } from '../../components/BackgroundLayout';
 import { Header } from '../../components/Header';
 import { ListOfPhotoCard } from './components/ListOfPhotocard';
 
-
 class ChangeImageScreen extends Component<IProps, IState> {
 
     constructor(props: IProps) {

@@ -31,7 +31,11 @@ export class DatabaseInitialization {
     transaction.executeSql(
       `CREATE TABLE IF NOT EXISTS reproduction(
                 id INTEGER PRIMARY KEY NOT NULL,
-                id_song TEXT NOT NULL
+                id_song TEXT NOT NULL,
+                CONSTRAINT fk_songs
+                  FOREIGN KEY (id_song)
+                  REFERENCES song(id)
+                  ON DELETE CASCADE
             )`,
     );
 
@@ -49,6 +53,10 @@ export class DatabaseInitialization {
                 id INTEGER PRIMARY KEY NOT NULL,
                 id_playlist INTEGER NOT NULL,
                 id_song TEXT NOT NULL
+                CONSTRAINT fk_songs
+                  FOREIGN KEY (id_song)
+                  REFERENCES song(id)
+                  ON DELETE CASCADE
             )`,
     );
 

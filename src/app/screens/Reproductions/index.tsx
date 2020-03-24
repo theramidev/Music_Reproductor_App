@@ -11,6 +11,7 @@ import {getRecents} from '../../redux/actions/fileActions';
 import {theme} from '../../../assets/themes';
 import FooterMusic from '../../components/FooterMusic';
 import { withTranslation } from 'react-i18next';
+import { showAd } from '../../../utils/interstitialAd';
 
 class ReproductionsScreen extends Component<IProps, IState> {
   state = {
@@ -29,6 +30,10 @@ class ReproductionsScreen extends Component<IProps, IState> {
       },
     );
     this.setState({songs});
+  }
+
+  componentWillUnmount() {
+    showAd();
   }
 
   render() {
