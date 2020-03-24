@@ -1,11 +1,19 @@
 import React, { FC } from 'react';
 import { View } from 'react-native';
 import { AdMobBanner } from 'react-native-admob';
+import { useAppVersion } from '../../hooks/useAppVersion';
 
-export const AdBanner: FC<{}> = () => {
+export const BannerAd: FC<{}> = () => {
+    const { isPremium } = useAppVersion();
 
     const bannerErrorHandler = (e: any) => {
         console.warn('Error bannerAd: ', e);
+    }
+
+    console.log(isPremium);
+
+    if (isPremium) {
+        return null;
     }
 
     return(
@@ -19,7 +27,7 @@ export const AdBanner: FC<{}> = () => {
             <AdMobBanner 
                 adSize="fullBanner"
                 adUnitID="ca-app-pub-2449976564245125/9577646279"
-                // testDeviceID={[AdMobBanner.simulatorId]}
+                testDeviceID={[AdMobBanner.simulatorId]}
                 onAdFailedToLoad={bannerErrorHandler}
             />
         </View>

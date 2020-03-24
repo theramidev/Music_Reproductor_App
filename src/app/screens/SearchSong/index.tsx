@@ -10,6 +10,7 @@ import { withTranslation } from 'react-i18next';
 import { BackgroundLayout } from '../../components/BackgroundLayout';
 import { Header } from '../../components/Header';
 import { ListOfMusic } from '../../components/ListOfMusic';
+import { showAd } from '../../../utils/interstitialAd';
 
 class SearchSongScreen extends Component<IProps, {search: string}> {
 
@@ -18,6 +19,10 @@ class SearchSongScreen extends Component<IProps, {search: string}> {
         this.state = {
             search: ''
         }
+    }
+
+    componentWillUnmount() {
+        showAd();
     }
 
     _onChange = (input: NativeSyntheticEvent<TextInputChangeEventData>) => {
