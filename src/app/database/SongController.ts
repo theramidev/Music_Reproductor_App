@@ -53,7 +53,7 @@ class SongController {
       const pathCover = `${fs.DocumentDirectoryPath}/coverSong/${songId}.jpg`;
 
       const existDir: boolean = await fs.exists(
-        `file://${fs.DocumentDirectoryPath}/coverSong`,
+        `${fs.DocumentDirectoryPath}/coverSong`,
       );
       const existCover: boolean = await fs.exists(pathCover);
       if (!existDir) {

@@ -23,6 +23,7 @@
     "react": "16.9.0",
     "react-i18next": "^11.3.3",
     "react-native": "0.61.5",
+    "react-native-admob": "^2.0.0-beta.6",
     "react-native-auto-scrolling": "^2.0.0",
     "react-native-background-color": "^0.0.8",
     "react-native-dark-mode": "^0.2.2",
