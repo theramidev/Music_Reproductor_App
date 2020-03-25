@@ -7,10 +7,10 @@ export class DatabaseInitialization {
   }
 
   private createTables(transaction: Transaction) {
-    //transaction.executeSql(`DROP TABLE IF EXISTS song`);
-    //transaction.executeSql(`DROP TABLE IF EXISTS reproduction`);
-    //transaction.executeSql(`DROP TABLE IF EXISTS playlist`);
-    //transaction.executeSql(`DROP TABLE IF EXISTS playlist_song`);
+    // transaction.executeSql(`DROP TABLE IF EXISTS song`);
+    // transaction.executeSql(`DROP TABLE IF EXISTS reproduction`);
+    // transaction.executeSql(`DROP TABLE IF EXISTS playlist`);
+    // transaction.executeSql(`DROP TABLE IF EXISTS playlist_song`);
 
     // Coin table
     transaction.executeSql(
@@ -52,7 +52,7 @@ export class DatabaseInitialization {
       `CREATE TABLE IF NOT EXISTS playlist_song(
                 id INTEGER PRIMARY KEY NOT NULL,
                 id_playlist INTEGER NOT NULL,
-                id_song TEXT NOT NULL
+                id_song TEXT NOT NULL,
                 CONSTRAINT fk_songs
                   FOREIGN KEY (id_song)
                   REFERENCES song(id)
