@@ -244,6 +244,12 @@ const ListOfMusicComponent: FC<IProps> = (props) => {
               onPress={() => {
                 openOptions(item);
               }}
+              hitSlop={{
+                top: 20,
+                right: 20,
+                bottom: 20,
+                left: 20
+              }}
               style={styles.icon}>
               <SimpleLineIcons
                 name="options-vertical"
