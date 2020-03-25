@@ -24,6 +24,7 @@ export const ListOfMusic: FC<IProps> = ({
   songs,
   navigate,
   updateFavorite,
+  deleteSong,
   paddingBottom = 0,
 }: any) => {
   const [orderList, setOrderList] = useState<'ASC' | 'DES' | 'TIME' | 'ARTIST'>(
@@ -83,9 +84,7 @@ export const ListOfMusic: FC<IProps> = ({
         destructiveButtonIndex: 5,
         containerStyle: styles.actions,
         textStyle: styles.actionsText,
-        titleTextStyle: styles.actionsText,
-        showSeparators: true,
-        separatorStyle: {backgroundColor: '#646464'},
+        titleTextStyle: styles.actionsTitle,
         cancelButtonIndex: -1,
       },
       async (index: number) => {
@@ -100,6 +99,9 @@ export const ListOfMusic: FC<IProps> = ({
             break;
           case 2:
             navigate('UpdateSong', {item, songs});
+            break;
+          case 4:
+            await deleteSong(item);
             break;
 
           default:
@@ -116,7 +118,7 @@ export const ListOfMusic: FC<IProps> = ({
         options: ['Alfabetico', 'Duraciòn', 'Artista', 'Decendente'],
         containerStyle: styles.actions,
         textStyle: styles.actionsText,
-        titleTextStyle: styles.actionsText,
+        titleTextStyle: styles.actionsTitle,
         cancelButtonIndex: -1,
       },
       async (index: number) => {

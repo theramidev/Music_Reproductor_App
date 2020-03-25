@@ -16,8 +16,10 @@ class SongController {
   public deleteFile(path: string): Promise<boolean> {
     return new Promise(async (resolve, reject) => {
       try {
-        const existFile = await fs.exists(path);
+        console.log(path);
 
+        const existFile = await fs.exists(path);
+        console.log(existFile);
         if (existFile) {
           await fs.unlink(path);
         }
@@ -25,7 +27,7 @@ class SongController {
         resolve(true);
       } catch (error) {
         console.error('Delete File Error: ', error);
-        reject(error);
+        reject(false);
       }
     });
   }
@@ -338,8 +340,10 @@ class SongController {
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
+        console.log(songId);
         const statement: string = `DELETE FROM ${this.tableSong} WHERE id = ?`;
         await database.executeSql(statement, [songId]);
+        resolve(true);
       } catch (error) {
         console.error('Error Delete Song: ', error);
         reject(error);

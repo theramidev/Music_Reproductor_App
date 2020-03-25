@@ -62,7 +62,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
     }
 
     const songsDB: MSong[] = await database.getSongs();
-    console.log(songsDB);
+
     // obtiene la ultima cancion reproducida ==============
     const data = await AsyncStorage.getItem('@LastMusic');
     const last = data ? JSON.parse(data) : '';
@@ -89,6 +89,8 @@ export const getSongs = () => async (dispatch: Dispatch) => {
       title: true,
       minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration
     });
+
+    console.log(musicFiles.find((m: any) => m.id === '44528'));
 
     const newMusicFiles: ISong[] | any = musicFiles.map(song => {
       const songDB: MSong | any = songsDB.find(

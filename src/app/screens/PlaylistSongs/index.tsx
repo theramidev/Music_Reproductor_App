@@ -13,7 +13,7 @@ import {
   getPlaylistSongs,
   addAndDeleteSongsOfPLaylist,
 } from '../../redux/actions/playlistActions';
-import {updateFavorite} from '../../redux/actions/allSongsActions';
+import {updateFavorite, deleteSong} from '../../redux/actions/allSongsActions';
 import {getSongs} from '../../redux/actions/musicActions';
 import {ShowToast} from '../../../utils/toast';
 import {Header} from '../../components/Header';
@@ -121,6 +121,7 @@ class PlaylistSongsScreen extends Component<IProps, IState> {
             navigate={this.props.navigation.navigate}
             songs={playlistSongs}
             updateFavorite={this.props.updateFavorite}
+            deleteSong={this.props.deleteSong}
             paddingBottom={405}
           />
         )}
@@ -171,6 +172,7 @@ const mapDispatchToProps = {
   getPlaylistSongs,
   addAndDeleteSongsOfPLaylist,
   updateFavorite,
+  deleteSong,
 };
 
 export default connect<any>(

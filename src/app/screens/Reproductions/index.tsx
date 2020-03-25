@@ -8,10 +8,11 @@ import {Header} from '../../components/Header';
 import {ListOfMusic} from '../../components/ListOfMusic';
 import {MSong} from '../../models/song.model';
 import {getRecents} from '../../redux/actions/fileActions';
+import {updateFavorite, deleteSong} from '../../redux/actions/allSongsActions';
 import {theme} from '../../../assets/themes';
 import FooterMusic from '../../components/FooterMusic';
-import { withTranslation } from 'react-i18next';
-import { showAd } from '../../../utils/interstitialAd';
+import {withTranslation} from 'react-i18next';
+import {showAd} from '../../../utils/interstitialAd';
 
 class ReproductionsScreen extends Component<IProps, IState> {
   state = {
@@ -39,13 +40,23 @@ class ReproductionsScreen extends Component<IProps, IState> {
   render() {
     return (
       <BackgroundLayout>
-        <Header navigation={this.props.navigation} title={this.props.t('headerTitle')} />
+        <Header
+          navigation={this.props.navigation}
+          title={this.props.t('headerTitle')}
+        />
 
         {this.state.songs.length > 0 ? (
           <View style={{marginTop: 10, height: '100%'}}>
             <ListOfMusic
               songs={this.state.songs}
               navigate={this.props.navigation.navigate}
+              updateFavorite={this.props.updateFavorite}
+              deleteSong={this.props.deleteSong}
+              paddingBottom={
+                Object.keys(this.props.musicReducer.current).length === 0
+                  ? 170
+                  : 230
+              }
             />
           </View>
         ) : (
@@ -62,22 +73,26 @@ class ReproductionsScreen extends Component<IProps, IState> {
           </Text>
         )}
 
-        <FooterMusic 
-        // @ts-ignore
-        navigation={this.props.navigation} />
+        <FooterMusic
+          // @ts-ignore
+          navigation={this.props.navigation}
+        />
       </BackgroundLayout>
     );
   }
 }
 
-const mapStateToProps = ({fileReducer}: any) => {
+const mapStateToProps = ({fileReducer, musicReducer}: any) => {
   return {
     fileReducer,
+    musicReducer,
   };
 };
 
 const mapDispatchToProps = {
   getRecents,
+  updateFavorite,
+  deleteSong,
 };
 
 export default connect<any>(

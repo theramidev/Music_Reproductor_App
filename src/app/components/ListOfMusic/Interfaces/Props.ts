@@ -10,5 +10,11 @@ export interface IProps {
    */
   updateFavorite(current: MSong): Promise<void>;
 
+  /**
+   * @description elimina la cancion seleccionada
+   * @param song cancion actual
+   */
+  deleteSong(song: MSong): Promise<void>;
+
   paddingBottom: number;
 }

@@ -4,13 +4,13 @@ import {Header} from '../../components/Header';
 import {IProps} from './interfaces/Props';
 import {connect} from 'react-redux';
 import {getFavoriteSongs} from '../../redux/actions/favoritesActions';
-import {updateFavorite} from '../../redux/actions/allSongsActions';
+import {updateFavorite, deleteSong} from '../../redux/actions/allSongsActions';
 import {ListOfMusic} from '../../components/ListOfMusic';
 import {Text, View, ActivityIndicator} from 'react-native';
 import {theme} from '../../../assets/themes';
 import FooterMusic from '../../components/FooterMusic';
 import {withTranslation} from 'react-i18next';
-import { showAd } from '../../../utils/interstitialAd';
+import {showAd} from '../../../utils/interstitialAd';
 
 class FavoritesScreen extends Component<IProps, {}> {
   constructor(props: any) {
@@ -59,6 +59,7 @@ class FavoritesScreen extends Component<IProps, {}> {
               navigate={this.props.navigation.navigate}
               songs={this.props.favoritesReducer.listFavorites}
               updateFavorite={this.props.updateFavorite}
+              deleteSong={this.props.deleteSong}
               paddingBottom={155}
             />
           ) : (
@@ -94,6 +95,7 @@ const mapStateToProps = ({favoritesReducer, musicReducer}: any) => {
 const mapDispatchToProps = {
   getFavoriteSongs,
   updateFavorite,
+  deleteSong,
 };
 
 export default connect<any, any>(

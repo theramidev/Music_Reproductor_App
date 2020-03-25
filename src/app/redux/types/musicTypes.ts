@@ -10,7 +10,9 @@ export default {
   loadingUpdateMusic: 'LOADING_CURRENT_MUSIC',
   updateMode: 'UPDATE_MODE',
   loadingFavorite: 'LOADING_FAVORITE',
+  loadingDeleteSong: 'LOADING_DELETE_SONG',
   errorFavorite: 'ERROR_FAVORITE',
+  errorDeleteSong: 'ERROR_DELETE_SONG',
   getSearch: 'MUSIC_GET_sEARCH',
   clearSearch: 'MUSIC_CLEAR_SEARCH',
 };
