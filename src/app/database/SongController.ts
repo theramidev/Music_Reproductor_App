@@ -173,8 +173,8 @@ class SongController {
         }
 
         const statement: string = `INSERT INTO ${this.tableReproduction} 
-                (id_song) VALUES (?)`;
-        await database.executeSql(statement, [songId]);
+                (id_song, create_date) VALUES (?)`;
+        await database.executeSql(statement, [songId, new Date().getTime()]);
       } catch (error) {
         console.error(error);
         reject(error);
