@@ -32,6 +32,7 @@ export class DatabaseInitialization {
       `CREATE TABLE IF NOT EXISTS reproduction(
                 id INTEGER PRIMARY KEY NOT NULL,
                 id_song TEXT NOT NULL,
+                create_date INTENGER NOT NULL DEFAULT ${new Date().getTime()}
                 CONSTRAINT fk_songs
                   FOREIGN KEY (id_song)
                   REFERENCES song(id)
