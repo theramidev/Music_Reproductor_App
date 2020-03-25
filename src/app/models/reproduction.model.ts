@@ -2,10 +2,12 @@ import {MSong} from './song.model';
 
 export class MReproduction {
   public reprodcutionId: number;
+  public createDate: Date;
   public song: MSong;
 
   constructor(reproduction: IReproduction) {
     this.reprodcutionId = reproduction.reproductionId;
+    this.createDate = new Date(reproduction.create_date);
     this.song = new MSong({
       album: reproduction.album,
       author: reproduction.author,
@@ -23,6 +25,7 @@ export class MReproduction {
 
 export interface IReproduction {
   reproductionId: number;
+  create_date: number;
   songId: string;
   title: string;
   duration: string;

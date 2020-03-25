@@ -191,7 +191,7 @@ class SongController {
   ): Promise<MReproduction[]> {
     return new Promise(async (resolve, reject) => {
       try {
-        const statement: string = `SELECT a.id AS reproductionId, b.id AS songId, 
+        const statement: string = `SELECT a.id AS reproductionId, a.create_date, b.id AS songId, 
                 b.title, b.duration, b.path, b.isFavorite, b.author, b.album, b.genre, b.lyrics, b.cover 
                 FROM ${this.tableReproduction} AS a INNER JOIN ${this.tableSong} AS b 
                 ON a.id_song = b.id ORDER BY a.id DESC LIMIT 20`;
