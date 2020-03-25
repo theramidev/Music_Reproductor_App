@@ -44,7 +44,7 @@ class PlaylistSongsScreen extends Component<IProps, IState> {
   componentDidMount() {
     const {playListId} = this.state.playlist;
     this.props.getCurrentPLaylist(playListId);
-    this.props.getSongs();
+    // this.props.getSongs();
     this.props.getPlaylistSongs(playListId);
   }
 
@@ -109,7 +109,7 @@ class PlaylistSongsScreen extends Component<IProps, IState> {
           <View
             // eslint-disable-next-line react-native/no-inline-styles
             style={{
-              height: '100%',
+              height: '50%',
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',

@@ -20,7 +20,7 @@ export default (state = INITIAL_STATE, {type, payload}: any) => {
     case playlistTypes.loadigGetPlaylists:
       return {
         ...state,
-        loadingPlaylists: true,
+        loadingPlaylists: false,
       };
 
     case playlistTypes.getCurrentPlaylist:

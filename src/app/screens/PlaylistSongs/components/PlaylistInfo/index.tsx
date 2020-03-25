@@ -15,7 +15,7 @@ export const PlaylistInfo: FC<IProps> = ({playlist, quantitySongs = 0, onDelete,
     const { t } = useTranslation('PlaylistInfo');
 
     const getDate = (date: Date): string => {
-        const months: string[] = [t('january'), t('februeary'), t('march'), t('april'), t('may'), 
+        const months: string[] = [t('january'), t('february'), t('march'), t('april'), t('may'), 
         t('june'), t('july'), t('august'), t('september'), t('october'), t('november'), t('december')];
 
         return  t('date', {day: date.getDate(), month: months[date.getMonth()], year: date.getFullYear()}); 
