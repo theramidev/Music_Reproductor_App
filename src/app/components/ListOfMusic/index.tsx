@@ -17,6 +17,7 @@ import {ShowToast} from '../../../utils/toast';
 import AsyncStorage from '@react-native-community/async-storage';
 import { AddToPlaylist } from '../AddToPlaylist';
 import { MPlaylist } from '../../models/playlist.model';
+import share from '../../../utils/share';
 
 const ListOfMusicComponent: FC<IProps> = (props) => {
   const {
@@ -105,6 +106,12 @@ const ListOfMusicComponent: FC<IProps> = (props) => {
           case 2:
             navigate('UpdateSong', {item, songs});
             break;
+          
+          case 3: {
+            if (songSelected) {
+              share(songSelected);
+            }
+          }; break;
 
           default:
             break;
