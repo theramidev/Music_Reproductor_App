@@ -73,6 +73,10 @@ const styles: StylesListOfMusic = {
     top: 20,
     zIndex: 10,
     color: colorText,
+    width: 20,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 
   actionsTitle: {

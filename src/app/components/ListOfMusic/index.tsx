@@ -2,6 +2,11 @@ import React, {FC, useEffect, useState} from 'react';
 import {View, Image, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {useActionSheet} from '@expo/react-native-action-sheet';
+import {connect} from 'react-redux';
+import {
+  getPlaylists,
+  addAndDeleteSongsOfPLaylist,
+} from '../../redux/actions/playlistActions';
 
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -13,6 +18,9 @@ import Ripple from 'react-native-material-ripple';
 import {IProps} from './Interfaces/Props';
 import {ShowToast} from '../../../utils/toast';
 import AsyncStorage from '@react-native-community/async-storage';
+import {AddToPlaylist} from '../AddToPlaylist';
+import {MPlaylist} from '../../models/playlist.model';
+import share from '../../../utils/share';
 import {
   getAlphabeticalOrder,
   getAlphabeticalArtistOrder,
@@ -20,19 +28,29 @@ import {
   getDesOrder,
 } from '../../../utils/orderListMusic';
 
-export const ListOfMusic: FC<IProps> = ({
-  songs,
-  navigate,
-  updateFavorite,
-  deleteSong,
-  paddingBottom = 0,
-  defaultOrder,
-}: any) => {
+const ListOfMusicComponent: FC<IProps> = props => {
+  const {
+    songs,
+    navigate,
+    updateFavorite,
+    paddingBottom = 0,
+    defaultOrder,
+    deleteSong,
+    getPlaylists,
+    playlistReducer: {playlists = []},
+    addAndDeleteSongsOfPLaylist,
+  } = props;
   const [orderList, setOrderList] = useState<
     'ASC' | 'DES' | 'TIME' | 'ARTIST' | 'NOORDER'
   >(defaultOrder || 'ASC');
   const styles = useDynamicStyleSheet(dynamicStyles);
   const {showActionSheetWithOptions} = useActionSheet();
+  const [addListIsVisible, setAddlistVisible] = useState(false);
+  const [songSelected, setSongSelected] = useState<MSong | null>(null);
+
+  useEffect(() => {
+    getPlaylists();
+  }, []);
 
   useEffect(() => {
     getOrderList();
@@ -44,6 +62,12 @@ export const ListOfMusic: FC<IProps> = ({
     }
     const order: any = (await AsyncStorage.getItem('@orderList')) || 'ASC';
     setOrderList(order);
+  };
+
+  const addSongToPlaylist = (playlist: MPlaylist) => {
+    if (songSelected) {
+      addAndDeleteSongsOfPLaylist(playlist.playListId, [songSelected.id]);
+    }
   };
 
   const order = (
@@ -77,6 +101,7 @@ export const ListOfMusic: FC<IProps> = ({
 
   // abre la ventana de opciones
   const openOptions = (item: MSong) => {
+    setSongSelected(item);
     showActionSheetWithOptions(
       {
         title: item.title,
@@ -104,11 +129,25 @@ export const ListOfMusic: FC<IProps> = ({
                 : 'Se elimino de favoritos',
             );
             break;
+
+          case 1:
+            if (playlists.length > 0) {
+              setAddlistVisible(true);
+            } else {
+              ShowToast('No tienes listas de reproducción');
+            }
+            break;
           case 2:
             navigate('UpdateSong', {item, songs});
             break;
           case 4:
             await deleteSong(item);
+            break;
+
+          case 3:
+            if (songSelected) {
+              share(songSelected);
+            }
             break;
 
           default:
@@ -255,6 +294,12 @@ export const ListOfMusic: FC<IProps> = ({
               onPress={() => {
                 openOptions(item);
               }}
+              hitSlop={{
+                top: 20,
+                right: 20,
+                bottom: 20,
+                left: 20,
+              }}
               style={styles.icon}>
               <SimpleLineIcons
                 name="options-vertical"
@@ -265,6 +310,29 @@ export const ListOfMusic: FC<IProps> = ({
           </View>
         ))}
       </ScrollView>
+
+      <AddToPlaylist
+        isVisible={addListIsVisible}
+        onClose={() => setAddlistVisible(false)}
+        playlists={playlists}
+        onCreate={addSongToPlaylist}
+      />
     </View>
   );
 };
+
+const mapStateToProps = ({playlistReducer}: any) => {
+  return {
+    playlistReducer,
+  };
+};
+
+const mapDispatchToProps = {
+  getPlaylists,
+  addAndDeleteSongsOfPLaylist,
+};
+
+export const ListOfMusic = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ListOfMusicComponent);
