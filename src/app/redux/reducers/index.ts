@@ -1,13 +1,13 @@
 import {combineReducers} from 'redux';
 
-import fileReducer from './fileReducer';
+import recentsReducer from './recentsReducer';
 import musicReducer from './musicReducer';
 import wallpaperReducer from './wallpaperReducer';
 import playlistReducer from './playlistReducer';
 import favoritesReducer from './favoritesReducer';
 
 export default combineReducers({
-  fileReducer,
+  recentsReducer,
   musicReducer,
   wallpaperReducer,
   playlistReducer,

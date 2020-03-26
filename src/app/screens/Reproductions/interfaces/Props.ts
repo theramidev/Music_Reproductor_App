@@ -3,7 +3,6 @@ import {
   NavigationState,
   NavigationParams,
 } from 'react-navigation';
-import {MReproduction} from '../../../models/reproduction.model';
 import {WithTranslation} from 'react-i18next';
 import {MSong} from 'src/app/models/song.model';
 
@@ -15,16 +14,10 @@ export interface IProps extends WithTranslation {
    * @description Obtiene las canciones escuchadas recientemente
    * @return Promise<void>
    */
-  fileReducer: {
-    data: {
-      reproductions: MReproduction[];
-    };
-    loadings: {
-      loadingGetReproductions: boolean;
-    };
-    error: {
-      errorGetReproductions: any;
-    };
+  recentsReducer: {
+    listRecents: MSong[];
+    loadingRecents: boolean;
+    errorRecents: any;
   };
 
   getRecents(): Promise<void>;

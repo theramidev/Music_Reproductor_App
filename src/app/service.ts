@@ -45,9 +45,10 @@ export const PlaybackService = (
         pause();
       });
       remoteNext = addEventListener('remote-next', async () => {
-        console.log('next');
+        //console.log('next');
         try {
           await skipToNext();
+          await play();
         } catch (err) {
           if (err.toString() === 'Error: There is no tracks left to play') {
             const data = await AsyncStorage.getItem('@Mode');
@@ -59,19 +60,22 @@ export const PlaybackService = (
             }
 
             await skipToNext();
+            await play();
           }
         }
       });
       remotePrevious = addEventListener(
         'remote-previous',
         async (data: any) => {
-          console.log('Remote Provious: ', data);
+          //console.log('Remote Provious: ', data);
           try {
             await skipToPrevious();
+            await play();
           } catch (err) {
             if (err.toString() === 'Error: There is no previous track') {
               const songs = await getQueue();
               skip(songs[songs.length - 1].id);
+              await play();
             }
           }
         },
@@ -79,7 +83,7 @@ export const PlaybackService = (
       playbackTrackChanged = addEventListener(
         'playback-track-changed',
         async (data: any) => {
-          console.log('playback-track-changed: ', data);
+          //console.log('playback-track-changed: ', data);
           // const id: string = await getCurrentTrack();
           // cuando se cambia de cancion se ejecutara esta funcion
           // que cabiara el estado a la cancion actual
@@ -103,9 +107,11 @@ export const PlaybackService = (
             if (mode === 'RANDOM') {
               await changeToRandomMode();
               await skipToNext();
+              await play();
             } else {
               const songs = await getQueue();
               skip(songs[0].id);
+              await play();
             }
           }
         },

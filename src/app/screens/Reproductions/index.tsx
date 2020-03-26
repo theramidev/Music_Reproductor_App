@@ -6,8 +6,7 @@ import {IProps} from './interfaces/Props';
 import {IState} from './interfaces/State';
 import {Header} from '../../components/Header';
 import {ListOfMusic} from '../../components/ListOfMusic';
-import {MSong} from '../../models/song.model';
-import {getRecents} from '../../redux/actions/fileActions';
+import {getRecents} from '../../redux/actions/recentsActions';
 import {updateFavorite, deleteSong} from '../../redux/actions/allSongsActions';
 import {theme} from '../../../assets/themes';
 import FooterMusic from '../../components/FooterMusic';
@@ -15,22 +14,12 @@ import {withTranslation} from 'react-i18next';
 import {showAd} from '../../../utils/interstitialAd';
 
 class ReproductionsScreen extends Component<IProps, IState> {
-  state = {
-    songs: [],
-  };
-
   constructor(props: IProps) {
     super(props);
   }
 
   async componentDidMount() {
     await this.props.getRecents();
-    const songs: MSong[] = this.props.fileReducer.data.reproductions.map(
-      reproduction => {
-        return reproduction.song;
-      },
-    );
-    this.setState({songs});
   }
 
   componentWillUnmount() {
@@ -38,6 +27,7 @@ class ReproductionsScreen extends Component<IProps, IState> {
   }
 
   render() {
+    console.log(this.props.recentsReducer.listRecents);
     return (
       <BackgroundLayout>
         <Header
@@ -45,17 +35,18 @@ class ReproductionsScreen extends Component<IProps, IState> {
           title={this.props.t('headerTitle')}
         />
 
-        {this.state.songs.length > 0 ? (
+        {this.props.recentsReducer.listRecents.length > 0 ? (
           <View style={{marginTop: 10, height: '100%'}}>
             <ListOfMusic
-              songs={this.state.songs}
+              songs={this.props.recentsReducer.listRecents}
               navigate={this.props.navigation.navigate}
               updateFavorite={this.props.updateFavorite}
               deleteSong={this.props.deleteSong}
+              defaultOrder="NOORDER"
               paddingBottom={
                 Object.keys(this.props.musicReducer.current).length === 0
-                  ? 170
-                  : 230
+                  ? 100
+                  : 160
               }
             />
           </View>
@@ -82,9 +73,9 @@ class ReproductionsScreen extends Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = ({fileReducer, musicReducer}: any) => {
+const mapStateToProps = ({recentsReducer, musicReducer}: any) => {
   return {
-    fileReducer,
+    recentsReducer,
     musicReducer,
   };
 };

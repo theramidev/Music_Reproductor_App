@@ -26,10 +26,11 @@ export const ListOfMusic: FC<IProps> = ({
   updateFavorite,
   deleteSong,
   paddingBottom = 0,
+  defaultOrder,
 }: any) => {
-  const [orderList, setOrderList] = useState<'ASC' | 'DES' | 'TIME' | 'ARTIST'>(
-    'ASC',
-  );
+  const [orderList, setOrderList] = useState<
+    'ASC' | 'DES' | 'TIME' | 'ARTIST' | 'NOORDER'
+  >(defaultOrder || 'ASC');
   const styles = useDynamicStyleSheet(dynamicStyles);
   const {showActionSheetWithOptions} = useActionSheet();
 
@@ -38,13 +39,16 @@ export const ListOfMusic: FC<IProps> = ({
   }, [songs]);
 
   const getOrderList = async () => {
+    if (orderList === 'NOORDER') {
+      return;
+    }
     const order: any = (await AsyncStorage.getItem('@orderList')) || 'ASC';
     setOrderList(order);
   };
 
   const order = (
     array: MSong[],
-    mode: 'ASC' | 'DES' | 'TIME' | 'ARTIST' = 'ASC',
+    mode: 'ASC' | 'DES' | 'TIME' | 'ARTIST' | 'NOORDER' = 'ASC',
   ) => {
     var newArray = array;
     switch (mode) {
@@ -59,6 +63,9 @@ export const ListOfMusic: FC<IProps> = ({
         break;
       case 'DES':
         newArray = getDesOrder(array);
+        break;
+      case 'NOORDER':
+        newArray = array;
         break;
       default:
         newArray = getAlphabeticalOrder(array);
@@ -182,28 +189,30 @@ export const ListOfMusic: FC<IProps> = ({
 
   return (
     <View style={[styles.container, {paddingBottom}]}>
-      <View style={styles.options}>
-        <TouchableOpacity
-          onPress={() => {
-            getRandomMusic(songs.length - 1, 0);
-          }}
-          style={styles.random}>
-          <FontAwesome name="random" size={15} color={styles.icon.color} />
-          <Text style={styles.textRandom}>Reproduccion aleatoria</Text>
-        </TouchableOpacity>
-
-        <View>
+      {orderList !== 'NOORDER' && (
+        <View style={styles.options}>
           <TouchableOpacity
-            style={styles.iconOptions}
-            onPress={openActionOrder}>
-            <MaterialIcons
-              name="swap-calls"
-              size={20}
-              color={styles.iconOptions.color}
-            />
+            onPress={() => {
+              getRandomMusic(songs.length - 1, 0);
+            }}
+            style={styles.random}>
+            <FontAwesome name="random" size={15} color={styles.icon.color} />
+            <Text style={styles.textRandom}>Reproduccion aleatoria</Text>
           </TouchableOpacity>
+
+          <View>
+            <TouchableOpacity
+              style={styles.iconOptions}
+              onPress={openActionOrder}>
+              <MaterialIcons
+                name="swap-calls"
+                size={20}
+                color={styles.iconOptions.color}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      )}
 
       <View
         // eslint-disable-next-line react-native/no-inline-styles

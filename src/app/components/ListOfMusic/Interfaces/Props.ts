@@ -3,6 +3,7 @@ import {MSong} from '../../../models/song.model';
 export interface IProps {
   songs: MSong[];
   navigate: any;
+  defaultOrder?: 'ASC' | 'DES' | 'TIME' | 'ARTIST' | 'NOORDER';
 
   /**
    * @description cambia el estado favorito de la cancion
