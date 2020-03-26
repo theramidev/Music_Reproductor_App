@@ -50,10 +50,12 @@ const ListOfMusicComponent: FC<IProps> = props => {
 
   useEffect(() => {
     getPlaylists();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     getOrderList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [songs]);
 
   const getOrderList = async () => {

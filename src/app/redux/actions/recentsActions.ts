@@ -15,6 +15,7 @@ export const getRecents = () => async (dispatch: Dispatch) => {
     const reproductions: MReproduction[] = await Database.getReproductions();
     const recents: any = reproductions.map((reproduction: MReproduction) => ({
       reproductionId: reproduction.reprodcutionId,
+      createDate: reproduction.createDate,
       ...reproduction.song,
     }));
     dispatch({
@@ -51,7 +52,10 @@ export const setSongToRecent = (songId: string) => async (
 
     const songList = listSongs.find((song: MSong) => song.id === songId);
 
-    updatedListRecents = [songList, ...updatedListRecents];
+    updatedListRecents = [
+      {...songList, create_date: new Date().getTime()},
+      ...updatedListRecents,
+    ];
 
     dispatch({
       type: fileTypes.updateRecents,

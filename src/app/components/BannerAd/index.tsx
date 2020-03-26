@@ -10,8 +10,6 @@ export const BannerAd: FC<{}> = () => {
         console.warn('Error bannerAd: ', e);
     }
 
-    console.log(isPremium);
-
     if (isPremium) {
         return null;
     }

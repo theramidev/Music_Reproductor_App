@@ -29,6 +29,7 @@ export const PlaybackService = (
   updateMusic: any,
   changeToRandomMode: any,
   changeToLineMode: any,
+  setSongToRecent: any,
 ) => {
   const initEvents = () => {
     registerPlaybackService(() => async () => {
@@ -90,10 +91,10 @@ export const PlaybackService = (
           if (data.track && data.nextTrack) {
             const currentTrack = await getTrack(data.nextTrack);
             if (currentTrack) {
-              // guarda la ulta reproduccion
-              database.setReproduction(data.nextTrack);
-
               updateMusic(data.nextTrack);
+
+              // guarda en la lista de recientes la ultima cancion reproducida
+              setSongToRecent(data.nextTrack);
             }
           }
         },

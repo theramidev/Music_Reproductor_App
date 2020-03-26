@@ -16,6 +16,7 @@ import {
   changeToRandomMode,
   updateListSongsCurrent,
 } from '../../redux/actions/musicActions';
+import {setSongToRecent} from '../../redux/actions/recentsActions';
 import style from './style';
 import {Progress} from './components/Progress';
 import {isPlay} from '../../../utils/isPlay';
@@ -47,6 +48,7 @@ class Music extends Component<IProps, IState> {
     }
     const mode = (await AsyncStorage.getItem('@Mode')) || 'RANDOM';
 
+    this.props.setSongToRecent(item.id);
     destroy();
 
     // @ts-ignore
@@ -126,6 +128,7 @@ const mapDispatchToProps = {
   changeToLineMode,
   changeToRandomMode,
   updateListSongsCurrent,
+  setSongToRecent,
 };
 
 // eslint-disable-next-line prettier/prettier

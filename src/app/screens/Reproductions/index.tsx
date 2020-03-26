@@ -27,7 +27,7 @@ class ReproductionsScreen extends Component<IProps, IState> {
   }
 
   render() {
-    console.log(this.props.recentsReducer.listRecents);
+    //console.log(this.props.recentsReducer.listRecents);
     return (
       <BackgroundLayout>
         <Header

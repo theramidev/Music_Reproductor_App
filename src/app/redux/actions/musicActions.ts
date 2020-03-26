@@ -90,8 +90,6 @@ export const getSongs = () => async (dispatch: Dispatch) => {
       minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration
     });
 
-    console.log(musicFiles.find((m: any) => m.id === '44528'));
-
     const newMusicFiles: ISong[] | any = musicFiles.map(song => {
       const songDB: MSong | any = songsDB.find(
         songData => songData.id === song.id,
@@ -232,7 +230,7 @@ export const playInRandom = (start: boolean) => async (
       null,
       current,
     );
-    console.log(listMusics[0]);
+
     const tracks: Track[] = getList(listMusics);
     TrackPlayer.add(tracks);
     start && TrackPlayer.play();

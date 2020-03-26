@@ -46,4 +46,6 @@ export interface IProps {
    * @param song
    */
   updateListSongsCurrent(song: MSong[]): Promise<void>;
+
+  setSongToRecent(songId: string): Promise<void>;
 }
