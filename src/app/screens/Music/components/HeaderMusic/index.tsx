@@ -4,6 +4,7 @@ import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {useActionSheet} from '@expo/react-native-action-sheet';
 import dynamicStyles from './style';
 import {MSong} from 'src/app/models/song.model';
+import { useTranslation } from 'react-i18next';
 
 export const HeaderMusic: FC<{item: MSong; navigation: any}> = ({
   item,
@@ -11,15 +12,16 @@ export const HeaderMusic: FC<{item: MSong; navigation: any}> = ({
 }: any) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
   const {showActionSheetWithOptions} = useActionSheet();
+  const { t } = useTranslation('HeaderMusic');
   // abre la ventana de opciones
   const openOptions = () => {
     showActionSheetWithOptions(
       {
         title: item.title,
         options: [
-          'Agregar a lista de reproduccion',
-          'Editar informacion',
-          'Cancel',
+          t('addPlaylist'),
+          t('editSong'),
+          t('cancel'),
         ],
         destructiveButtonIndex: 2,
         containerStyle: styles.actions,

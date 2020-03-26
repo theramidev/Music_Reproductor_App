@@ -6,6 +6,7 @@ import {
   TextInputChangeEventData,
 } from 'react-native';
 import fs from 'react-native-fs';
+import { withTranslation } from 'react-i18next';
 
 import {updateSong} from '../../redux/actions/allSongsActions';
 import {IProps} from './interfaces/Props';
@@ -72,7 +73,7 @@ class UpdateSongScreen extends Component<IProps, IState> {
 
     await this.props.updateSong(this.state);
 
-    ShowToast('Se modificaron los datos de la cancion');
+    ShowToast(this.props.t('updated'));
 
     this.props.navigation.goBack();
   };
@@ -81,7 +82,7 @@ class UpdateSongScreen extends Component<IProps, IState> {
     return (
       <BackgroundLayout>
         <Header
-          title="Editar cancion"
+          title={this.props.t('headerTitle')}
           navigation={this.props.navigation}
           iconName="pencil"
           onPress={this.submit}
@@ -89,21 +90,21 @@ class UpdateSongScreen extends Component<IProps, IState> {
 
         <ScrollView>
           <Input
-            title="Titulo"
+            title={this.props.t('titleSong')}
             value={this.state.title}
             onChange={e => {
               this.handleChange(e, 'title');
             }}
           />
           <Input
-            title="Artista"
+            title={this.props.t('author')}
             value={this.state.author}
             onChange={e => {
               this.handleChange(e, 'author');
             }}
           />
           <Input
-            title="Album"
+            title={this.props.t('album')}
             value={this.state.album || ''}
             onChange={e => {
               this.handleChange(e, 'album');
@@ -140,4 +141,4 @@ const mapDispatchToProps = {
 export default connect<any, any>(
   mapStateToProps,
   mapDispatchToProps,
-)(UpdateSongScreen);
+)(withTranslation('UpdateSong')(UpdateSongScreen));

@@ -27,6 +27,7 @@ import {
   getDurationOrder,
   getDesOrder,
 } from '../../../utils/orderListMusic';
+import { useTranslation } from 'react-i18next';
 
 const ListOfMusicComponent: FC<IProps> = props => {
   const {
@@ -47,6 +48,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
   const {showActionSheetWithOptions} = useActionSheet();
   const [addListIsVisible, setAddlistVisible] = useState(false);
   const [songSelected, setSongSelected] = useState<MSong | null>(null);
+  const { t } = useTranslation('ListOfMusic');
 
   useEffect(() => {
     getPlaylists();
@@ -108,12 +110,11 @@ const ListOfMusicComponent: FC<IProps> = props => {
       {
         title: item.title,
         options: [
-          item.isFavorite ? 'Eliminar de favoritos' : 'Agregar a Favoritos',
-          'Agregar a lista de reproduccion',
-          'Editar informacion',
-          'Compartir',
-          'Eliminar',
-          'Cancel',
+          item.isFavorite ? t('deleteFavorite') : t('addFavorite'),
+          t('addPlaylist'),
+          t('editSong'),
+          t('share'),
+          t('cancel'),
         ],
         destructiveButtonIndex: 5,
         containerStyle: styles.actions,
@@ -127,8 +128,8 @@ const ListOfMusicComponent: FC<IProps> = props => {
             await updateFavorite(item);
             ShowToast(
               !item.isFavorite
-                ? 'Se agrego a favoritos'
-                : 'Se elimino de favoritos',
+                ? t('yesAddFavorite')
+                : t('yesDeleteFavorite'),
             );
             break;
 
@@ -136,7 +137,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
             if (playlists.length > 0) {
               setAddlistVisible(true);
             } else {
-              ShowToast('No tienes listas de reproducción');
+              ShowToast(t('noPlalist'));
             }
             break;
           case 2:
@@ -147,9 +148,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
             break;
 
           case 3:
-            if (songSelected) {
-              share(songSelected);
-            }
+            share(item);
             break;
 
           default:
@@ -162,8 +161,8 @@ const ListOfMusicComponent: FC<IProps> = props => {
   const openActionOrder = () => {
     showActionSheetWithOptions(
       {
-        title: 'Modificar orden',
-        options: ['Alfabetico', 'Duraciòn', 'Artista', 'Decendente'],
+        title: t('changeOrder'),
+        options: [t('alphabetical'), t('duration'), t('author'), t('falling')],
         containerStyle: styles.actions,
         textStyle: styles.actionsText,
         titleTextStyle: styles.actionsTitle,
@@ -223,7 +222,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
             marginTop: 20,
           },
         ]}>
-        No se encontraron canciones
+        {t('noSongs')}
       </Text>
     );
   }
@@ -238,7 +237,9 @@ const ListOfMusicComponent: FC<IProps> = props => {
             }}
             style={styles.random}>
             <FontAwesome name="random" size={15} color={styles.icon.color} />
-            <Text style={styles.textRandom}>Reproduccion aleatoria</Text>
+            <Text style={styles.textRandom}>
+              {t('random')}
+            </Text>
           </TouchableOpacity>
 
           <View>

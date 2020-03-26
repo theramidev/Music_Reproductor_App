@@ -6,6 +6,7 @@ import DocumentPicker, {
   DocumentPickerResponse,
 } from 'react-native-document-picker';
 import fs from 'react-native-fs';
+import { useTranslation } from 'react-i18next';
 
 import dynamicStyles from './styles';
 
@@ -18,6 +19,7 @@ export const UpdateImage: FC<{
   const [pickerImage, setPickerImage] = useState<DocumentPickerResponse | null>(
     null,
   );
+  const { t } = useTranslation('UpdateSong')
 
   useEffect(() => {
     return () => {
@@ -91,7 +93,9 @@ export const UpdateImage: FC<{
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Foto de portada</Text>
+      <Text style={styles.title}>
+        {t('cover')}
+      </Text>
 
       <View style={{justifyContent: 'center', flexDirection: 'row'}}>
         <TouchableOpacity onPress={openDocumentPiecker}>

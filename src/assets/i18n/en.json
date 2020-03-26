@@ -93,5 +93,46 @@
     },
     "ListOfOptions": {
         "changeImageTitle": "Change background image"
+    },
+    "ListOfMusic": {
+        "addFavorite": "Add to Favorites",
+        "deleteFavorite": "Remove from favorites",
+        "addPlaylist": "Add to Playlist",
+        "editSong": "Edit information",
+        "share": "Share",
+        "cancel": "Cancel",
+        "yesAddFavorite": "Added to favorites",
+        "yesDeleteFavorite": "Removed from favorites",
+        "noPlalist": "You don't have playlists",
+        "changeOrder": "Change order",
+        "alphabetical": "Alphabetical",
+        "duration": "Duration",
+        "author": "Author",
+        "falling": "Falling",
+        "random": "Random reproduction",
+        "noSongs": "No songs found"
+    },
+    "AddToPlaylist": {
+        "select": "Select a playlist"
+    },
+    "ActionsMusic": {
+        "errorAdFavorite": "An error occurred while adding to favorites",
+        "addedFavorite": "Added to favorites",
+        "removedFavorite": "Removed from favorites"
+    },
+    "HeaderMusic": {
+        "addPlaylist": "Add to Playlist",
+        "editSong": "Edit information",
+        "cancel": "Cancel"
+    },
+    "UpdateSong": {
+        "updated": "Song data changed",
+        "headerTitle": "Edit song",
+        "titleSong": "Title",
+        "author": "Author",
+        "album": "Album",
+        "cover": "Cover",
+        "lyrics": "Lyrics",
+        "pasteText": "Paste text"
     }
 }

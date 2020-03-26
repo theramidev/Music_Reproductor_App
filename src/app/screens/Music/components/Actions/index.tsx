@@ -6,6 +6,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {connect} from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import dynamicStyles from './style';
 import {
@@ -18,6 +19,7 @@ import {ShowToast} from '../../../../../utils/toast';
 const Actions: FC<any> = (props: any) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
   const [mode, setMode] = useState('RANDOM');
+  const { t } = useTranslation('ActionsMusic');
 
   useEffect(() => {
     getMode();
@@ -25,7 +27,7 @@ const Actions: FC<any> = (props: any) => {
 
   useEffect(() => {
     if (props.musicReducer.errorFavorite) {
-      ShowToast('Ocurrio un error al momento de agregar a favoritos');
+      ShowToast(t('errorAddFavorite'));
     }
   }, [props.musicReducer]);
 
@@ -55,7 +57,7 @@ const Actions: FC<any> = (props: any) => {
     await props.updateFavorite(current, true);
 
     ShowToast(
-      !current.isFavorite ? 'Se agrego a favoritos' : 'Se elimino de favoritos',
+      !current.isFavorite ? t('addedFavorite') : t('removedFavorite'),
     );
   };
 

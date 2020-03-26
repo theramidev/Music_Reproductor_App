@@ -93,5 +93,46 @@
     },
     "ListOfOptions": {
         "changeImageTitle": "Cambiar imagen de fondo"
+    },
+    "ListOfMusic": {
+        "addFavorite": "Agregar a favoritos",
+        "deleteFavorite": "Eliminar de favoritos",
+        "addPlaylist": "Agregar a lista de reproducción",
+        "editSong": "Editar información",
+        "share": "Compartir",
+        "cancel": "Cancelar",
+        "yesAddFavorite": "Se agregó a favoritos",
+        "yesDeleteFavorite": "Se eliminó de favoritos",
+        "noPlalist": "No tienes listas de reproducción",
+        "changeOrder": "Cambiar orden",
+        "alphabetical": "Alfabético",
+        "duration": "Duración",
+        "author": "Artista",
+        "falling": "Descendente",
+        "random": "Reproducción aleatoria",
+        "noSongs": "No se encontraron canciones"
+    },
+    "AddToPlaylist": {
+        "select": "Selecciona una lista"
+    },
+    "ActionsMusic": {
+        "errorAdFavorite": "Ocurrió un error mientras se agregaba a favoritos",
+        "addedFavorite": "Se agregó a favoritos",
+        "removedFavorite": "Se eliminó de favoritos"
+    },
+    "HeaderMusic": {
+        "addPlaylist": "Agregar a lista de reproducción",
+        "editSong": "Editar Información",
+        "cancel": "Cancelar"
+    },
+    "UpdateSong": {
+        "updated": "Se modificaron los datos de la canción",
+        "headerTitle": "Editar canción",
+        "titleSong": "Título",
+        "author": "Artista",
+        "album": "Álbum",
+        "cover": "Foto de portada",
+        "lyrics": "Letra",
+        "pasteText": "Pegar texto"
     }
 }
