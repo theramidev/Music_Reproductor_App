@@ -2,8 +2,11 @@ import React, {FC, useEffect, useState} from 'react';
 import {View, Image, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {useActionSheet} from '@expo/react-native-action-sheet';
-import { connect } from 'react-redux';
-import { getPlaylists, addAndDeleteSongsOfPLaylist } from '../../redux/actions/playlistActions';
+import {connect} from 'react-redux';
+import {
+  getPlaylists,
+  addAndDeleteSongsOfPLaylist,
+} from '../../redux/actions/playlistActions';
 
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -15,20 +18,31 @@ import Ripple from 'react-native-material-ripple';
 import {IProps} from './Interfaces/Props';
 import {ShowToast} from '../../../utils/toast';
 import AsyncStorage from '@react-native-community/async-storage';
-import { AddToPlaylist } from '../AddToPlaylist';
-import { MPlaylist } from '../../models/playlist.model';
+import {AddToPlaylist} from '../AddToPlaylist';
+import {MPlaylist} from '../../models/playlist.model';
 import share from '../../../utils/share';
+import {
+  getAlphabeticalOrder,
+  getAlphabeticalArtistOrder,
+  getDurationOrder,
+  getDesOrder,
+} from '../../../utils/orderListMusic';
 
-const ListOfMusicComponent: FC<IProps> = (props) => {
+const ListOfMusicComponent: FC<IProps> = props => {
   const {
     songs,
     navigate,
     updateFavorite,
     paddingBottom = 0,
+    defaultOrder,
+    deleteSong,
     getPlaylists,
     playlistReducer: {playlists = []},
-    addAndDeleteSongsOfPLaylist
+    addAndDeleteSongsOfPLaylist,
   } = props;
+  const [orderList, setOrderList] = useState<
+    'ASC' | 'DES' | 'TIME' | 'ARTIST' | 'NOORDER'
+  >(defaultOrder || 'ASC');
   const styles = useDynamicStyleSheet(dynamicStyles);
   const {showActionSheetWithOptions} = useActionSheet();
   const [addListIsVisible, setAddlistVisible] = useState(false);
@@ -36,30 +50,53 @@ const ListOfMusicComponent: FC<IProps> = (props) => {
 
   useEffect(() => {
     getPlaylists();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    //order();
-    //console.log(songs);
+    getOrderList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [songs]);
+
+  const getOrderList = async () => {
+    if (orderList === 'NOORDER') {
+      return;
+    }
+    const order: any = (await AsyncStorage.getItem('@orderList')) || 'ASC';
+    setOrderList(order);
+  };
 
   const addSongToPlaylist = (playlist: MPlaylist) => {
     if (songSelected) {
-      addAndDeleteSongsOfPLaylist(playlist.playListId, [songSelected.id])
+      addAndDeleteSongsOfPLaylist(playlist.playListId, [songSelected.id]);
     }
-  }
+  };
 
-  const order = (array: MSong[]) => {
+  const order = (
+    array: MSong[],
+    mode: 'ASC' | 'DES' | 'TIME' | 'ARTIST' | 'NOORDER' = 'ASC',
+  ) => {
     var newArray = array;
-    newArray.sort(function(a: MSong, b: MSong) {
-      if (a.title.toLowerCase() > b.title.toLowerCase()) {
-        return 1;
-      }
-      if (a.title.toLowerCase() < b.title.toLowerCase()) {
-        return -1;
-      }
-      return 0;
-    });
+    switch (mode) {
+      case 'ASC':
+        newArray = getAlphabeticalOrder(array);
+        break;
+      case 'ARTIST':
+        newArray = getAlphabeticalArtistOrder(array);
+        break;
+      case 'TIME':
+        newArray = getDurationOrder(array);
+        break;
+      case 'DES':
+        newArray = getDesOrder(array);
+        break;
+      case 'NOORDER':
+        newArray = array;
+        break;
+      default:
+        newArray = getAlphabeticalOrder(array);
+        break;
+    }
 
     return newArray;
   };
@@ -81,9 +118,8 @@ const ListOfMusicComponent: FC<IProps> = (props) => {
         destructiveButtonIndex: 5,
         containerStyle: styles.actions,
         textStyle: styles.actionsText,
-        titleTextStyle: styles.actionsText,
-        showSeparators: true,
-        separatorStyle: {backgroundColor: '#646464'},
+        titleTextStyle: styles.actionsTitle,
+        cancelButtonIndex: -1,
       },
       async (index: number) => {
         switch (index) {
@@ -95,23 +131,26 @@ const ListOfMusicComponent: FC<IProps> = (props) => {
                 : 'Se elimino de favoritos',
             );
             break;
-          
-          case 1: {
+
+          case 1:
             if (playlists.length > 0) {
               setAddlistVisible(true);
             } else {
               ShowToast('No tienes listas de reproducción');
             }
-          }; break;
+            break;
           case 2:
             navigate('UpdateSong', {item, songs});
             break;
-          
-          case 3: {
+          case 4:
+            await deleteSong(item);
+            break;
+
+          case 3:
             if (songSelected) {
               share(songSelected);
             }
-          }; break;
+            break;
 
           default:
             break;
@@ -124,19 +163,30 @@ const ListOfMusicComponent: FC<IProps> = (props) => {
     showActionSheetWithOptions(
       {
         title: 'Modificar orden',
-        options: ['Alfavetico', 'Duraciòn', 'Artista'],
+        options: ['Alfabetico', 'Duraciòn', 'Artista', 'Decendente'],
         containerStyle: styles.actions,
         textStyle: styles.actionsText,
-        titleTextStyle: styles.actionsText,
+        titleTextStyle: styles.actionsTitle,
+        cancelButtonIndex: -1,
       },
       async (index: number) => {
         switch (index) {
           case 0:
-            //order();
+            setOrderList('ASC');
+            AsyncStorage.setItem('@orderList', 'ASC');
+            break;
+          case 1:
+            setOrderList('TIME');
+            AsyncStorage.setItem('@orderList', 'TIME');
             break;
           case 2:
+            setOrderList('ARTIST');
+            AsyncStorage.setItem('@orderList', 'ARTIST');
             break;
-
+          case 3:
+            setOrderList('DES');
+            AsyncStorage.setItem('@orderList', 'DES');
+            break;
           default:
             break;
         }
@@ -180,28 +230,30 @@ const ListOfMusicComponent: FC<IProps> = (props) => {
 
   return (
     <View style={[styles.container, {paddingBottom}]}>
-      <View style={styles.options}>
-        <TouchableOpacity
-          onPress={() => {
-            getRandomMusic(songs.length - 1, 0);
-          }}
-          style={styles.random}>
-          <FontAwesome name="random" size={15} color={styles.icon.color} />
-          <Text style={styles.textRandom}>Reproduccion aleatoria</Text>
-        </TouchableOpacity>
-
-        <View>
+      {orderList !== 'NOORDER' && (
+        <View style={styles.options}>
           <TouchableOpacity
-            style={styles.iconOptions}
-            onPress={openActionOrder}>
-            <MaterialIcons
-              name="swap-calls"
-              size={20}
-              color={styles.iconOptions.color}
-            />
+            onPress={() => {
+              getRandomMusic(songs.length - 1, 0);
+            }}
+            style={styles.random}>
+            <FontAwesome name="random" size={15} color={styles.icon.color} />
+            <Text style={styles.textRandom}>Reproduccion aleatoria</Text>
           </TouchableOpacity>
+
+          <View>
+            <TouchableOpacity
+              style={styles.iconOptions}
+              onPress={openActionOrder}>
+              <MaterialIcons
+                name="swap-calls"
+                size={20}
+                color={styles.iconOptions.color}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      )}
 
       <View
         // eslint-disable-next-line react-native/no-inline-styles
@@ -213,7 +265,7 @@ const ListOfMusicComponent: FC<IProps> = (props) => {
       />
 
       <ScrollView>
-        {order(songs).map((item: MSong, key: number) => (
+        {order(songs, orderList).map((item: MSong, key: number) => (
           <View key={key} style={styles.containerItem}>
             <Ripple
               rippleColor={styles.title.color}
@@ -248,7 +300,7 @@ const ListOfMusicComponent: FC<IProps> = (props) => {
                 top: 20,
                 right: 20,
                 bottom: 20,
-                left: 20
+                left: 20,
               }}
               style={styles.icon}>
               <SimpleLineIcons
@@ -261,7 +313,7 @@ const ListOfMusicComponent: FC<IProps> = (props) => {
         ))}
       </ScrollView>
 
-      <AddToPlaylist 
+      <AddToPlaylist
         isVisible={addListIsVisible}
         onClose={() => setAddlistVisible(false)}
         playlists={playlists}
@@ -273,13 +325,16 @@ const ListOfMusicComponent: FC<IProps> = (props) => {
 
 const mapStateToProps = ({playlistReducer}: any) => {
   return {
-    playlistReducer
-  }
-}
+    playlistReducer,
+  };
+};
 
 const mapDispatchToProps = {
   getPlaylists,
-  addAndDeleteSongsOfPLaylist
-}
+  addAndDeleteSongsOfPLaylist,
+};
 
-export const ListOfMusic = connect(mapStateToProps, mapDispatchToProps)(ListOfMusicComponent);
+export const ListOfMusic = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ListOfMusicComponent);

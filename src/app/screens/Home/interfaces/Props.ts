@@ -69,4 +69,6 @@ export interface IProps {
    * @param current
    */
   updateFavorite(current: MSong): Promise<void>;
+
+  deleteSong(song: MSong): Promise<void>;
 }

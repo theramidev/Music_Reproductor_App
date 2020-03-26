@@ -8,16 +8,18 @@ class SongController {
   private tableReproduction: string = 'reproduction';
 
   /**
-   * 
+   *
    * @param database Base de datos local
    * @param path Ruta del archivo que se va a borrar
-   * @return 
+   * @return
    */
   public deleteFile(path: string): Promise<boolean> {
     return new Promise(async (resolve, reject) => {
       try {
-        const existFile = await fs.exists(path);
+        console.log(path);
 
+        const existFile = await fs.exists(path);
+        console.log(existFile);
         if (existFile) {
           await fs.unlink(path);
         }
@@ -25,9 +27,9 @@ class SongController {
         resolve(true);
       } catch (error) {
         console.error('Delete File Error: ', error);
-        reject(error);
+        reject(false);
       }
-    })
+    });
   }
   /**
    * @description Actuaiza una canción
@@ -41,33 +43,18 @@ class SongController {
    * @return Promise<void>
    */
   public async updateSong(
-    database: SQLiteDatabase, 
-    songId: string, 
-    title: string, 
-    author: string | null = null, 
-    album: string | null = null, 
+    database: SQLiteDatabase,
+    songId: string,
+    title: string,
+    author: string | null = null,
+    album: string | null = null,
     lyrics: string | null = null,
-    cover: string | null = null
-    ): Promise<void> {
+    cover: string | null = null,
+  ): Promise<void> {
     try {
-      const pathCover = `${fs.DocumentDirectoryPath}/coverSong/${songId}.jpg`;
-
-      const existDir: boolean = await fs.exists(`${fs.DocumentDirectoryPath}/coverSong`);
-      const existCover: boolean = await fs.exists(pathCover);
-      if (!existDir) {
-        await fs.mkdir(`${fs.DocumentDirectoryPath}/coverSong`);
-      }
-      if (existCover && cover) {
-        await fs.unlink(pathCover);
-      }
-
-      if (cover) {
-        await fs.copyFile(cover, pathCover);
-      }
-
       const statement = `UPDATE ${this.tableSong} SET title=?, author=?, album=?, lyrics=?, 
       cover=? WHERE id=?`;
-      const params = [title, author, album, lyrics, cover ? 'file://'+pathCover : cover];
+      const params = [title, author, album, lyrics, cover, songId];
 
       await database.executeSql(statement, params);
     } catch (error) {
@@ -353,8 +340,10 @@ class SongController {
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
+        console.log(songId);
         const statement: string = `DELETE FROM ${this.tableSong} WHERE id = ?`;
         await database.executeSql(statement, [songId]);
+        resolve(true);
       } catch (error) {
         console.error('Error Delete Song: ', error);
         reject(error);

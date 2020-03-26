@@ -97,7 +97,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
 
       if (songDB) {
         return {
-          ...song,
+          ...songDB,
           isFavorite: songDB.isFavorite ? true : false,
         };
       }
@@ -230,6 +230,7 @@ export const playInRandom = (start: boolean) => async (
       null,
       current,
     );
+
     const tracks: Track[] = getList(listMusics);
     TrackPlayer.add(tracks);
     start && TrackPlayer.play();

@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {Text, Image, View} from 'react-native';
 import {connect} from 'react-redux';
+import {destroy, getQueue} from 'react-native-track-player';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {IProps} from './interfaces/Props';
 import {IState} from './interfaces/State';
-import {Header} from '../../components/Header';
 import {BackgroundLayout} from '../../components/BackgroundLayout';
 import {
   updateCurrentMusic,
@@ -15,12 +16,12 @@ import {
   changeToRandomMode,
   updateListSongsCurrent,
 } from '../../redux/actions/musicActions';
+import {setSongToRecent} from '../../redux/actions/recentsActions';
 import style from './style';
 import {Progress} from './components/Progress';
 import {isPlay} from '../../../utils/isPlay';
-import {destroy, getQueue} from 'react-native-track-player';
-import AsyncStorage from '@react-native-community/async-storage';
 import share from '../../../utils/share';
+import {HeaderMusic} from './components/HeaderMusic';
 
 class Music extends Component<IProps, IState> {
   constructor(props: IProps) {
@@ -47,6 +48,7 @@ class Music extends Component<IProps, IState> {
     }
     const mode = (await AsyncStorage.getItem('@Mode')) || 'RANDOM';
 
+    this.props.setSongToRecent(item.id);
     destroy();
 
     // @ts-ignore
@@ -79,11 +81,7 @@ class Music extends Component<IProps, IState> {
 
     return (
       <BackgroundLayout>
-        <Header
-          title={item.title}
-          navigation={this.props.navigation}
-          iconName="options-vertical"
-        />
+        <HeaderMusic item={item} navigation={this.props.navigation} />
 
         <View style={style.contentImage}>
           {item.cover ? (
@@ -130,6 +128,7 @@ const mapDispatchToProps = {
   changeToLineMode,
   changeToRandomMode,
   updateListSongsCurrent,
+  setSongToRecent,
 };
 
 // eslint-disable-next-line prettier/prettier

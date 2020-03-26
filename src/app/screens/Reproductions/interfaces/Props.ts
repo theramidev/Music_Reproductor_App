@@ -1,23 +1,26 @@
-import { NavigationScreenProp, NavigationState, NavigationParams } from "react-navigation";
-import { MReproduction } from "../../../models/reproduction.model";
-import { WithTranslation } from "react-i18next";
+import {
+  NavigationScreenProp,
+  NavigationState,
+  NavigationParams,
+} from 'react-navigation';
+import {WithTranslation} from 'react-i18next';
+import {MSong} from 'src/app/models/song.model';
 
 export interface IProps extends WithTranslation {
-    navigation: NavigationScreenProp<NavigationState, NavigationParams>,
-    /**
-     * @description Obtiene las canciones escuchadas recientemente
-     * @return Promise<void>
-     */
-    getRecents(): Promise<void>,
-    fileReducer: {
-        data: {
-            reproductions: MReproduction[]
-        },
-        loadings: {
-            loadingGetReproductions: boolean 
-        },
-        error: {
-            errorGetReproductions: any
-        }
-    }
+  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
+
+  musicReducer: {current: MSong};
+  /**
+   * @description Obtiene las canciones escuchadas recientemente
+   * @return Promise<void>
+   */
+  recentsReducer: {
+    listRecents: MSong[];
+    loadingRecents: boolean;
+    errorRecents: any;
+  };
+
+  getRecents(): Promise<void>;
+  updateFavorite(current: MSong): Promise<void>;
+  deleteSong(song: MSong): Promise<void>;
 }

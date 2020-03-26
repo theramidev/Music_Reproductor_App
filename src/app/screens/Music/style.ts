@@ -3,8 +3,9 @@ import {StyleSheet} from 'react-native';
 export default StyleSheet.create({
   contentImage: {
     width: '100%',
-    marginTop: 70,
+    height: '63%',
     flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center',
   },

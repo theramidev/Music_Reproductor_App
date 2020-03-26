@@ -20,6 +20,7 @@ export interface IProps {
     loading: boolean;
     error: any;
 
+    loadingUpdateSong: boolean;
     loadingFavorite: boolean;
     errorFavorite: any;
   };
@@ -45,4 +46,6 @@ export interface IProps {
    * @param song
    */
   updateListSongsCurrent(song: MSong[]): Promise<void>;
+
+  setSongToRecent(songId: string): Promise<void>;
 }

@@ -29,6 +29,7 @@ export const PlaybackService = (
   updateMusic: any,
   changeToRandomMode: any,
   changeToLineMode: any,
+  setSongToRecent: any,
 ) => {
   const initEvents = () => {
     registerPlaybackService(() => async () => {
@@ -45,9 +46,10 @@ export const PlaybackService = (
         pause();
       });
       remoteNext = addEventListener('remote-next', async () => {
-        console.log('next');
+        //console.log('next');
         try {
           await skipToNext();
+          await play();
         } catch (err) {
           if (err.toString() === 'Error: There is no tracks left to play') {
             const data = await AsyncStorage.getItem('@Mode');
@@ -59,19 +61,22 @@ export const PlaybackService = (
             }
 
             await skipToNext();
+            await play();
           }
         }
       });
       remotePrevious = addEventListener(
         'remote-previous',
         async (data: any) => {
-          console.log('Remote Provious: ', data);
+          //console.log('Remote Provious: ', data);
           try {
             await skipToPrevious();
+            await play();
           } catch (err) {
             if (err.toString() === 'Error: There is no previous track') {
               const songs = await getQueue();
               skip(songs[songs.length - 1].id);
+              await play();
             }
           }
         },
@@ -79,17 +84,17 @@ export const PlaybackService = (
       playbackTrackChanged = addEventListener(
         'playback-track-changed',
         async (data: any) => {
-          console.log('playback-track-changed: ', data);
+          //console.log('playback-track-changed: ', data);
           // const id: string = await getCurrentTrack();
           // cuando se cambia de cancion se ejecutara esta funcion
           // que cabiara el estado a la cancion actual
           if (data.track && data.nextTrack) {
             const currentTrack = await getTrack(data.nextTrack);
             if (currentTrack) {
-              // guarda la ulta reproduccion
-              database.setReproduction(data.nextTrack);
-
               updateMusic(data.nextTrack);
+
+              // guarda en la lista de recientes la ultima cancion reproducida
+              setSongToRecent(data.nextTrack);
             }
           }
         },
@@ -103,9 +108,11 @@ export const PlaybackService = (
             if (mode === 'RANDOM') {
               await changeToRandomMode();
               await skipToNext();
+              await play();
             } else {
               const songs = await getQueue();
               skip(songs[0].id);
+              await play();
             }
           }
         },

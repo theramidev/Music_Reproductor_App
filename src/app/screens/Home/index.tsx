@@ -3,7 +3,7 @@ import {Image, ActivityIndicator, Animated, View} from 'react-native';
 import {connect} from 'react-redux';
 
 import {getCurrentWallpaper} from '../../redux/actions/wallpaperActions';
-import {updateFavorite} from '../../redux/actions/allSongsActions';
+import {updateFavorite, deleteSong} from '../../redux/actions/allSongsActions';
 import {
   getSongs,
   updateCurrentMusicForId,
@@ -122,6 +122,7 @@ class HomeScreen extends Component<IProps, IState> {
             <ListOfMusic
               songs={listSongs}
               updateFavorite={this.props.updateFavorite}
+              deleteSong={this.props.deleteSong}
               navigate={navigation.navigate}
               paddingBottom={
                 Object.keys(this.props.musicReducer.current).length === 0
@@ -160,6 +161,7 @@ const mapDispatchToProps = {
   playInRandom,
   playInLine,
   updateFavorite,
+  deleteSong,
 };
 
 export default connect<any, any>(

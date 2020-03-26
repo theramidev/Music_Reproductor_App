@@ -3,7 +3,8 @@ import {DynamicValue, DynamicStyleSheet} from 'react-native-dark-mode';
 import {StylesListOfMusic} from './interfaces/Style';
 
 const colorText = new DynamicValue(theme().text, theme().light);
-const backgroundActions = new DynamicValue(theme(0.9).light, theme(0.9).dark);
+const actionText = new DynamicValue(theme(0.5).text, theme(0.5).light);
+const backgroundActions = new DynamicValue(theme(0.95).light, theme(0.95).text);
 const background = new DynamicValue(theme(0.9).light, theme(0.9).text);
 
 const styles: StylesListOfMusic = {
@@ -78,12 +79,18 @@ const styles: StylesListOfMusic = {
     alignItems: 'center'
   },
 
+  actionsTitle: {
+    color: colorText,
+    fontSize: 15,
+    width: '100%',
+    textAlign: 'center',
+  },
   actions: {
     backgroundColor: backgroundActions,
-    borderRadius: 10,
+    borderRadius: 20,
   },
   actionsText: {
-    color: colorText,
+    color: actionText,
     fontSize: 15,
     width: '100%',
     textAlign: 'center',

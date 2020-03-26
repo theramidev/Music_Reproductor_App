@@ -22,4 +22,5 @@ export interface StylesListOfMusic {
 
   actions: ViewStyle | DynamicViewStyle;
   actionsText: TextStyle | DynamicTextStyle;
+  actionsTitle: TextStyle | DynamicTextStyle;
 }

@@ -20,7 +20,7 @@ import TrackPlayer, {
 import Actions from '../Actions';
 import {getDuration} from '../../../../../utils/duration';
 import AsyncStorage from '@react-native-community/async-storage';
-import { BannerAd } from '../../../../components/BannerAd';
+import {BannerAd} from '../../../../components/BannerAd';
 
 export const Progress = ({
   duration,
@@ -85,10 +85,12 @@ export const Progress = ({
   const previousSong = async () => {
     try {
       await skipToPrevious();
+      await play();
     } catch (err) {
       if (err.toString() === 'Error: There is no previous track') {
         const songs = await getQueue();
         skip(songs[songs.length - 1].id);
+        await play();
       }
     }
   };
@@ -96,6 +98,7 @@ export const Progress = ({
   const nextSong = async () => {
     try {
       await skipToNext();
+      await play();
     } catch (err) {
       if (err.toString() === 'Error: There is no tracks left to play') {
         const data = await AsyncStorage.getItem('@Mode');
@@ -108,6 +111,7 @@ export const Progress = ({
         }
 
         await skipToNext();
+        await play();
       }
     }
   };

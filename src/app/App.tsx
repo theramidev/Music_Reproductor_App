@@ -23,6 +23,7 @@ import {
   changeToLineMode,
   changeToRandomMode,
 } from './redux/actions/musicActions';
+import {setSongToRecent} from './redux/actions/recentsActions';
 
 const App: FC<any> = (props: any) => {
   const [mode, setMode] = useState(true);
@@ -30,6 +31,7 @@ const App: FC<any> = (props: any) => {
     props.updateCurrentMusicForId,
     props.changeToRandomMode,
     props.changeToLineMode,
+    props.setSongToRecent,
   );
 
   useEffect(() => {
@@ -63,7 +65,7 @@ const App: FC<any> = (props: any) => {
       compactCapabilities: [
         TrackPlayer.CAPABILITY_PLAY,
         TrackPlayer.CAPABILITY_PAUSE,
-      ]
+      ],
     });
 
     // Creación de la carpeta temp
@@ -111,7 +113,6 @@ const App: FC<any> = (props: any) => {
       TrackPlayer.destroy();
       cleanEvents();
       clearShares();
-
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -133,7 +134,7 @@ const App: FC<any> = (props: any) => {
     } catch (error) {
       console.error('Clear share: ', error);
     }
-  }
+  };
 
   // obtiene del AsyncStorage si está en modo oscuro
   const getDarkMode = async () => {
@@ -184,6 +185,7 @@ const mapDispatchToProps = {
   updateCurrentMusicForId,
   changeToLineMode,
   changeToRandomMode,
+  setSongToRecent,
 };
 
 // eslint-disable-next-line prettier/prettier
