@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {IProps} from './interfaces/Props';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -14,6 +14,7 @@ export const Header: FC<IProps> = ({
   title,
   onPress,
   children,
+  loading,
 }) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
 
@@ -40,7 +41,7 @@ export const Header: FC<IProps> = ({
         <HeaderBackButton tintColor={styles.back.color} onPress={back} />
       </TouchableOpacity>
 
-      {iconName && (
+      {iconName && !loading && (
         <TouchableOpacity style={styles.icon} onPress={onPress}>
           <SimpleLineIcons
             name={iconName}
@@ -48,6 +49,14 @@ export const Header: FC<IProps> = ({
             size={15}
           />
         </TouchableOpacity>
+      )}
+
+      {loading && (
+        <View
+          // eslint-disable-next-line react-native/no-inline-styles
+          style={styles.icon}>
+          <ActivityIndicator size="small" color="#00F1DF" />
+        </View>
       )}
     </View>
   );
