@@ -173,7 +173,7 @@ class SongController {
         }
 
         const statement: string = `INSERT INTO ${this.tableReproduction} 
-                (id_song, create_date) VALUES (?)`;
+                (id_song, create_date) VALUES (?, ?)`;
         await database.executeSql(statement, [songId, new Date().getTime()]);
       } catch (error) {
         console.error(error);
@@ -223,7 +223,7 @@ class SongController {
     return new Promise((resolve, reject) => {
       try {
         const statement: string = `DELETE FROM ${this.tableReproduction} 
-                WHERE id_song = ?`;
+                WHERE id = ?`;
         database.executeSql(statement, [reproductionId]);
       } catch (error) {
         console.error(error);
