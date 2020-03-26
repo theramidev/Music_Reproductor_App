@@ -53,7 +53,7 @@ class UpdateSongScreen extends Component<IProps, IState> {
     if (this.state.title?.length === 0) {
       ShowToast('El titulo no puede estar vacio');
     }
-    console.log(this.state.updateCover);
+
     if (this.state.updateCover) {
       const pathCover = `${fs.DocumentDirectoryPath}/coverSong/${this.state.id}.png`;
 

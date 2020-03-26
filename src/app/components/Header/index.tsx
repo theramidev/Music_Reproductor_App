@@ -38,7 +38,11 @@ export const Header: FC<IProps> = ({
       )}
 
       <TouchableOpacity style={styles.back}>
-        <HeaderBackButton tintColor={styles.back.color} onPress={back} />
+        <HeaderBackButton
+          tintColor={styles.back.color}
+          onPress={back}
+          disabled={loading}
+        />
       </TouchableOpacity>
 
       {iconName && !loading && (
