@@ -4,7 +4,7 @@ import {MPlaylist} from '../../../models/playlist.model';
 export interface IProps {
   songs: MSong[];
   navigate: any;
-  defaultOrder?: 'ASC' | 'DES' | 'TIME' | 'ARTIST' | 'NOORDER';
+  defaultOrder?: 'ASC' | 'DES' | 'TIME' | 'ARTIST' | 'DATE';
   playlistReducer: {
     playlists: MPlaylist[];
   };

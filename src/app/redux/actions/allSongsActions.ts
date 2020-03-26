@@ -13,6 +13,7 @@ import database from '../../database';
 import favoritesTypes from '../types/favoritesTypes';
 import playlistTypes from '../types/playlistTypes';
 import {PermissionsAndroid} from 'react-native';
+import recentsTypes from '../types/recentsTypes';
 
 /**
  * @description setea o modifica el estado favorito de una cancion
@@ -24,9 +25,10 @@ export const updateFavorite = (
 ) => async (dispatch: Dispatch, getsState: any) => {
   try {
     const {
-      musicReducer: {listSongs},
+      musicReducer: {listSongs, searchSongs},
       playlistReducer: {playlistSongs},
       favoritesReducer: {listFavorites},
+      recentsReducer: {listRecents},
     } = getsState();
 
     dispatch({
@@ -34,6 +36,14 @@ export const updateFavorite = (
     });
 
     const isFavorite = !current.isFavorite;
+
+    const updateListRecents = listRecents.map((music: MSong) => {
+      if (music.id === current.id) {
+        return {...music, isFavorite};
+      }
+
+      return music;
+    });
 
     const updateSongs = listSongs.map((music: MSong) => {
       if (music.id === current.id) {
@@ -44,6 +54,14 @@ export const updateFavorite = (
     });
 
     const updateSongsPlayList = playlistSongs.map((music: MSong) => {
+      if (music.id === current.id) {
+        return {...music, isFavorite};
+      }
+
+      return music;
+    });
+
+    const updateSearchSongs = searchSongs.map((music: MSong) => {
       if (music.id === current.id) {
         return {...music, isFavorite};
       }
@@ -75,6 +93,16 @@ export const updateFavorite = (
     dispatch({
       type: playlistTypes.updatePlaylists,
       payload: updateSongsPlayList,
+    });
+
+    dispatch({
+      type: recentsTypes.updateRecents,
+      payload: updateListRecents,
+    });
+
+    dispatch({
+      type: musicTypes.getSearch,
+      payload: updateSearchSongs,
     });
 
     if (updateCurrentPlaySong) {
@@ -110,9 +138,10 @@ export const updateSong = (current: {
   try {
     const {id, title, author, album, lyrics, cover} = current;
     const {
-      musicReducer: {listSongs},
+      musicReducer: {listSongs, searchSongs},
       playlistReducer: {playlistSongs},
       favoritesReducer: {listFavorites},
+      recentsReducer: {listRecents},
     } = getsState();
     const {current: songCurrent} = getsState().musicReducer;
 
@@ -144,6 +173,22 @@ export const updateSong = (current: {
       return music;
     });
 
+    var updateListRecents = listRecents.map((music: MSong) => {
+      if (music.id === current.id) {
+        return {...music, title, author, album, lyrics, cover};
+      }
+
+      return music;
+    });
+
+    const updateSearchSongs = searchSongs.map((music: MSong) => {
+      if (music.id === current.id) {
+        return {...music, title, author, album, lyrics, cover};
+      }
+
+      return music;
+    });
+
     await database.updateSong(id, title, author, album, lyrics, cover);
 
     if (await getTrack(id)) {
@@ -163,6 +208,16 @@ export const updateSong = (current: {
     dispatch({
       type: playlistTypes.updatePlaylists,
       payload: updateSongsPlayList,
+    });
+
+    dispatch({
+      type: recentsTypes.updateRecents,
+      payload: updateListRecents,
+    });
+
+    dispatch({
+      type: musicTypes.getSearch,
+      payload: updateSearchSongs,
     });
 
     if (current.id === songCurrent.id) {

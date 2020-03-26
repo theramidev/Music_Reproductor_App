@@ -42,11 +42,11 @@ class ReproductionsScreen extends Component<IProps, IState> {
               navigate={this.props.navigation.navigate}
               updateFavorite={this.props.updateFavorite}
               deleteSong={this.props.deleteSong}
-              defaultOrder="NOORDER"
+              defaultOrder="DATE"
               paddingBottom={
                 Object.keys(this.props.musicReducer.current).length === 0
                   ? 100
-                  : 160
+                  : 120
               }
             />
           </View>

@@ -132,3 +132,13 @@ export const getDurationOrder = (array: any[]) => {
 
   return newArray;
 };
+
+export const getDateTimeOrder = (array: any[]) => {
+  var newArray = array;
+
+  newArray.sort(function(a: any, b: any) {
+    return a.create_date - b.create_date;
+  });
+
+  return newArray;
+};
