@@ -36,12 +36,13 @@ export const ModalLetter: FC<IModal> = ({isOpen, onClose, text}: IModal) => {
 
         <ScrollView>
           <View style={styles.container}>
-            {text && <Text style={styles.text}>{text}</Text>}
-            {!text && (
+            {
+              text && text.length > 0 ?
+              <Text style={styles.text}>{text}</Text> :
               <Text style={styles.textWarning}>
                 {t('noLyrics')}
               </Text>
-            )}
+            }
           </View>
         </ScrollView>
       </BackgroundLayout>

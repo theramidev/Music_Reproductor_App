@@ -119,7 +119,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
           t('share'),
           t('cancel'),
         ],
-        destructiveButtonIndex: 5,
+        destructiveButtonIndex: 4,
         containerStyle: styles.actions,
         textStyle: styles.actionsText,
         titleTextStyle: styles.actionsTitle,
