@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {destroy, getQueue} from 'react-native-track-player';
 import AsyncStorage from '@react-native-community/async-storage';
 import fs from 'react-native-fs';
+import AutoScrolling from 'react-native-auto-scrolling';
 
 import {IProps} from './interfaces/Props';
 import {IState} from './interfaces/State';
@@ -72,6 +73,19 @@ class Music extends Component<IProps, IState> {
     }
   }
 
+  cutText = (text: string, limit: number, styleText?: any) => {
+    if (text.length > limit) {
+      return (
+        // eslint-disable-next-line react-native/no-inline-styles
+        <AutoScrolling style={{height: 30, width: '80%'}}>
+          <Text style={styleText}>{text}</Text>
+        </AutoScrolling>
+      );
+    } else {
+      return <Text style={styleText}>{text}</Text>;
+    }
+  };
+
   _onShare = async () => {
     share(this.props.musicReducer.current);
   };
@@ -84,7 +98,7 @@ class Music extends Component<IProps, IState> {
       },
     }: any = this.props;
 
-    const item =
+    const item: MSong =
       Object.keys(musicReducer.current).length === 0
         ? params.item
         : musicReducer.current;
@@ -107,8 +121,8 @@ class Music extends Component<IProps, IState> {
               source={require('../../../assets/images/music_notification.png')}
             />
           )}
-          <Text style={style.author}>{item.author}</Text>
-          <Text style={style.album}>{item.album}</Text>
+          {this.cutText(item.author || '<unknown>', 31, style.author)}
+          {this.cutText(item.album || '<unknown>', 55, style.album)}
         </View>
 
         <Progress

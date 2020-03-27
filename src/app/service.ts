@@ -94,6 +94,7 @@ export const PlaybackService = (
               updateMusic(data.nextTrack);
 
               // guarda en la lista de recientes la ultima cancion reproducida
+              console.log(data.nextTrack);
               setSongToRecent(data.nextTrack);
             }
           }

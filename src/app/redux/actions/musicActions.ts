@@ -74,10 +74,12 @@ export const getSongs = () => async (dispatch: Dispatch) => {
     });
     // =====================================================
 
-    dispatch({
-      type: musicTypes.updateListSongs,
-      payload: songsDB,
-    });
+    if (songsDB.length > 0) {
+      dispatch({
+        type: musicTypes.updateListSongs,
+        payload: songsDB,
+      });
+    }
 
     const musicFiles: ISong[] = await MusicFiles.getAll({
       id: true,

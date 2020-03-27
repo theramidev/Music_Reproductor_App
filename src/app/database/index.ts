@@ -180,7 +180,7 @@ class Database implements IDatabase {
    * @return Promise<void>
    */
   public async setReproduction(songId: string): Promise<void> {
-    SongController.setReproduction(this.database, songId);
+    return SongController.setReproduction(this.database, songId);
   }
   /**
    * @description Obtiene las últimas reproducciones

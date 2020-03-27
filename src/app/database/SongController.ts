@@ -148,13 +148,8 @@ class SongController {
           database,
         );
         const found: MReproduction | undefined = reproductions.find(
-          reproduction => {
-            if (reproduction.song.id === songId) {
-              return true;
-            }
-          },
+          reproduction => reproduction.song.id === songId,
         );
-
         if (found) {
           await this.deleteReproduction(database, found.reprodcutionId);
         }
@@ -162,6 +157,7 @@ class SongController {
         const statement: string = `INSERT INTO ${this.tableReproduction} 
                 (id_song, create_date) VALUES (?, ?)`;
         await database.executeSql(statement, [songId, new Date().getTime()]);
+        resolve(true);
       } catch (error) {
         console.error(error);
         reject(error);
@@ -210,8 +206,9 @@ class SongController {
     return new Promise((resolve, reject) => {
       try {
         const statement: string = `DELETE FROM ${this.tableReproduction} 
-                WHERE id_song = ?`;
+                WHERE id = ?`;
         database.executeSql(statement, [reproductionId]);
+        resolve(true);
       } catch (error) {
         console.error(error);
         reject(error);

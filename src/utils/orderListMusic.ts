@@ -137,7 +137,7 @@ export const getDateTimeOrder = (array: any[]) => {
   var newArray = array;
 
   newArray.sort(function(a: any, b: any) {
-    return a.create_date - b.create_date;
+    return b.reproductionId - a.reproductionId;
   });
 
   return newArray;

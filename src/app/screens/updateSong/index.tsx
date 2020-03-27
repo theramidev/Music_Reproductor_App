@@ -54,8 +54,12 @@ class UpdateSongScreen extends Component<IProps, IState> {
       ShowToast('El titulo no puede estar vacio');
     }
 
+    this.state.author?.length === 0 && this.setState({author: '<unknown>'});
+    this.state.album?.length === 0 && this.setState({album: 'musica'});
+
     if (this.state.updateCover) {
-      const pathCover = `${fs.DocumentDirectoryPath}/coverSong/${this.state.id}.png`;
+      const time = new Date().getTime();
+      const pathCover = `${fs.DocumentDirectoryPath}/coverSong/${this.state.id}_${time}.png`;
 
       const existDir: boolean = await fs.exists(
         `${fs.DocumentDirectoryPath}/coverSong`,
