@@ -134,5 +134,10 @@
         "cover": "Cover",
         "lyrics": "Lyrics",
         "pasteText": "Paste text"
+    },
+    "Music": {
+        "noSongInSystem": "The song does not exist in the system",
+        "modalTitle": "Lyrics",
+        "noLyrics": "The lyrics of this song could not be found"
     }
 }

@@ -26,6 +26,7 @@ import share from '../../../utils/share';
 import {HeaderMusic} from './components/HeaderMusic';
 import {MSong} from 'src/app/models/song.model';
 import {ShowToast} from '../../../utils/toast';
+import { withTranslation } from 'react-i18next';
 
 class Music extends Component<IProps, IState> {
   constructor(props: IProps) {
@@ -44,7 +45,7 @@ class Music extends Component<IProps, IState> {
 
     // evalua si la cancion existe en el telefono
     if (!(await fs.exists(item.path))) {
-      ShowToast('Esta cancion no existe en el sistema');
+      ShowToast(this.props.t('noSongInSystem'));
       this.props.navigation.goBack();
       return;
     }
@@ -156,4 +157,4 @@ const mapDispatchToProps = {
 };
 
 // eslint-disable-next-line prettier/prettier
-export default connect<any, any>(mapStateToProps, mapDispatchToProps)(Music);
+export default connect<any, any>(mapStateToProps, mapDispatchToProps)(withTranslation('Music')(Music));

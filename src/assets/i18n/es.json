@@ -134,5 +134,10 @@
         "cover": "Foto de portada",
         "lyrics": "Letra",
         "pasteText": "Pegar texto"
+    },
+    "Music": {
+        "noSongInSystem": "La canción no existe en el sistema",
+        "modalTitle": "Letra",
+        "noLyrics": "No se encontró la letra de esta canción"
     }
 }
