@@ -26,6 +26,7 @@ import {
   getAlphabeticalArtistOrder,
   getDurationOrder,
   getDesOrder,
+  getDateTimeOrder,
 } from '../../../utils/orderListMusic';
 import { useTranslation } from 'react-i18next';
 
@@ -44,7 +45,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
     refreshing
   } = props;
   const [orderList, setOrderList] = useState<
-    'ASC' | 'DES' | 'TIME' | 'ARTIST' | 'NOORDER'
+    'ASC' | 'DES' | 'TIME' | 'ARTIST' | 'DATE'
   >(defaultOrder || 'ASC');
   const styles = useDynamicStyleSheet(dynamicStyles);
   const {showActionSheetWithOptions} = useActionSheet();
@@ -63,7 +64,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
   }, [songs]);
 
   const getOrderList = async () => {
-    if (orderList === 'NOORDER') {
+    if (orderList === 'DATE') {
       return;
     }
     const order: any = (await AsyncStorage.getItem('@orderList')) || 'ASC';
@@ -78,7 +79,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
 
   const order = (
     array: MSong[],
-    mode: 'ASC' | 'DES' | 'TIME' | 'ARTIST' | 'NOORDER' = 'ASC',
+    mode: 'ASC' | 'DES' | 'TIME' | 'ARTIST' | 'DATE' = 'ASC',
   ) => {
     var newArray = array;
     switch (mode) {
@@ -94,8 +95,8 @@ const ListOfMusicComponent: FC<IProps> = props => {
       case 'DES':
         newArray = getDesOrder(array);
         break;
-      case 'NOORDER':
-        newArray = array;
+      case 'DATE':
+        newArray = getDateTimeOrder(array);
         break;
       default:
         newArray = getAlphabeticalOrder(array);
@@ -231,7 +232,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
 
   return (
     <View style={[styles.container, {paddingBottom}]}>
-      {orderList !== 'NOORDER' && (
+      {orderList !== 'DATE' && (
         <View style={styles.options}>
           <TouchableOpacity
             onPress={() => {

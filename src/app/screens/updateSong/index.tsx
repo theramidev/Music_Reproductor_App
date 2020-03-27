@@ -33,7 +33,7 @@ class UpdateSongScreen extends Component<IProps, IState> {
       album: item.album || '',
       cover: item.cover || '',
       lyrics: item.lyrics || '',
-      currentCover: item.cover || '',
+      updateCover: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -47,12 +47,20 @@ class UpdateSongScreen extends Component<IProps, IState> {
   };
 
   handleChangeImage = (image: string) => {
-    this.setState({cover: image});
+    this.setState({cover: image, updateCover: true});
   };
 
   submit = async () => {
-    if (this.state.cover !== this.state.currentCover) {
-      const pathCover = `${fs.DocumentDirectoryPath}/coverSong/${this.state.id}.png`;
+    if (this.state.title?.length === 0) {
+      ShowToast('El titulo no puede estar vacio');
+    }
+
+    this.state.author?.length === 0 && this.setState({author: '<unknown>'});
+    this.state.album?.length === 0 && this.setState({album: 'musica'});
+
+    if (this.state.updateCover) {
+      const time = new Date().getTime();
+      const pathCover = `${fs.DocumentDirectoryPath}/coverSong/${this.state.id}_${time}.png`;
 
       const existDir: boolean = await fs.exists(
         `${fs.DocumentDirectoryPath}/coverSong`,
@@ -79,6 +87,8 @@ class UpdateSongScreen extends Component<IProps, IState> {
   };
 
   render() {
+    const {loadingUpdateSong} = this.props.musicReducer;
+
     return (
       <BackgroundLayout>
         <Header
@@ -86,6 +96,7 @@ class UpdateSongScreen extends Component<IProps, IState> {
           navigation={this.props.navigation}
           iconName="pencil"
           onPress={this.submit}
+          loading={loadingUpdateSong}
         />
 
         <ScrollView>

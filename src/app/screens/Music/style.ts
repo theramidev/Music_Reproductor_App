@@ -10,8 +10,8 @@ export default StyleSheet.create({
     alignContent: 'center',
   },
   image: {
-    height: 270,
-    width: 270,
+    height: '55%',
+    width: '70%',
     resizeMode: 'cover',
     borderRadius: 10,
   },
