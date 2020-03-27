@@ -120,7 +120,11 @@ class Music extends Component<IProps, IState> {
 
     return (
       <BackgroundLayout>
-        <HeaderMusic item={item} navigation={this.props.navigation} />
+        <HeaderMusic 
+          item={item} 
+          navigation={this.props.navigation} 
+          onOpenAddPlaylist={() => this.setState({addToPlaylistVisible: true})}
+        />
 
         <View style={style.contentImage}>
           {item.cover ? (

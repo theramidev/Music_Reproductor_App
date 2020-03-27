@@ -6,10 +6,11 @@ import dynamicStyles from './style';
 import {MSong} from 'src/app/models/song.model';
 import { useTranslation } from 'react-i18next';
 
-export const HeaderMusic: FC<{item: MSong; navigation: any}> = ({
+export const HeaderMusic: FC<{item: MSong; navigation: any, onOpenAddPlaylist: () => void}> = ({
   item,
   navigation,
-}: any) => {
+  onOpenAddPlaylist
+}) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
   const {showActionSheetWithOptions} = useActionSheet();
   const { t } = useTranslation('HeaderMusic');
@@ -32,6 +33,7 @@ export const HeaderMusic: FC<{item: MSong; navigation: any}> = ({
       async (index: number) => {
         switch (index) {
           case 0:
+            onOpenAddPlaylist();
             break;
           case 1:
             navigation.navigate('UpdateSong', {item});

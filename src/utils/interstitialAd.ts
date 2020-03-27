@@ -1,9 +1,9 @@
 import { AdMobInterstitial } from 'react-native-admob';
 
-export const isPremium = false;
+export const isPremium = true;
 
 export const showAd = () => {
-    AdMobInterstitial.setAdUnitID(__DEV__ ? 'EMULATOR' : 'ca-app-pub-2449976564245125/9262979175');
+    AdMobInterstitial.setAdUnitID('ca-app-pub-2449976564245125/9262979175');
     AdMobInterstitial.setTestDevices([AdMobInterstitial.simulatorId]);
 
     if (!isPremium) {

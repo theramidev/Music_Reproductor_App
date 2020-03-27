@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.reproductornative"
+        applicationId "com.musicdm"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
