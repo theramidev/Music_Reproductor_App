@@ -15,4 +15,5 @@ export default {
   errorDeleteSong: 'ERROR_DELETE_SONG',
   getSearch: 'MUSIC_GET_sEARCH',
   clearSearch: 'MUSIC_CLEAR_SEARCH',
+  loadingRefresh: 'MUSIC_LOADING_REFRESH'
 };

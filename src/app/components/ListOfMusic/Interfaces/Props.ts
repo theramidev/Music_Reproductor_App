@@ -39,4 +39,7 @@ export interface IProps {
   deleteSong(song: MSong): Promise<void>;
 
   paddingBottom: number;
+
+  onRefresh?: () => void;
+  refreshing?: boolean;
 }

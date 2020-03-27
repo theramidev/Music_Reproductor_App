@@ -12,6 +12,51 @@ import {
 } from '../../../utils/orderListMusic';
 import AsyncStorage from '@react-native-community/async-storage';
 
+export const refreshListSong = () => async (dispatch: Dispatch) => {
+  dispatch({
+    type: musicTypes.loadingRefresh
+  });
+
+  try {
+    const songsDB: MSong[] = await database.getSongs();
+    const musicFiles: ISong[] = await MusicFiles.getAll({
+      id: true,
+      blured: true,
+      artist: true,
+      duration: true,
+      cover: true,
+      genre: true,
+      title: true,
+      minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration
+    });
+
+    const newMusicFiles: ISong[] | any = musicFiles.map(song => {
+      const songDB: MSong | any = songsDB.find(
+        songData => songData.id === song.id,
+      );
+
+      if (songDB) {
+        return {
+          ...songDB,
+          isFavorite: songDB.isFavorite ? true : false,
+        };
+      }
+
+      return song;
+    });
+
+    const songs: MSong[] = newMusicFiles.map((song: ISong) => new MSong(song));
+
+    dispatch({
+      type: musicTypes.updateListSongs,
+      payload: songs,
+    });
+    await database.setSongs(musicFiles);
+  } catch (error) {
+    console.error('[musicActions.ts ]: ', error);
+  }
+}
+
 /**
  * @description Limipia el estado de buscar
  */

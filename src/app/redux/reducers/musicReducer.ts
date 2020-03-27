@@ -19,6 +19,8 @@ const INITIAL_STATE = {
   errorDeleteSong: null,
 
   errorFavorite: null,
+
+  refreshing: false
 };
 
 export default (state = INITIAL_STATE, {type, payload}: any) => {
@@ -30,6 +32,7 @@ export default (state = INITIAL_STATE, {type, payload}: any) => {
         loadingListSongs: false,
         loadingUpdateSong: false,
         loadingDeleteSong: false,
+        refreshing: false
       };
     case musicTypes.loadingListSongs:
       return {
@@ -115,6 +118,12 @@ export default (state = INITIAL_STATE, {type, payload}: any) => {
         ...state,
         searchSongs: [],
       };
+
+    case musicTypes.loadingRefresh:
+      return {
+        ...state,
+        refreshing: true
+      }
 
     default:
       return state;

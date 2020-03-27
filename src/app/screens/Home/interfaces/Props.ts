@@ -23,17 +23,8 @@ export interface IProps {
 
     loadingFavorite: boolean;
     errorFavorite: any;
-  };
-  fileReducer: {
-    data: {
-      songs: MSong[];
-    };
-    loadings: {
-      loadingSongs: boolean;
-    };
-    errors: {
-      errorSongs: any;
-    };
+
+    refreshing: boolean;
   };
   wallpaperReducer: {
     data: {
@@ -71,4 +62,10 @@ export interface IProps {
   updateFavorite(current: MSong): Promise<void>;
 
   deleteSong(song: MSong): Promise<void>;
+
+  /**
+   * @description Refresca la lista d reproducción
+   * @return void
+   */
+  refreshListSong(): void;
 }

@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from 'react';
-import {View, Image, Text, TouchableOpacity, ScrollView} from 'react-native';
+import {View, Image, Text, TouchableOpacity, ScrollView, RefreshControl} from 'react-native';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {useActionSheet} from '@expo/react-native-action-sheet';
 import {connect} from 'react-redux';
@@ -40,6 +40,8 @@ const ListOfMusicComponent: FC<IProps> = props => {
     getPlaylists,
     playlistReducer: {playlists = []},
     addAndDeleteSongsOfPLaylist,
+    onRefresh,
+    refreshing
   } = props;
   const [orderList, setOrderList] = useState<
     'ASC' | 'DES' | 'TIME' | 'ARTIST' | 'NOORDER'
@@ -265,7 +267,15 @@ const ListOfMusicComponent: FC<IProps> = props => {
         }}
       />
 
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          onRefresh &&
+          <RefreshControl 
+            refreshing={refreshing ? refreshing : false}
+            onRefresh={onRefresh}
+          />
+        }
+      >
         {order(songs, orderList).map((item: MSong, key: number) => (
           <View key={key} style={styles.containerItem}>
             <Ripple
