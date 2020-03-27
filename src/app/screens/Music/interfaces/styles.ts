@@ -21,6 +21,16 @@ export interface StylesActions {
   iconActive: TextStyle | DynamicTextStyle;
 }
 
+export interface StylesModal {
+  container: ViewStyle | DynamicViewStyle;
+  icon: TextStyle | DynamicTextStyle;
+  iconHeader: TextStyle | DynamicTextStyle;
+  header: ViewStyle | DynamicViewStyle;
+  textHeader: TextStyle | DynamicTextStyle;
+  text: TextStyle | DynamicTextStyle;
+  textWarning: TextStyle | DynamicTextStyle;
+}
+
 export interface StylesListOfMusic {
   container: ViewStyle | DynamicViewStyle;
   item: ViewStyle | DynamicViewStyle;

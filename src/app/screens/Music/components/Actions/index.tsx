@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {connect} from 'react-redux';
 
@@ -14,10 +15,12 @@ import {
 } from '../../../../redux/actions/musicActions';
 import {updateFavorite} from '../../../../redux/actions/allSongsActions';
 import {ShowToast} from '../../../../../utils/toast';
+import {ModalLetter} from '../ModalLetter';
 
 const Actions: FC<any> = (props: any) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
   const [mode, setMode] = useState('RANDOM');
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     getMode();
@@ -92,6 +95,18 @@ const Actions: FC<any> = (props: any) => {
       <TouchableOpacity onPress={props.onShare}>
         <AntDesign name="sharealt" size={20} color={styles.icon.color} />
       </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => setOpen(true)}>
+        <MaterialIcons name="queue-music" size={20} color={styles.icon.color} />
+      </TouchableOpacity>
+
+      <ModalLetter
+        isOpen={open}
+        onClose={(data: boolean) => {
+          setOpen(data);
+        }}
+        text={props.musicReducer.current.lyrics}
+      />
     </View>
   );
 };
