@@ -153,10 +153,6 @@ const ListOfMusicComponent: FC<IProps> = props => {
           case 2:
             navigate('UpdateSong', {item, songs});
             break;
-          case 4:
-            await deleteSong(item);
-            break;
-
           case 3:
             share(item);
             break;
