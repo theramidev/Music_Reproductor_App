@@ -14,7 +14,7 @@ export default StyleSheet.create({
   },
 
   loading: {
-    height: '100%',
+    height: '70%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image, ActivityIndicator, Animated, View} from 'react-native';
+import {Image, Animated, View, SafeAreaView} from 'react-native';
 import {connect} from 'react-redux';
 
 import {getCurrentWallpaper} from '../../redux/actions/wallpaperActions';
@@ -9,7 +9,7 @@ import {
   updateCurrentMusicForId,
   playInRandom,
   playInLine,
-  refreshListSong
+  refreshListSong,
 } from '../../redux/actions/musicActions';
 import {IState} from './interfaces/State';
 import {IProps} from './interfaces/Props';
@@ -19,6 +19,7 @@ import {ListOfMusic} from '../../components/ListOfMusic';
 import {BackgroundLayout} from '../../components/BackgroundLayout';
 import style from './style';
 import FooterMusic from '../../components/FooterMusic';
+import {Loading} from '../../components/Loading';
 
 class HomeScreen extends Component<IProps, IState> {
   constructor(props: any) {
@@ -100,7 +101,7 @@ const mapDispatchToProps = {
   playInLine,
   updateFavorite,
   deleteSong,
-  refreshListSong
+  refreshListSong,
 };
 
 export default connect<any, any>(
