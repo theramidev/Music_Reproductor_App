@@ -4,7 +4,6 @@ import {
   Image,
   Text,
   TouchableOpacity,
-  ScrollView,
   RefreshControl,
   FlatList,
 } from 'react-native';
@@ -242,7 +241,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
       <View style={styles.containerItem}>
         <Ripple
           rippleColor={styles.title.color}
-          style={styles.containerItem}
+          style={styles.itemContent}
           onPress={() => navigate('Music', {item, songs})}>
           <View style={styles.item}>
             {item.cover ? (
@@ -318,7 +317,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
         style={{
           backgroundColor: '#CECECE',
           height: 1,
-          marginHorizontal: 10,
+          marginHorizontal: 5,
         }}
       />
 

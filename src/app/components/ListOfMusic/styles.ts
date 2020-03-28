@@ -2,10 +2,11 @@ import {theme} from '../../../assets/themes';
 import {DynamicValue, DynamicStyleSheet} from 'react-native-dark-mode';
 import {StylesListOfMusic} from './interfaces/Style';
 
-const colorText = new DynamicValue(theme().text, theme(0.8).light);
+const colorText = new DynamicValue(theme().text, theme(0.9).light);
 const actionText = new DynamicValue(theme(0.5).text, theme(0.5).light);
 const backgroundActions = new DynamicValue(theme(0.95).light, theme(0.95).text);
 const background = new DynamicValue(theme(0.9).light, theme(0.9).text);
+const backgroundItem = new DynamicValue(theme(0.2).dark, theme(0.2).light);
 
 const styles: StylesListOfMusic = {
   container: {
@@ -38,20 +39,17 @@ const styles: StylesListOfMusic = {
     padding: 2,
   },
 
-  containerItem: {
-    position: 'relative',
-    flexDirection: 'row',
-    width: '100%',
-  },
+  containerItem: {},
   itemContent: {
     position: 'relative',
     flexDirection: 'row',
-    width: '100%',
-    margin: 5,
-    backgroundColor: theme(0.2).light,
+    marginHorizontal: 5,
+    marginVertical: 2,
+    borderRadius: 5,
+    backgroundColor: backgroundItem,
   },
   item: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
     position: 'relative',
     paddingBottom: 5,
     paddingTop: 5,
