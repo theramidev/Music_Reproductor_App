@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   RefreshControl,
+  SafeAreaView,
 } from 'react-native';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {useActionSheet} from '@expo/react-native-action-sheet';
@@ -282,31 +283,33 @@ const ListOfMusicComponent: FC<IProps> = props => {
         }>
         {order(songs, orderList).map((item: MSong, key: number) => (
           <View key={key} style={styles.containerItem}>
-            <Ripple
-              rippleColor={styles.title.color}
-              style={styles.containerItem}
-              onPress={() => navigate('Music', {item, songs})}>
-              <View style={styles.item}>
-                {item.cover ? (
-                  <Image
-                    style={styles.image}
-                    source={{
-                      uri: 'file://' + item.cover,
-                    }}
-                  />
-                ) : (
-                  <Image
-                    style={styles.image}
-                    source={require('../../../assets/images/music_notification.png')}
-                  />
-                )}
+            <SafeAreaView>
+              <Ripple
+                rippleColor={styles.title.color}
+                style={styles.itemContent}
+                onPress={() => navigate('Music', {item, songs})}>
+                <View style={styles.item}>
+                  {item.cover ? (
+                    <Image
+                      style={styles.image}
+                      source={{
+                        uri: 'file://' + item.cover,
+                      }}
+                    />
+                  ) : (
+                    <Image
+                      style={styles.image}
+                      source={require('../../../assets/images/music_notification.png')}
+                    />
+                  )}
 
-                <View style={styles.info}>
-                  <Text style={styles.title}>{cutText(item.title)}</Text>
-                  <Text style={styles.group}>{item.author}</Text>
+                  <View style={styles.info}>
+                    <Text style={styles.title}>{cutText(item.title)}</Text>
+                    <Text style={styles.group}>{item.author}</Text>
+                  </View>
                 </View>
-              </View>
-            </Ripple>
+              </Ripple>
+            </SafeAreaView>
             <TouchableOpacity
               onPress={() => {
                 openOptions(item);

@@ -2,7 +2,7 @@ import {theme} from '../../../assets/themes';
 import {DynamicValue, DynamicStyleSheet} from 'react-native-dark-mode';
 import {StylesListOfMusic} from './interfaces/Style';
 
-const colorText = new DynamicValue(theme().text, theme().light);
+const colorText = new DynamicValue(theme().text, theme(0.8).light);
 const actionText = new DynamicValue(theme(0.5).text, theme(0.5).light);
 const backgroundActions = new DynamicValue(theme(0.95).light, theme(0.95).text);
 const background = new DynamicValue(theme(0.9).light, theme(0.9).text);
@@ -43,6 +43,13 @@ const styles: StylesListOfMusic = {
     flexDirection: 'row',
     width: '100%',
   },
+  itemContent: {
+    position: 'relative',
+    flexDirection: 'row',
+    width: '100%',
+    margin: 5,
+    backgroundColor: theme(0.2).light,
+  },
   item: {
     paddingHorizontal: 10,
     position: 'relative',
@@ -76,7 +83,7 @@ const styles: StylesListOfMusic = {
     width: 20,
     height: 20,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
 
   actionsTitle: {
