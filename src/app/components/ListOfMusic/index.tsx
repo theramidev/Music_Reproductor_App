@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   RefreshControl,
+  FlatList
 } from 'react-native';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {useActionSheet} from '@expo/react-native-action-sheet';
@@ -236,6 +237,55 @@ const ListOfMusicComponent: FC<IProps> = props => {
     );
   }
 
+  const _renderItem = ({item}: {item: MSong}) => {
+    return(
+      <View style={styles.containerItem}>
+        <Ripple
+          rippleColor={styles.title.color}
+          style={styles.containerItem}
+          onPress={() => navigate('Music', {item, songs})}>
+          <View style={styles.item}>
+            {item.cover ? (
+              <Image
+                style={styles.image}
+                source={{
+                  uri: 'file://' + item.cover,
+                }}
+              />
+            ) : (
+              <Image
+                style={styles.image}
+                source={require('../../../assets/images/music_notification.png')}
+              />
+            )}
+
+            <View style={styles.info}>
+              <Text style={styles.title}>{cutText(item.title)}</Text>
+              <Text style={styles.group}>{item.author}</Text>
+            </View>
+          </View>
+        </Ripple>
+        <TouchableOpacity
+          onPress={() => {
+            openOptions(item);
+          }}
+          hitSlop={{
+            top: 20,
+            right: 20,
+            bottom: 20,
+            left: 20,
+          }}
+          style={styles.icon}>
+          <SimpleLineIcons
+            name="options-vertical"
+            color={styles.title.color}
+            size={15}
+          />
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
   return (
     <View style={[styles.container, {paddingBottom}]}>
       {orderList !== 'DATE' && (
@@ -272,7 +322,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
         }}
       />
 
-      <ScrollView
+      <FlatList 
         refreshControl={
           onRefresh && (
             <RefreshControl
@@ -280,54 +330,10 @@ const ListOfMusicComponent: FC<IProps> = props => {
               onRefresh={onRefresh}
             />
           )
-        }>
-        {order(songs, orderList).map((item: MSong, key: number) => (
-          <View key={key} style={styles.containerItem}>
-            <Ripple
-              rippleColor={styles.title.color}
-              style={styles.containerItem}
-              onPress={() => navigate('Music', {item, songs})}>
-              <View style={styles.item}>
-                {item.cover ? (
-                  <Image
-                    style={styles.image}
-                    source={{
-                      uri: 'file://' + item.cover,
-                    }}
-                  />
-                ) : (
-                  <Image
-                    style={styles.image}
-                    source={require('../../../assets/images/music_notification.png')}
-                  />
-                )}
-
-                <View style={styles.info}>
-                  <Text style={styles.title}>{cutText(item.title)}</Text>
-                  <Text style={styles.group}>{item.author}</Text>
-                </View>
-              </View>
-            </Ripple>
-            <TouchableOpacity
-              onPress={() => {
-                openOptions(item);
-              }}
-              hitSlop={{
-                top: 20,
-                right: 20,
-                bottom: 20,
-                left: 20,
-              }}
-              style={styles.icon}>
-              <SimpleLineIcons
-                name="options-vertical"
-                color={styles.title.color}
-                size={15}
-              />
-            </TouchableOpacity>
-          </View>
-        ))}
-      </ScrollView>
+        }
+        data={order(songs, orderList)}
+        renderItem={_renderItem}
+      />
 
       <AddToPlaylist
         isVisible={addListIsVisible}

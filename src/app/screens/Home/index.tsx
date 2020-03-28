@@ -54,23 +54,33 @@ class HomeScreen extends Component<IProps, IState> {
           />
         )}
 
-        <Header navigate={navigation.navigate} />
+          <Header navigate={navigation.navigate} />
 
-        <Sections navigation={this.props.navigation} />
+          <Sections navigation={this.props.navigation} />
+        {
+          this.props.musicReducer.loadingListSongs ? 
+          <SafeAreaView>
+            <View style={style.loading}>
+              <Loading message="Buscando canciones..." />
+            </View>
+          </SafeAreaView> : 
+          <>
+            <ListOfMusic
+              songs={listSongs}
+              updateFavorite={this.props.updateFavorite}
+              deleteSong={this.props.deleteSong}
+              navigate={navigation.navigate}
+              paddingBottom={
+                Object.keys(this.props.musicReducer.current).length === 0
+                  ? 170
+                  : 230
+              }
+              refreshing={this.props.musicReducer.refreshing}
+              onRefresh={this.props.refreshListSong}
+            />
+          </>
+        }
 
-        <ListOfMusic
-          songs={listSongs}
-          updateFavorite={this.props.updateFavorite}
-          deleteSong={this.props.deleteSong}
-          navigate={navigation.navigate}
-          paddingBottom={
-            Object.keys(this.props.musicReducer.current).length === 0
-              ? 170
-              : 230
-          }
-          refreshing={this.props.musicReducer.refreshing}
-          onRefresh={this.props.refreshListSong}
-        />
 
         <FooterMusic
           // @ts-ignore

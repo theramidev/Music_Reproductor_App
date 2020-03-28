@@ -1,7 +1,7 @@
 import {PermissionsAndroid} from 'react-native';
 import {Dispatch} from 'redux';
 import MusicFiles from 'react-native-get-music-files';
-import TrackPlayer, {Track} from 'react-native-track-player';
+import TrackPlayer, {Track, getState} from 'react-native-track-player';
 
 import {MSong, ISong} from '../../models/song.model';
 import musicTypes from '../types/musicTypes';
@@ -108,10 +108,12 @@ export const getSongs = () => async (dispatch: Dispatch) => {
 
     // SONGS DB
     const songsDB: MSong[] = await database.getSongs();
-    dispatch({
-      type: musicTypes.updateListSongs,
-      payload: songsDB.length ? songsDB : [],
-    });
+    if (songsDB.length) {
+      dispatch({
+        type: musicTypes.updateListSongs,
+        payload: songsDB,
+      });
+    }
 
     // obtiene la ultima cancion reproducida ==============
     const data = await AsyncStorage.getItem('@LastMusic');
@@ -269,16 +271,24 @@ export const playInRandom = (start: boolean) => async (
   try {
     const {listSongsCurrent, current} = getsState().musicReducer;
     const auxListSongsCurrent = listSongsCurrent;
+    const songs: MSong[] = await database.getSongs();
 
     const listMusics: MSong[] = getListRamdonSong(
       auxListSongsCurrent,
       null,
       current,
     );
-
+    // console.log(songs.map(item => item.title));
+    
     const tracks: Track[] = getList(listMusics);
     TrackPlayer.add(tracks);
     start && TrackPlayer.play();
+
+    dispatch({
+      type: musicTypes.updateListSongs,
+      payload: songs
+    })
+
   } catch (error) {
     console.log('Error activateTrackPlayer: ', error);
   }
