@@ -1,5 +1,12 @@
 import React, {FC, useEffect, useState} from 'react';
-import {View, Image, Text, TouchableOpacity, ScrollView, RefreshControl} from 'react-native';
+import {
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  RefreshControl,
+} from 'react-native';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {useActionSheet} from '@expo/react-native-action-sheet';
 import {connect} from 'react-redux';
@@ -28,7 +35,7 @@ import {
   getDesOrder,
   getDateTimeOrder,
 } from '../../../utils/orderListMusic';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 const ListOfMusicComponent: FC<IProps> = props => {
   const {
@@ -42,7 +49,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
     playlistReducer: {playlists = []},
     addAndDeleteSongsOfPLaylist,
     onRefresh,
-    refreshing
+    refreshing,
   } = props;
   const [orderList, setOrderList] = useState<
     'ASC' | 'DES' | 'TIME' | 'ARTIST' | 'DATE'
@@ -51,7 +58,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
   const {showActionSheetWithOptions} = useActionSheet();
   const [addListIsVisible, setAddlistVisible] = useState(false);
   const [songSelected, setSongSelected] = useState<MSong | null>(null);
-  const { t } = useTranslation('ListOfMusic');
+  const {t} = useTranslation('ListOfMusic');
 
   useEffect(() => {
     getPlaylists();
@@ -130,9 +137,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
           case 0:
             await updateFavorite(item);
             ShowToast(
-              !item.isFavorite
-                ? t('yesAddFavorite')
-                : t('yesDeleteFavorite'),
+              !item.isFavorite ? t('yesAddFavorite') : t('yesDeleteFavorite'),
             );
             break;
 
@@ -240,9 +245,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
             }}
             style={styles.random}>
             <FontAwesome name="random" size={15} color={styles.icon.color} />
-            <Text style={styles.textRandom}>
-              {t('random')}
-            </Text>
+            <Text style={styles.textRandom}>{t('random')}</Text>
           </TouchableOpacity>
 
           <View>
@@ -250,7 +253,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
               style={styles.iconOptions}
               onPress={openActionOrder}>
               <MaterialIcons
-                name="swap-calls"
+                name="sort"
                 size={20}
                 color={styles.iconOptions.color}
               />
@@ -270,13 +273,13 @@ const ListOfMusicComponent: FC<IProps> = props => {
 
       <ScrollView
         refreshControl={
-          onRefresh &&
-          <RefreshControl 
-            refreshing={refreshing ? refreshing : false}
-            onRefresh={onRefresh}
-          />
-        }
-      >
+          onRefresh && (
+            <RefreshControl
+              refreshing={refreshing ? refreshing : false}
+              onRefresh={onRefresh}
+            />
+          )
+        }>
         {order(songs, orderList).map((item: MSong, key: number) => (
           <View key={key} style={styles.containerItem}>
             <Ripple

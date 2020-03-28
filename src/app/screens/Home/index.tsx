@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image, ActivityIndicator, Animated, View} from 'react-native';
+import {Image, Animated, View, SafeAreaView} from 'react-native';
 import {connect} from 'react-redux';
 
 import {getCurrentWallpaper} from '../../redux/actions/wallpaperActions';
@@ -9,7 +9,7 @@ import {
   updateCurrentMusicForId,
   playInRandom,
   playInLine,
-  refreshListSong
+  refreshListSong,
 } from '../../redux/actions/musicActions';
 import {IState} from './interfaces/State';
 import {IProps} from './interfaces/Props';
@@ -19,13 +19,14 @@ import {ListOfMusic} from '../../components/ListOfMusic';
 import {BackgroundLayout} from '../../components/BackgroundLayout';
 import style from './style';
 import FooterMusic from '../../components/FooterMusic';
+import {Loading} from '../../components/Loading';
 
 class HomeScreen extends Component<IProps, IState> {
   state = {
     inSplash: true,
     springVal: new Animated.Value(0.8),
     fadeVal: new Animated.Value(1),
-    fadePrincipal: new Animated.Value(0)
+    fadePrincipal: new Animated.Value(0),
   };
   constructor(props: any) {
     super(props);
@@ -68,14 +69,6 @@ class HomeScreen extends Component<IProps, IState> {
     const {navigation, musicReducer} = this.props;
     const {listSongs} = musicReducer;
 
-    if (musicReducer.loadingListSongs) {
-      return (
-        <View style={style.loading}>
-          <ActivityIndicator size="large" color="#00F1DF" />
-        </View>
-      );
-    }
-
     return (
       <>
         {this.state.inSplash && (
@@ -98,28 +91,37 @@ class HomeScreen extends Component<IProps, IState> {
           // eslint-disable-next-line react-native/no-inline-styles
           style={{flex: 1, height: '100%', opacity: this.state.fadePrincipal}}>
           <BackgroundLayout>
-              {this.props.wallpaperReducer.data.currentWallpaper && (
-                <Image
-                  source={{
-                    uri: this.props.wallpaperReducer.data.currentWallpaper,
-                  }}
-                  style={[
-                    style.backgroundImage,
-                    // eslint-disable-next-line react-native/no-inline-styles
-                    {
-                      height:
-                        Object.keys(this.props.musicReducer.current).length === 0
-                          ? '103%'
-                          : '95%',
-                    },
-                  ]}
-                />
-              )}
+            {this.props.wallpaperReducer.data.currentWallpaper && (
+              <Image
+                source={{
+                  uri: this.props.wallpaperReducer.data.currentWallpaper,
+                }}
+                style={[
+                  style.backgroundImage,
+                  // eslint-disable-next-line react-native/no-inline-styles
+                  {
+                    height:
+                      Object.keys(this.props.musicReducer.current).length === 0
+                        ? '103%'
+                        : '95%',
+                  },
+                ]}
+              />
+            )}
 
-              <Header navigate={navigation.navigate} />
+            <Header navigate={navigation.navigate} />
 
+            {!musicReducer.loadingListSongs && (
               <Sections navigation={this.props.navigation} />
+            )}
 
+            {musicReducer.loadingListSongs ? (
+              <SafeAreaView>
+                <View style={style.loading}>
+                  <Loading message="Buscando canciones" />
+                </View>
+              </SafeAreaView>
+            ) : (
               <ListOfMusic
                 songs={listSongs}
                 updateFavorite={this.props.updateFavorite}
@@ -133,11 +135,12 @@ class HomeScreen extends Component<IProps, IState> {
                 refreshing={this.props.musicReducer.refreshing}
                 onRefresh={this.props.refreshListSong}
               />
+            )}
 
-              <FooterMusic
-                // @ts-ignore
-                navigation={navigation}
-              />
+            <FooterMusic
+              // @ts-ignore
+              navigation={navigation}
+            />
           </BackgroundLayout>
         </Animated.View>
       </>
@@ -165,7 +168,7 @@ const mapDispatchToProps = {
   playInLine,
   updateFavorite,
   deleteSong,
-  refreshListSong
+  refreshListSong,
 };
 
 export default connect<any, any>(
