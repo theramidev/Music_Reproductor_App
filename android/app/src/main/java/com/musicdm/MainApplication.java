@@ -1,4 +1,4 @@
-package com.reproductornative;
+package com.musicdm;
 
 import android.app.Application;
 import android.content.Context;

@@ -23,7 +23,7 @@ export const BannerAd: FC<{}> = () => {
             }}
         >
             <AdMobBanner 
-                adSize="fullBanner"
+                adSize="banner"
                 adUnitID="ca-app-pub-2449976564245125/9577646279"
                 testDeviceID={[AdMobBanner.simulatorId]}
                 onAdFailedToLoad={bannerErrorHandler}

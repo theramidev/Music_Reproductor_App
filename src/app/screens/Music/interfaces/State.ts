@@ -1,1 +1,3 @@
-export interface IState {}
+export interface IState {
+    addToPlaylistVisible: boolean
+}

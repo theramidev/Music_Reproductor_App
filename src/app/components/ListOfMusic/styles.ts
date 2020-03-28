@@ -19,13 +19,13 @@ const styles: StylesListOfMusic = {
   },
   random: {
     backgroundColor: background,
-    width: 180,
+    width: 210,
     paddingHorizontal: 10,
     paddingVertical: 5,
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 60,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
   },
   textRandom: {
     color: colorText,

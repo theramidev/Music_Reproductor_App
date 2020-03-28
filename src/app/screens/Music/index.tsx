@@ -27,10 +27,16 @@ import {HeaderMusic} from './components/HeaderMusic';
 import {MSong} from 'src/app/models/song.model';
 import {ShowToast} from '../../../utils/toast';
 import { withTranslation } from 'react-i18next';
+import { AddToPlaylist } from '../../components/AddToPlaylist';
+import { MPlaylist } from '../../models/playlist.model';
+import { getPlaylists, addAndDeleteSongsOfPLaylist } from '../../redux/actions/playlistActions';
 
 class Music extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
+    this.state = {
+      addToPlaylistVisible: false
+    }
   }
 
   async componentDidMount() {
@@ -42,6 +48,9 @@ class Music extends Component<IProps, IState> {
     } = this.props;
     // @ts-ignore
     const item: MSong = params.item;
+
+    // Obtenemos las listas de reproducción
+    this.props.getPlaylists();
 
     // evalua si la cancion existe en el telefono
     if (!(await fs.exists(item.path))) {
@@ -91,6 +100,11 @@ class Music extends Component<IProps, IState> {
     share(this.props.musicReducer.current);
   };
 
+  addToPlaylist = (playlist: MPlaylist) => {
+    const { current } = this.props.musicReducer;
+    this.props.addAndDeleteSongsOfPLaylist(playlist.playListId, [current.id]);
+  }
+
   render() {
     const {
       musicReducer,
@@ -106,7 +120,11 @@ class Music extends Component<IProps, IState> {
 
     return (
       <BackgroundLayout>
-        <HeaderMusic item={item} navigation={this.props.navigation} />
+        <HeaderMusic 
+          item={item} 
+          navigation={this.props.navigation} 
+          onOpenAddPlaylist={() => this.setState({addToPlaylistVisible: true})}
+        />
 
         <View style={style.contentImage}>
           {item.cover ? (
@@ -133,15 +151,22 @@ class Music extends Component<IProps, IState> {
           musicReducer={musicReducer}
           onShare={this._onShare}
         />
+
+        <AddToPlaylist 
+          isVisible={this.state.addToPlaylistVisible}
+          onClose={() => this.setState({addToPlaylistVisible: false})}
+          onCreate={this.addToPlaylist}
+          playlists={this.props.playlistReducer.playlists}
+        />
       </BackgroundLayout>
     );
   }
 }
 
-const mapStateToProps = ({fileReducer, musicReducer}: any) => {
+const mapStateToProps = ({playlistReducer, musicReducer}: any) => {
   return {
     musicReducer,
-    fileReducer,
+    playlistReducer
   };
 };
 
@@ -154,6 +179,8 @@ const mapDispatchToProps = {
   changeToRandomMode,
   updateListSongsCurrent,
   setSongToRecent,
+  getPlaylists,
+  addAndDeleteSongsOfPLaylist
 };
 
 // eslint-disable-next-line prettier/prettier
