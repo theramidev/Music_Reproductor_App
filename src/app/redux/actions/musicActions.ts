@@ -106,7 +106,12 @@ export const getSongs = () => async (dispatch: Dispatch) => {
       );
     }
 
+    // SONGS DB
     const songsDB: MSong[] = await database.getSongs();
+    dispatch({
+      type: musicTypes.updateListSongs,
+      payload: songsDB.length ? songsDB : [],
+    });
 
     // obtiene la ultima cancion reproducida ==============
     const data = await AsyncStorage.getItem('@LastMusic');
@@ -118,13 +123,6 @@ export const getSongs = () => async (dispatch: Dispatch) => {
       payload: last || lastMusic,
     });
     // =====================================================
-
-    if (songsDB.length > 0) {
-      dispatch({
-        type: musicTypes.updateListSongs,
-        payload: songsDB,
-      });
-    }
 
     const musicFiles: ISong[] = await MusicFiles.getAll({
       id: true,

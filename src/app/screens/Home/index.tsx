@@ -33,15 +33,6 @@ class HomeScreen extends Component<IProps, IState> {
   render() {
     const {navigation, musicReducer} = this.props;
     const {listSongs} = musicReducer;
-
-    if (musicReducer.loadingListSongs) {
-      return (
-        <View style={style.loading}>
-          <ActivityIndicator size="large" color="#00F1DF" />
-        </View>
-      );
-    }
-
     return (
       <BackgroundLayout>
         {this.props.wallpaperReducer.data.currentWallpaper && (

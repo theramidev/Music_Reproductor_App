@@ -44,6 +44,8 @@ const ListOfMusicComponent: FC<IProps> = props => {
     onRefresh,
     refreshing
   } = props;
+  console.log(songs);
+  
   const [orderList, setOrderList] = useState<
     'ASC' | 'DES' | 'TIME' | 'ARTIST' | 'DATE'
   >(defaultOrder || 'ASC');
