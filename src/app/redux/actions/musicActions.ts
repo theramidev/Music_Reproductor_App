@@ -1,7 +1,7 @@
 import {PermissionsAndroid} from 'react-native';
 import {Dispatch} from 'redux';
 import MusicFiles from 'react-native-get-music-files';
-import TrackPlayer, {Track, getState} from 'react-native-track-player';
+import TrackPlayer, {Track} from 'react-native-track-player';
 
 import {MSong, ISong} from '../../models/song.model';
 import musicTypes from '../types/musicTypes';
@@ -14,12 +14,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 export const refreshListSong = () => async (dispatch: Dispatch) => {
   dispatch({
-    type: musicTypes.loadingRefresh
+    type: musicTypes.loadingRefresh,
   });
 
   try {
     const songsDB: MSong[] = await database.getSongs();
-    const musicFiles: ISong[] = await MusicFiles.getAll({
+    var musicFiles: ISong[] = await MusicFiles.getAll({
       id: true,
       blured: true,
       artist: true,
@@ -30,7 +30,17 @@ export const refreshListSong = () => async (dispatch: Dispatch) => {
       minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration
     });
 
-    const newMusicFiles: ISong[] | any = musicFiles.map(song => {
+    musicFiles = musicFiles.filter((song: any) => {
+      const [extension] = song.fileName.split('.').reverse();
+
+      if (extension === 'ogg' || extension === 'opus') {
+        return false;
+      }
+
+      return true;
+    });
+
+    var newMusicFiles: ISong[] | any = musicFiles.map(song => {
       const songDB: MSong | any = songsDB.find(
         songData => songData.id === song.id,
       );
@@ -55,7 +65,7 @@ export const refreshListSong = () => async (dispatch: Dispatch) => {
   } catch (error) {
     console.error('[musicActions.ts ]: ', error);
   }
-}
+};
 
 /**
  * @description Limipia el estado de buscar
@@ -126,7 +136,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
     });
     // =====================================================
 
-    const musicFiles: ISong[] = await MusicFiles.getAll({
+    var musicFiles: ISong[] = await MusicFiles.getAll({
       id: true,
       blured: true,
       artist: true,
@@ -135,6 +145,16 @@ export const getSongs = () => async (dispatch: Dispatch) => {
       genre: true,
       title: true,
       minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration
+    });
+
+    musicFiles = musicFiles.filter((song: any) => {
+      const [extension] = song.fileName.split('.').reverse();
+
+      if (extension === 'ogg' || extension === 'opus') {
+        return false;
+      }
+
+      return true;
     });
 
     const newMusicFiles: ISong[] | any = musicFiles.map(song => {
@@ -279,16 +299,15 @@ export const playInRandom = (start: boolean) => async (
       current,
     );
     // console.log(songs.map(item => item.title));
-    
+
     const tracks: Track[] = getList(listMusics);
     TrackPlayer.add(tracks);
     start && TrackPlayer.play();
 
     dispatch({
       type: musicTypes.updateListSongs,
-      payload: songs
-    })
-
+      payload: songs,
+    });
   } catch (error) {
     console.log('Error activateTrackPlayer: ', error);
   }

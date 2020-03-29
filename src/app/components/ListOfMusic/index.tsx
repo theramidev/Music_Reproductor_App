@@ -4,9 +4,8 @@ import {
   Image,
   Text,
   TouchableOpacity,
-  ScrollView,
   RefreshControl,
-  FlatList
+  FlatList,
 } from 'react-native';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {useActionSheet} from '@expo/react-native-action-sheet';
@@ -54,7 +53,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
     onChangeList,
     withDir = false
   } = props;
-  
+
   const [orderList, setOrderList] = useState<
     'ASC' | 'DES' | 'TIME' | 'ARTIST' | 'DATE'
   >(defaultOrder || 'ASC');
@@ -238,11 +237,11 @@ const ListOfMusicComponent: FC<IProps> = props => {
   }
 
   const _renderItem = ({item}: {item: MSong}) => {
-    return(
+    return (
       <View style={styles.containerItem}>
         <Ripple
           rippleColor={styles.title.color}
-          style={styles.containerItem}
+          style={styles.itemContent}
           onPress={() => navigate('Music', {item, songs})}>
           <View style={styles.item}>
             {item.cover ? (
@@ -283,8 +282,8 @@ const ListOfMusicComponent: FC<IProps> = props => {
           />
         </TouchableOpacity>
       </View>
-    )
-  }
+    );
+  };
 
   return (
     <View style={[styles.container, {paddingBottom}]}>
@@ -330,11 +329,11 @@ const ListOfMusicComponent: FC<IProps> = props => {
         style={{
           backgroundColor: '#CECECE',
           height: 1,
-          marginHorizontal: 10,
+          marginHorizontal: 5,
         }}
       />
 
-      <FlatList 
+      <FlatList
         refreshControl={
           onRefresh && (
             <RefreshControl

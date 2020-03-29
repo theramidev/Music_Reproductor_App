@@ -2,10 +2,11 @@ import {theme} from '../../../assets/themes';
 import {DynamicValue, DynamicStyleSheet} from 'react-native-dark-mode';
 import {StylesListOfMusic} from './interfaces/Style';
 
-const colorText = new DynamicValue(theme().text, theme().light);
+const colorText = new DynamicValue(theme().text, theme(0.9).light);
 const actionText = new DynamicValue(theme(0.5).text, theme(0.5).light);
 const backgroundActions = new DynamicValue(theme(0.95).light, theme(0.95).text);
 const background = new DynamicValue(theme(0.9).light, theme(0.9).text);
+const backgroundItem = new DynamicValue(theme(0.2).dark, theme(0.2).light);
 
 const styles: StylesListOfMusic = {
   container: {
@@ -38,13 +39,17 @@ const styles: StylesListOfMusic = {
     padding: 4,
   },
 
-  containerItem: {
+  containerItem: {},
+  itemContent: {
     position: 'relative',
     flexDirection: 'row',
-    width: '100%',
+    marginHorizontal: 5,
+    marginVertical: 2,
+    borderRadius: 5,
+    backgroundColor: backgroundItem,
   },
   item: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
     position: 'relative',
     paddingBottom: 5,
     paddingTop: 5,
@@ -76,7 +81,7 @@ const styles: StylesListOfMusic = {
     width: 20,
     height: 20,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
 
   actionsTitle: {
@@ -84,6 +89,7 @@ const styles: StylesListOfMusic = {
     fontSize: 15,
     width: '100%',
     textAlign: 'center',
+    fontWeight: 'bold',
   },
   actions: {
     backgroundColor: backgroundActions,

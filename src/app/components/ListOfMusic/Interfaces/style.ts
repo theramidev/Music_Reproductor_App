@@ -13,6 +13,7 @@ export interface StylesListOfMusic {
 
   container: ViewStyle | DynamicViewStyle;
   containerItem: ViewStyle | DynamicViewStyle;
+  itemContent: ViewStyle | DynamicViewStyle;
   item: ViewStyle | DynamicViewStyle;
   image: ImageStyle | DynamicImageStyle;
   info: ViewStyle | DynamicViewStyle;
