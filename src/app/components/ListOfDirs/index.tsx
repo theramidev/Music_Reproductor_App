@@ -37,9 +37,19 @@ export const ListOfDirs: FC<IProps> = ({navigation, songs = [], onChangeList}) =
 
     const _renderItem = ({item}: {item: IDir}) => {
 
+        const goToMusicList = () => {
+            const songsDir = songs.filter(song => {
+                if (song.path.toLowerCase().indexOf(item.path.toLowerCase()) !== -1) {
+                    return true;
+                }
+            });
+            
+            navigation.navigate('MusicList', {songs: songsDir, dir: item});
+        }
+
         return(
             <View style={staticStyles.containerCard}>
-                <TouchableOpacity style={{width: '90%'}}>
+                <TouchableOpacity style={{width: '90%'}} onPress={goToMusicList}>
                     <View style={[staticStyles.card, dynamicStyles.borderColor]}>
                         <FontAwesome 
                             name="folder-open-o" 

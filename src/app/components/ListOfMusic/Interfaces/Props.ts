@@ -9,7 +9,7 @@ export interface IProps {
     playlists: MPlaylist[];
   };
 
-  onChangeList(list: 'DIRS' | 'SONGS'): void;
+  onChangeList?: (list: 'DIRS' | 'SONGS') => void;
 
   /**
    * @description Obtiene las listas de reproducción
@@ -32,16 +32,17 @@ export interface IProps {
    * @description cambia el estado favorito de la cancion
    * @param current
    */
-  updateFavorite(current: MSong): Promise<void>;
+  updateFavorite?: (current: MSong) => Promise<void>;
 
   /**
    * @description elimina la cancion seleccionada
    * @param song cancion actual
    */
-  deleteSong(song: MSong): Promise<void>;
+  deleteSong?: (song: MSong) => Promise<void>;
 
   paddingBottom: number;
 
   onRefresh?: () => void;
   refreshing?: boolean;
+  withDir?: boolean
 }

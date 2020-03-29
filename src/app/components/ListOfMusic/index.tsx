@@ -51,7 +51,8 @@ const ListOfMusicComponent: FC<IProps> = props => {
     addAndDeleteSongsOfPLaylist,
     onRefresh,
     refreshing,
-    onChangeList
+    onChangeList,
+    withDir = false
   } = props;
   
   const [orderList, setOrderList] = useState<
@@ -138,10 +139,12 @@ const ListOfMusicComponent: FC<IProps> = props => {
       async (index: number) => {
         switch (index) {
           case 0:
-            await updateFavorite(item);
-            ShowToast(
-              !item.isFavorite ? t('yesAddFavorite') : t('yesDeleteFavorite'),
-            );
+            if (updateFavorite) {
+              await updateFavorite(item);
+              ShowToast(
+                !item.isFavorite ? t('yesAddFavorite') : t('yesDeleteFavorite'),
+              );
+            }
             break;
 
           case 1:
@@ -297,15 +300,18 @@ const ListOfMusicComponent: FC<IProps> = props => {
           </TouchableOpacity>
 
           <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity
-              style={[styles.iconOptions, {marginRight: 10}]}
-              onPress={() => onChangeList('DIRS')}>
-              <FontAwesome
-                name="folder-o"
-                size={20}
-                color={styles.iconOptions.color}
-              />
-            </TouchableOpacity>
+            {
+              withDir && 
+              <TouchableOpacity
+                style={[styles.iconOptions, {marginRight: 10}]}
+                onPress={() => onChangeList ? onChangeList('DIRS') : null}>
+                <FontAwesome
+                  name="folder-o"
+                  size={20}
+                  color={styles.iconOptions.color}
+                />
+              </TouchableOpacity>
+            }
             <TouchableOpacity
               style={styles.iconOptions}
               onPress={openActionOrder}>

@@ -84,6 +84,7 @@ class HomeScreen extends Component<IProps, IState> {
                 refreshing={this.props.musicReducer.refreshing}
                 onRefresh={this.props.refreshListSong}
                 onChangeList={(list) => this.setState({list})}
+                withDir={true}
               />
             }
             {
