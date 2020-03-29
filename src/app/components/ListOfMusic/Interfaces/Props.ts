@@ -9,6 +9,8 @@ export interface IProps {
     playlists: MPlaylist[];
   };
 
+  onChangeList(list: 'DIRS' | 'SONGS'): void;
+
   /**
    * @description Obtiene las listas de reproducción
    */

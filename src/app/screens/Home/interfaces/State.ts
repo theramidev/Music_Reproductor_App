@@ -1,3 +1,3 @@
-
-
-export interface IState { }
+export interface IState { 
+    list: 'DIRS' | 'SONGS'
+}

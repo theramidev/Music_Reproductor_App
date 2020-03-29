@@ -35,7 +35,7 @@ const styles: StylesListOfMusic = {
     color: colorText,
     backgroundColor: background,
     borderRadius: 60,
-    padding: 2,
+    padding: 4,
   },
 
   containerItem: {

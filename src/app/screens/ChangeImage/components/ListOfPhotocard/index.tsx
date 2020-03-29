@@ -15,13 +15,13 @@ export const ListOfPhotoCard: FC<IProps> = ({onWallpaperSelect, wallpapers = [],
     const { t } = useTranslation('ListOfPhotoCard');
 
     const openModal = async (photo: string) => {
-        console.log(photo);
+        // console.log(photo);
         if (photo === 'add') {
             try {
                 const {uri, name} = await DocumentPicker.pick({
                     type: [DocumentPicker.types.images]
                 });
-    
+                console.log(uri);
                 onWallpaperSelect({uri, name});
             } catch (error) {
                 if (DocumentPicker.isCancel(error)) {

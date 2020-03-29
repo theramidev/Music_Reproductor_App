@@ -51,6 +51,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
     addAndDeleteSongsOfPLaylist,
     onRefresh,
     refreshing,
+    onChangeList
   } = props;
   
   const [orderList, setOrderList] = useState<
@@ -295,7 +296,16 @@ const ListOfMusicComponent: FC<IProps> = props => {
             <Text style={styles.textRandom}>{t('random')}</Text>
           </TouchableOpacity>
 
-          <View>
+          <View style={{flexDirection: 'row'}}>
+            <TouchableOpacity
+              style={[styles.iconOptions, {marginRight: 10}]}
+              onPress={() => onChangeList('DIRS')}>
+              <FontAwesome
+                name="folder-o"
+                size={20}
+                color={styles.iconOptions.color}
+              />
+            </TouchableOpacity>
             <TouchableOpacity
               style={styles.iconOptions}
               onPress={openActionOrder}>
