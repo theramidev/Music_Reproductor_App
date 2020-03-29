@@ -26,17 +26,20 @@ import share from '../../../utils/share';
 import {HeaderMusic} from './components/HeaderMusic';
 import {MSong} from 'src/app/models/song.model';
 import {ShowToast} from '../../../utils/toast';
-import { withTranslation } from 'react-i18next';
-import { AddToPlaylist } from '../../components/AddToPlaylist';
-import { MPlaylist } from '../../models/playlist.model';
-import { getPlaylists, addAndDeleteSongsOfPLaylist } from '../../redux/actions/playlistActions';
+import {withTranslation} from 'react-i18next';
+import {AddToPlaylist} from '../../components/AddToPlaylist';
+import {MPlaylist} from '../../models/playlist.model';
+import {
+  getPlaylists,
+  addAndDeleteSongsOfPLaylist,
+} from '../../redux/actions/playlistActions';
 
 class Music extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      addToPlaylistVisible: false
-    }
+      addToPlaylistVisible: false,
+    };
   }
 
   async componentDidMount() {
@@ -101,9 +104,9 @@ class Music extends Component<IProps, IState> {
   };
 
   addToPlaylist = (playlist: MPlaylist) => {
-    const { current } = this.props.musicReducer;
+    const {current} = this.props.musicReducer;
     this.props.addAndDeleteSongsOfPLaylist(playlist.playListId, [current.id]);
-  }
+  };
 
   render() {
     const {
@@ -120,9 +123,9 @@ class Music extends Component<IProps, IState> {
 
     return (
       <BackgroundLayout>
-        <HeaderMusic 
-          item={item} 
-          navigation={this.props.navigation} 
+        <HeaderMusic
+          item={item}
+          navigation={this.props.navigation}
           onOpenAddPlaylist={() => this.setState({addToPlaylistVisible: true})}
         />
 
@@ -152,7 +155,7 @@ class Music extends Component<IProps, IState> {
           onShare={this._onShare}
         />
 
-        <AddToPlaylist 
+        <AddToPlaylist
           isVisible={this.state.addToPlaylistVisible}
           onClose={() => this.setState({addToPlaylistVisible: false})}
           onCreate={this.addToPlaylist}
@@ -166,7 +169,7 @@ class Music extends Component<IProps, IState> {
 const mapStateToProps = ({playlistReducer, musicReducer}: any) => {
   return {
     musicReducer,
-    playlistReducer
+    playlistReducer,
   };
 };
 
@@ -180,8 +183,11 @@ const mapDispatchToProps = {
   updateListSongsCurrent,
   setSongToRecent,
   getPlaylists,
-  addAndDeleteSongsOfPLaylist
+  addAndDeleteSongsOfPLaylist,
 };
 
 // eslint-disable-next-line prettier/prettier
-export default connect<any, any>(mapStateToProps, mapDispatchToProps)(withTranslation('Music')(Music));
+export default connect<any, any>(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withTranslation('Music')(Music));

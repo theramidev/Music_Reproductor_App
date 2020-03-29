@@ -29,6 +29,8 @@ const styles: StylesHeader = {
   },
   icon: {
     position: 'absolute',
+    width: 15,
+    height: 15,
     right: 15,
     color: colorText,
   },

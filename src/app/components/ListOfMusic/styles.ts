@@ -89,6 +89,7 @@ const styles: StylesListOfMusic = {
     fontSize: 15,
     width: '100%',
     textAlign: 'center',
+    fontWeight: 'bold',
   },
   actions: {
     backgroundColor: backgroundActions,
