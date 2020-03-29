@@ -50,7 +50,7 @@ export const ListOfDirs: FC<IProps> = ({navigation, songs = [], onChangeList}) =
         return(
             <View style={staticStyles.containerCard}>
                 <TouchableOpacity style={{width: '90%'}} onPress={goToMusicList}>
-                    <View style={[staticStyles.card, dynamicStyles.borderColor]}>
+                    <View style={[staticStyles.card, dynamicStyles.borderColor, dynamicStyles.backgroundIconOption]}>
                         <FontAwesome 
                             name="folder-open-o" 
                             size={50} 

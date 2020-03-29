@@ -26,7 +26,7 @@ export const staticStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderRadius: 10
+        borderRadius: 10,
     },
     dirName: {
         fontSize: 16,
