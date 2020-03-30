@@ -37,6 +37,8 @@ export const updateFavorite = (
 
     const isFavorite = !current.isFavorite;
 
+    database.updateSongToFavorite(current.id, isFavorite);
+
     const updateListRecents = listRecents.map((music: MSong) => {
       if (music.id === current.id) {
         return {...music, isFavorite};
@@ -77,8 +79,6 @@ export const updateFavorite = (
     } else {
       updateSongsFavorites = [...listFavorites, current];
     }
-
-    await database.updateSongToFavorite(current.id, isFavorite);
 
     dispatch({
       type: musicTypes.updateListSongs,

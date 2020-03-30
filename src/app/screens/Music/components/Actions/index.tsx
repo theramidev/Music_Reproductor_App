@@ -7,7 +7,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {connect} from 'react-redux';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 import dynamicStyles from './style';
 import {
@@ -21,18 +21,18 @@ import {ModalLetter} from '../ModalLetter';
 const Actions: FC<any> = (props: any) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
   const [mode, setMode] = useState('RANDOM');
-  const { t } = useTranslation('ActionsMusic');
+  const {t} = useTranslation('ActionsMusic');
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     getMode();
   }, []);
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (props.musicReducer.errorFavorite) {
       ShowToast(t('errorAddFavorite'));
     }
-  }, [props.musicReducer]);
+  }, [props.musicReducer]); */
 
   const getMode = async () => {
     const data = await AsyncStorage.getItem('@Mode');
@@ -57,11 +57,11 @@ const Actions: FC<any> = (props: any) => {
 
   const updateFavoriteSong = async () => {
     const {current} = props.musicReducer;
-    await props.updateFavorite(current, true);
-
-    ShowToast(
-      !current.isFavorite ? t('addedFavorite') : t('removedFavorite'),
-    );
+    props.updateFavorite(current, true).then(() => {
+      ShowToast(
+        !current.isFavorite ? t('addedFavorite') : t('removedFavorite'),
+      );
+    });
   };
 
   const getStateFavorite = () => {
