@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {IProps} from './PropsInterface';
 import styles from './style';
@@ -14,10 +14,6 @@ export const PlaylistCard: FC<IProps> = ({
 }) => {
   const goToPlaylistSongs = () =>
     navigation.navigate('PlaylistSongs', {playlist});
-
-  useEffect(() => {
-    console.log(playlist?.name);
-  }, []);
 
   return (
     <View style={styles.container}>
