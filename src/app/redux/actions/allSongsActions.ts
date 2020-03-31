@@ -91,7 +91,7 @@ export const updateFavorite = (
     });
 
     dispatch({
-      type: playlistTypes.updatePlaylists,
+      type: playlistTypes.getPlaylistSongs,
       payload: updateSongsPlayList,
     });
 
@@ -206,7 +206,7 @@ export const updateSong = (current: {
     });
 
     dispatch({
-      type: playlistTypes.updatePlaylists,
+      type: playlistTypes.getPlaylistSongs,
       payload: updateSongsPlayList,
     });
 
