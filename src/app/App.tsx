@@ -54,8 +54,11 @@ const App: FC<any> = (props: any) => {
     // Intance Player
     TrackPlayer.setupPlayer();
     // Player options
+
     TrackPlayer.updateOptions({
       stopWithApp: true,
+      // @ts-ignore
+      alwaysPauseOnInterruption: true,
       capabilities: [
         TrackPlayer.CAPABILITY_PLAY,
         TrackPlayer.CAPABILITY_PAUSE,
@@ -65,6 +68,12 @@ const App: FC<any> = (props: any) => {
       compactCapabilities: [
         TrackPlayer.CAPABILITY_PLAY,
         TrackPlayer.CAPABILITY_PAUSE,
+      ],
+      notificationCapabilities: [
+        TrackPlayer.CAPABILITY_PLAY,
+        TrackPlayer.CAPABILITY_PAUSE,
+        TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
+        TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
       ],
     });
 
