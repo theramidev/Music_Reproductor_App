@@ -37,12 +37,12 @@ export const PlaybackService = (
         return;
       }
       pass++;
-      remotePlay = addEventListener('remote-play', () => {
-        // console.log('Remote Play: ', data);
+      remotePlay = addEventListener('remote-play', (data: any) => {
+        console.log('Remote Play: ', data);
         play();
       });
-      remotePause = addEventListener('remote-pause', () => {
-        //console.log('Remote Pause: ', data);
+      remotePause = addEventListener('remote-pause', (data: any) => {
+        console.log('Remote Pause: ', data);
         pause();
       });
       remoteNext = addEventListener('remote-next', async () => {
@@ -120,6 +120,12 @@ export const PlaybackService = (
       );
       remoteStop = addEventListener('remote-stop', () => {
         destroy();
+      });
+      addEventListener('remote-duck', (data: any) => {
+        let {paused: shouldPause, permanent} = data;
+        if (shouldPause || permanent) {
+          pause();
+        }
       });
       playbackError = addEventListener('playback-error', (data: any) => {
         console.log('Error playback-error (service.ts) :', data);
