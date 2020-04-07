@@ -11,9 +11,14 @@ import {
   skip,
   getTrack,
   destroy,
+  getState,
+  STATE_PLAYING,
+  STATE_PAUSED,
+  setVolume,
 } from 'react-native-track-player';
 import AsyncStorage from '@react-native-community/async-storage';
 import database from './database';
+import {useState} from 'react';
 var pass: number = 0;
 
 var remotePlay: EmitterSubscription | any;
@@ -24,6 +29,8 @@ var playbackTrackChanged: EmitterSubscription | any;
 var playbackQueueEnded: EmitterSubscription | any;
 var remoteStop: EmitterSubscription | any;
 var playbackError: EmitterSubscription | any;
+var pauseTemporarily: boolean = false;
+var pauseTemporarilyTime: any = '';
 
 export const PlaybackService = (
   updateMusic: any,
@@ -120,16 +127,33 @@ export const PlaybackService = (
       remoteStop = addEventListener('remote-stop', () => {
         destroy();
       });
-      addEventListener('remote-duck', (data: any) => {
-        let {paused: shouldPause, permanent} = data;
 
-        if (!shouldPause) {
-          play();
-          return;
-        }
+      //cueando ocurra una interruccion en la aplicacion se disparara este evento
+      // pausara la reproduccion si es necesario o la pausara por solo un memonto si
+      // es un mensaje o notificacion
+      addEventListener('remote-duck', async (data: any) => {
+        let {paused: shouldPause, permanent} = data;
+        let playerState = await getState();
 
         if (shouldPause || permanent) {
           pause();
+          if (playerState === STATE_PLAYING) {
+            pauseTemporarily = !permanent;
+            if (pauseTemporarily) {
+              pauseTemporarilyTime = Date.now();
+            }
+          } else {
+            pauseTemporarily = false;
+          }
+        } else if (pauseTemporarily) {
+          if (playerState === STATE_PAUSED) {
+            // obtieene los segundos en los que fue pausada la cancion
+            let secondsSincePause = (Date.now() - pauseTemporarilyTime) / 1000;
+            if (secondsSincePause < 5) {
+              play();
+            }
+          }
+          pauseTemporarily = false;
         }
       });
       playbackError = addEventListener('playback-error', (data: any) => {
@@ -154,3 +178,17 @@ export const PlaybackService = (
 
   return [initEvents, cleanEvents];
 };
+
+function effectVol(time: number): Promise<boolean> {
+  return new Promise(async (res, rej) => {
+    try {
+      await setVolume(time);
+      setTimeout(() => {
+        res(true);
+      }, 200);
+    } catch (err) {
+      console.log(err);
+      rej(err);
+    }
+  });
+}
