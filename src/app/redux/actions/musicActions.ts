@@ -150,7 +150,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
     musicFiles = musicFiles.filter((song: any) => {
       const [extension] = song.fileName.split('.').reverse();
 
-      if (extension === 'ogg' || extension === 'opus') {
+      if (extension === 'ogg' || extension === 'opus' || extension === 'flac') {
         return false;
       }
 
