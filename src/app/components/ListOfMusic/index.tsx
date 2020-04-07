@@ -10,10 +10,7 @@ import {
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {useActionSheet} from '@expo/react-native-action-sheet';
 import {connect} from 'react-redux';
-import {
-  getPlaylists,
-  addAndDeleteSongsOfPLaylist,
-} from '../../redux/actions/playlistActions';
+import fs from 'react-native-fs';
 
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -22,6 +19,10 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import dynamicStyles from './styles';
 import {MSong} from 'src/app/models/song.model';
 import Ripple from 'react-native-material-ripple';
+import {
+  getPlaylists,
+  addAndDeleteSongsOfPLaylist,
+} from '../../redux/actions/playlistActions';
 import {IProps} from './Interfaces/Props';
 import {ShowToast} from '../../../utils/toast';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -36,8 +37,9 @@ import {
   getDateTimeOrder,
 } from '../../../utils/orderListMusic';
 import {useTranslation} from 'react-i18next';
+import { CardItemMusic } from '../CardItemMusic';
 
-const ListOfMusicComponent: FC<IProps> = props => {
+const ListOfMusicComponent: FC<IProps> = (props) => {
   const {
     songs,
     navigate,
@@ -51,7 +53,7 @@ const ListOfMusicComponent: FC<IProps> = props => {
     onRefresh,
     refreshing,
     onChangeList,
-    withDir = false
+    withDir = false,
   } = props;
 
   const [orderList, setOrderList] = useState<
@@ -202,14 +204,6 @@ const ListOfMusicComponent: FC<IProps> = props => {
     );
   };
 
-  const cutText = (txt: string): string => {
-    if (txt.length > 35) {
-      return txt.substring(0, 35) + '...';
-    }
-
-    return txt;
-  };
-
   const getRandomMusic = async (max: number, min: number) => {
     const position = Math.floor(Math.random() * (max - min) + min);
 
@@ -237,51 +231,19 @@ const ListOfMusicComponent: FC<IProps> = props => {
   }
 
   const _renderItem = ({item}: {item: MSong}) => {
-    return (
-      <View style={styles.containerItem}>
-        <Ripple
-          rippleColor={styles.title.color}
-          style={styles.itemContent}
-          onPress={() => navigate('Music', {item, songs})}>
-          <View style={styles.item}>
-            {item.cover ? (
-              <Image
-                style={styles.image}
-                source={{
-                  uri: 'file://' + item.cover,
-                }}
-              />
-            ) : (
-              <Image
-                style={styles.image}
-                source={require('../../../assets/images/music_notification.png')}
-              />
-            )}
+    const existsImage = () => {
+      fs.exists(item.cover || '');
+      if (item.cover) {
+        return {
+          uri: 'file://' + item.cover,
+        };
+      } else {
+        return require('../../../assets/images/music_notification.png');
+      }
+    };
 
-            <View style={styles.info}>
-              <Text style={styles.title}>{cutText(item.title)}</Text>
-              <Text style={styles.group}>{item.author}</Text>
-            </View>
-          </View>
-        </Ripple>
-        <TouchableOpacity
-          onPress={() => {
-            openOptions(item);
-          }}
-          hitSlop={{
-            top: 20,
-            right: 20,
-            bottom: 20,
-            left: 20,
-          }}
-          style={styles.icon}>
-          <SimpleLineIcons
-            name="options-vertical"
-            color={styles.title.color}
-            size={15}
-          />
-        </TouchableOpacity>
-      </View>
+    return (
+      <CardItemMusic item={item} songs={songs} navigate={navigate} openOptions={openOptions} />
     );
   };
 
@@ -299,18 +261,17 @@ const ListOfMusicComponent: FC<IProps> = props => {
           </TouchableOpacity>
 
           <View style={{flexDirection: 'row'}}>
-            {
-              withDir && 
+            {withDir && (
               <TouchableOpacity
                 style={[styles.iconOptions, {marginRight: 10}]}
-                onPress={() => onChangeList ? onChangeList('DIRS') : null}>
+                onPress={() => (onChangeList ? onChangeList('DIRS') : null)}>
                 <FontAwesome
                   name="folder-o"
                   size={20}
                   color={styles.iconOptions.color}
                 />
               </TouchableOpacity>
-            }
+            )}
             <TouchableOpacity
               style={styles.iconOptions}
               onPress={openActionOrder}>
