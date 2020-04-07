@@ -33,7 +33,10 @@ class MusicListScreen extends Component<IProps, IState> {
           }
         />
 
-        <FooterMusic />
+        <FooterMusic
+          // @ts-ignore
+          navigation={this.props.navigation}
+        />
       </BackgroundLayout>
     );
   }
