@@ -33,6 +33,7 @@ import {
   getPlaylists,
   addAndDeleteSongsOfPLaylist,
 } from '../../redux/actions/playlistActions';
+import { ImageMusic } from './components/ImageMusic';
 
 class Music extends Component<IProps, IState> {
   constructor(props: IProps) {
@@ -129,23 +130,7 @@ class Music extends Component<IProps, IState> {
           onOpenAddPlaylist={() => this.setState({addToPlaylistVisible: true})}
         />
 
-        <View style={style.contentImage}>
-          {item.cover ? (
-            <Image
-              style={style.image}
-              source={{
-                uri: 'file://' + item.cover,
-              }}
-            />
-          ) : (
-            <Image
-              style={[style.image, {backgroundColor: '#838383'}]}
-              source={require('../../../assets/images/music_notification.png')}
-            />
-          )}
-          {this.cutText(item.author || '<unknown>', 31, style.author)}
-          {this.cutText(item.album || '<unknown>', 55, style.album)}
-        </View>
+        <ImageMusic item={item}/>
 
         <Progress
           duration={item.duration}

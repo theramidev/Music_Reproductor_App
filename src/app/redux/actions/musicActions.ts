@@ -2,6 +2,8 @@ import {PermissionsAndroid} from 'react-native';
 import {Dispatch} from 'redux';
 import MusicFiles from 'react-native-get-music-files';
 import TrackPlayer, {Track} from 'react-native-track-player';
+import AsyncStorage from '@react-native-community/async-storage';
+import fs from 'react-native-fs';
 
 import {MSong, ISong} from '../../models/song.model';
 import musicTypes from '../types/musicTypes';
@@ -10,7 +12,6 @@ import {
   getListRamdonSong,
   getListLineSong,
 } from '../../../utils/orderListMusic';
-import AsyncStorage from '@react-native-community/async-storage';
 
 export const refreshListSong = () => async (dispatch: Dispatch) => {
   dispatch({
@@ -373,6 +374,7 @@ export const changeToRandomMode = () => async (
 const getList = (listMusics: MSong[]) => {
   return listMusics.map(
     ({id, author, title, path, album, genre, duration, cover}) => {
+
       return {
         id,
         artist: author ? author : '',

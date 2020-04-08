@@ -15,10 +15,10 @@ import {
   STATE_PLAYING,
   STATE_PAUSED,
   setVolume,
+  Track,
 } from 'react-native-track-player';
 import AsyncStorage from '@react-native-community/async-storage';
-import database from './database';
-import {useState} from 'react';
+import fs from 'react-native-fs';
 var pass: number = 0;
 
 var remotePlay: EmitterSubscription | any;
@@ -91,7 +91,7 @@ export const PlaybackService = (
       playbackTrackChanged = addEventListener(
         'playback-track-changed',
         async (data: any) => {
-          //console.log('playback-track-changed: ', data);
+          console.log('playback-track-changed: ', data);
           // const id: string = await getCurrentTrack();
           // cuando se cambia de cancion se ejecutara esta funcion
           // que cabiara el estado a la cancion actual
@@ -104,6 +104,17 @@ export const PlaybackService = (
               setSongToRecent(data.nextTrack);
             }
           }
+
+          /* if (data.nextTrack) {
+            const currentTrack: Track = await getTrack(data.nextTrack);
+
+            fs.exists(currentTrack.artwork)
+              .then((res) => {
+                if (res) {
+                  upda
+                }
+              });
+          } */
         },
       );
       playbackQueueEnded = addEventListener(
