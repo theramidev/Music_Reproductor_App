@@ -8,8 +8,6 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import dynamicStyles from './styles';
 import {IProps} from './Interfaces/Props';
 
-import fs from 'react-native-fs';
-
 export const CardItemMusic: FC<IProps> = ({
   item,
   songs,
@@ -17,11 +15,6 @@ export const CardItemMusic: FC<IProps> = ({
   navigate,
 }) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
-  const [existsImage, setExistsImage] = useState(false);
-
-  useEffect(() => {
-    getExistsImage();
-  }, []);
 
   const cutText = (txt: string): string => {
     if (txt.length > 35) {
@@ -31,20 +24,6 @@ export const CardItemMusic: FC<IProps> = ({
     return txt;
   };
 
-  // verifica que la imagen exista en la ruta de el archivo
-  const getExistsImage = async () => {
-    if (item.cover) {
-      const exists: boolean = await fs.exists(item.cover || '');
-      if (exists) {
-        setExistsImage(true);
-      } else {
-        setExistsImage(false);
-      }
-    } else {
-      setExistsImage(false);
-    }
-  };
-
   return (
     <View style={styles.containerItem}>
       <Ripple
@@ -52,7 +31,7 @@ export const CardItemMusic: FC<IProps> = ({
         style={styles.itemContent}
         onPress={() => navigate('Music', {item, songs})}>
         <View style={styles.item}>
-          {existsImage ? (
+          {item.cover ? (
             <Image
               style={styles.image}
               source={{

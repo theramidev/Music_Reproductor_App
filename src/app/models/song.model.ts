@@ -19,7 +19,7 @@ export class MSong {
     this.author = song.author;
     this.album = song.album;
     this.genre = song.genre;
-    this.cover = song.cover;
+    this.cover = song.cover === 'file://' || !song.cover ? null : song.cover;
     this.lyrics = song.lyrics;
   }
 }

@@ -20,17 +20,17 @@ const styles: StylesListOfMusic = {
   },
   random: {
     backgroundColor: background,
-    width: 210,
+    width: 230,
     paddingHorizontal: 10,
     paddingVertical: 5,
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 60,
-    justifyContent: 'space-around',
+    justifyContent: 'center',
   },
   textRandom: {
     color: colorText,
-    marginLeft: 5,
+    marginLeft: 10,
   },
   iconOptions: {
     color: colorText,

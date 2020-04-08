@@ -1,7 +1,6 @@
 import React, {FC, useEffect, useState} from 'react';
 import {
   View,
-  Image,
   Text,
   TouchableOpacity,
   RefreshControl,
@@ -10,15 +9,12 @@ import {
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {useActionSheet} from '@expo/react-native-action-sheet';
 import {connect} from 'react-redux';
-import fs from 'react-native-fs';
 
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import dynamicStyles from './styles';
 import {MSong} from 'src/app/models/song.model';
-import Ripple from 'react-native-material-ripple';
 import {
   getPlaylists,
   addAndDeleteSongsOfPLaylist,
@@ -37,9 +33,9 @@ import {
   getDateTimeOrder,
 } from '../../../utils/orderListMusic';
 import {useTranslation} from 'react-i18next';
-import { CardItemMusic } from '../CardItemMusic';
+import {CardItemMusic} from '../CardItemMusic';
 
-const ListOfMusicComponent: FC<IProps> = (props) => {
+const ListOfMusicComponent: FC<IProps> = props => {
   const {
     songs,
     navigate,
@@ -231,19 +227,13 @@ const ListOfMusicComponent: FC<IProps> = (props) => {
   }
 
   const _renderItem = ({item}: {item: MSong}) => {
-    const existsImage = () => {
-      fs.exists(item.cover || '');
-      if (item.cover) {
-        return {
-          uri: 'file://' + item.cover,
-        };
-      } else {
-        return require('../../../assets/images/music_notification.png');
-      }
-    };
-
     return (
-      <CardItemMusic item={item} songs={songs} navigate={navigate} openOptions={openOptions} />
+      <CardItemMusic
+        item={item}
+        songs={songs}
+        navigate={navigate}
+        openOptions={openOptions}
+      />
     );
   };
 
