@@ -5545,6 +5545,11 @@ react-native-sqlite-storage@^4.1.0:
   resolved "https://registry.yarnpkg.com/react-native-sqlite-storage/-/react-native-sqlite-storage-4.1.0.tgz#641780eef06bc90b853d3dcd628c0fe54b656d7b"
   integrity sha512-H8++CILlZQ2f2n+OvVmGyqMaV+UFKTRSTx9/3eIAxBg4d0rjeZogs6hgHlfADvEGNmrEyUBDpnX9+uHnDtwAHQ==
 
+react-native-tab-view@^2.14.0:
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.14.0.tgz#dd801f82fdb8e92fce9688b78d13923f3a5a2b3f"
+  integrity sha512-Z7XAM3NsMB96c17e9EAveunk7SUgilXWwVUTmWI1u/+p2SeOMUOB87z+//UXrcVlD1e9BPweR73q7dq7krTzTg==
+
 react-native-track-player@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/react-native-track-player/-/react-native-track-player-1.2.2.tgz#97e6d956ac2de70ed24b2665799d48075750b1e9"
