@@ -158,7 +158,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
       return true;
     });
 
-    const newMusicFiles: ISong[] | any = musicFiles.map(song => {
+    const newMusicFiles: ISong[] | any = musicFiles.map((song: ISong) => {
       const songDB: MSong | any = songsDB.find(
         songData => songData.id === song.id,
       );
@@ -374,7 +374,6 @@ export const changeToRandomMode = () => async (
 const getList = (listMusics: MSong[]) => {
   return listMusics.map(
     ({id, author, title, path, album, genre, duration, cover}) => {
-
       return {
         id,
         artist: author ? author : '',
