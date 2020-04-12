@@ -24,6 +24,8 @@ class ChangeImageScreen extends Component<IProps, IState> {
     }
 
     changeCurrentWallpaper = (wallpaperPath: string | null) => {
+        console.log(wallpaperPath);
+        
         this.props.changeCurrentWallpaper(wallpaperPath);
     }
 

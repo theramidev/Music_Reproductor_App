@@ -12,7 +12,6 @@ import {withTranslation} from 'react-i18next';
 import {Header} from '../../components/Header';
 import {ListOfPlaylists} from './components/ListOfPlaylists';
 import {ModalPlaylist} from '../../components/ModalPlaylist';
-import {DocumentPickerResponse} from 'react-native-document-picker';
 import { showAd } from '../../../utils/interstitialAd';
 
 class PlaylistsScreen extends Component<IProps, IState> {
@@ -38,7 +37,7 @@ class PlaylistsScreen extends Component<IProps, IState> {
   };
 
   createPlaylist = (
-    image: DocumentPickerResponse | null,
+    image: {uri: string, name: string} | null,
     playlistName: string,
   ) => {
     this.props.createPlaylist(image, playlistName);

@@ -19,6 +19,7 @@ import {ShowToast} from '../../../utils/toast';
 import Modal from 'react-native-modal';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {useTranslation} from 'react-i18next';
+import { takePictureFromGallery } from '../../../utils/takePicture';
 
 export const ModalPlaylist: FC<IProps> = ({
   onClose,
@@ -28,7 +29,7 @@ export const ModalPlaylist: FC<IProps> = ({
   isVisible,
 }) => {
   const [image, setImage] = useState('');
-  const [pickerImage, setPickerImage] = useState<DocumentPickerResponse | null>(
+  const [pickerImage, setPickerImage] = useState<{uri: string, name: string} | null>(
     null,
   );
   const [playlistName, setPLaylistName] = useState('');
@@ -89,9 +90,7 @@ export const ModalPlaylist: FC<IProps> = ({
    */
   const openDocumentPiecker = async () => {
     try {
-      const picker = await DocumentPicker.pick({
-        type: [DocumentPicker.types.images],
-      });
+      const picker = await takePictureFromGallery();
 
       const existsDir = await fs.exists(
         `${fs.DocumentDirectoryPath}/temp/playlist`,
@@ -118,7 +117,7 @@ export const ModalPlaylist: FC<IProps> = ({
       setImage('file://' + file.path);
       setPickerImage(picker);
     } catch (error) {
-      if (DocumentPicker.isCancel(error)) {
+      if (error === 'canceled') {
         console.log('DocumentPicker canceled!');
         return;
       }

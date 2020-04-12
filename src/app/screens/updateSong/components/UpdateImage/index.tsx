@@ -2,9 +2,7 @@ import React, {FC, useState, useEffect} from 'react';
 import {useDynamicStyleSheet} from 'react-native-dark-mode';
 import {Text, View, Image} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import DocumentPicker, {
-  DocumentPickerResponse,
-} from 'react-native-document-picker';
+import { takePictureFromGallery } from '../../../../../utils/takePicture';
 import fs from 'react-native-fs';
 import { useTranslation } from 'react-i18next';
 
@@ -16,7 +14,7 @@ export const UpdateImage: FC<{
 }> = ({cover, onChange}: any) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
   const [image, setImage] = useState('');
-  const [pickerImage, setPickerImage] = useState<DocumentPickerResponse | null>(
+  const [pickerImage, setPickerImage] = useState<{uri: string, name: string} | null>(
     null,
   );
   const { t } = useTranslation('UpdateSong')
@@ -37,9 +35,7 @@ export const UpdateImage: FC<{
    */
   const openDocumentPiecker = async () => {
     try {
-      const picker = await DocumentPicker.pick({
-        type: [DocumentPicker.types.images],
-      });
+      const picker = await takePictureFromGallery();
 
       const existsDir = await fs.exists(
         `${fs.DocumentDirectoryPath}/temp/updateCover`,
@@ -67,12 +63,12 @@ export const UpdateImage: FC<{
       setPickerImage(picker);
       onChange(picker.uri);
     } catch (error) {
-      if (DocumentPicker.isCancel(error)) {
-        console.log('DocumentPicker canceled!');
+      if (error === 'canceled') {
+        console.log('Picker canceled!');
         return;
       }
 
-      console.error('DocumentPicker Error: ', error);
+      console.error('Picker image Error: ', error);
     }
   };
 

@@ -2,11 +2,11 @@ import React, { FC, useState, useEffect } from 'react';
 import { ScrollView, View, Modal, Image, TouchableOpacity, Text } from 'react-native';
 import { IProps } from './PropsInterface';
 import styles from './style';
-import DocumentPicker from 'react-native-document-picker';
 import { useTranslation } from 'react-i18next';
 
 import { PhotoCard } from '../PhotoCard';
 import { BackgroundLayout } from '../../../../components/BackgroundLayout';
+import { takePictureFromGallery } from '../../../../../utils/takePicture';
 
 
 export const ListOfPhotoCard: FC<IProps> = ({onWallpaperSelect, wallpapers = [], onWallpaperChange, onDeleteWallpaper}) => {
@@ -18,14 +18,11 @@ export const ListOfPhotoCard: FC<IProps> = ({onWallpaperSelect, wallpapers = [],
         // console.log(photo);
         if (photo === 'add') {
             try {
-                const {uri, name} = await DocumentPicker.pick({
-                    type: [DocumentPicker.types.images]
-                });
-                console.log(uri);
+                const {uri, name} = await takePictureFromGallery();
                 onWallpaperSelect({uri, name});
             } catch (error) {
-                if (DocumentPicker.isCancel(error)) {
-                    console.log('DocumentPicker canceled!');
+                if (error === 'canceled') {
+                    console.log('Picker canceled!');
                     return;
                 }
                 console.error(error);

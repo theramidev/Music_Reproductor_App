@@ -20,5 +20,5 @@ export interface IProps extends WithTranslation {
      * @param playlistName Nombre de la lista de reproducción
      * @return void
      */
-    createPlaylist(picker: DocumentPickerResponse | null, playlistName: string): void
+    createPlaylist(picker: {uri: string, name: string} | null, playlistName: string): void
 }

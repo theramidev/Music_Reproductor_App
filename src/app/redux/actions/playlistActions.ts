@@ -1,7 +1,6 @@
 import playlistTypes from '../types/playlistTypes';
 import {Dispatch} from 'redux';
 import Database from '../../database';
-import {DocumentPickerResponse} from 'react-native-document-picker';
 import fs, {StatResult} from 'react-native-fs';
 import {ShowToast} from '../../../utils/toast';
 
@@ -81,7 +80,7 @@ export const getCurrentPLaylist = (playlistId: number) => async (
 export const updatePlaylist = (
   playlistId: number,
   playlistName: string,
-  picker: DocumentPickerResponse | null,
+  picker: {uri: string, name: string} | null,
 ) => async (dispatch: Dispatch) => {
   try {
     const playlist = await Database.getPlaylistById(playlistId);
@@ -158,13 +157,13 @@ export const deletePlaylist = (playlistId: number) => async (
  * @description Crea una lista de reproducción
  */
 export const createPlaylist = (
-  picker: DocumentPickerResponse | null,
+  image: {uri: string, name: string} | null,
   playlistName: string,
 ) => async (dispatch: Dispatch) => {
   try {
     const existsDir = await fs.exists(`${fs.DocumentDirectoryPath}/playlists`);
     const existsFile = await fs.exists(
-      `${fs.DocumentDirectoryPath}/playlists/${picker?.name}`,
+      `${fs.DocumentDirectoryPath}/playlists/${image?.name}`,
     );
     let imagePath: string | null = null;
 
@@ -172,24 +171,24 @@ export const createPlaylist = (
       await fs.mkdir(`${fs.DocumentDirectoryPath}/playlists`);
     }
 
-    if (picker) {
+    if (image) {
       let file: StatResult | null;
       if (existsFile) {
         file = await fs.stat(
           `${fs.DocumentDirectoryPath}/playlists/${playlistName.trim()}_${
-            picker.name
+            image.name
           }`,
         );
       } else {
         await fs.copyFile(
-          picker.uri,
+          image.uri,
           `${fs.DocumentDirectoryPath}/playlists/${playlistName.trim()}_${
-            picker.name
+            image.name
           }`,
         );
         file = await fs.stat(
           `${fs.DocumentDirectoryPath}/playlists/${playlistName.trim()}_${
-            picker.name
+            image.name
           }`,
         );
       }

@@ -20,7 +20,7 @@ export const refreshListSong = () => async (dispatch: Dispatch) => {
 
   try {
     const songsDB: MSong[] = await database.getSongs();
-    var musicFiles: ISong[] = await MusicFiles.getAll({
+    let musicFiles: ISong[] = await MusicFiles.getAll({
       id: true,
       blured: true,
       artist: true,
