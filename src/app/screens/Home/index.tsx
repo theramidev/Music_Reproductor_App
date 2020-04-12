@@ -93,6 +93,11 @@ class HomeScreen extends Component<IProps, IState> {
                 songs={this.props.musicReducer.listSongs}
                 navigation={this.props.navigation}
                 onChangeList={(list) => this.setState({list})}
+                paddingBottom={
+                  Object.keys(this.props.musicReducer.current).length === 0
+                    ? 170
+                    : 230
+                }
               />
             }
           </>

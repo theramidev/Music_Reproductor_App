@@ -13,6 +13,7 @@ export const ListOfDirs: FC<IProps> = ({
   navigation,
   songs = [],
   onChangeList,
+  paddingBottom = 210
 }) => {
   const [dirs, setDirs] = useState<IDir[]>([]);
   const isDarkMode = useDarkMode();
@@ -98,7 +99,7 @@ export const ListOfDirs: FC<IProps> = ({
   };
 
   return (
-    <View style={{marginHorizontal: 10}}>
+    <View style={{marginHorizontal: 10, paddingBottom}}>
       <View style={[staticStyles.options, dynamicStyles.borderColor]}>
         <TouchableOpacity
           style={[staticStyles.iconOptions, dynamicStyles.backgroundIconOption]}
@@ -116,6 +117,7 @@ export const ListOfDirs: FC<IProps> = ({
         renderItem={_renderItem}
         numColumns={2}
         keyExtractor={item => item.id}
+        // style={{height: '70%'}}
       />
     </View>
   );

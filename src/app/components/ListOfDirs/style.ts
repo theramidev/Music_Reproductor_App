@@ -16,7 +16,7 @@ export const staticStyles = StyleSheet.create({
     },
     containerCard: {
         width: '50%',
-        height: 200,
+        height: 180,
         justifyContent: 'center',
         alignItems: 'center'
     },
