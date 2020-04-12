@@ -21,6 +21,7 @@ import {BackgroundLayout} from '../../components/BackgroundLayout';
 import style from './style';
 import FooterMusic from '../../components/FooterMusic';
 import {Loading} from '../../components/Loading';
+import { Tabs } from './components/Tabs';
 
 class HomeScreen extends Component<IProps, IState> {
   constructor(props: any) {
@@ -69,37 +70,14 @@ class HomeScreen extends Component<IProps, IState> {
             </View>
           </SafeAreaView> : 
           <>
-            {
-              this.state.list === 'SONGS' &&
-              <ListOfMusic
-                songs={listSongs}
-                updateFavorite={this.props.updateFavorite}
-                deleteSong={this.props.deleteSong}
-                navigate={navigation.navigate}
-                paddingBottom={
-                  Object.keys(this.props.musicReducer.current).length === 0
-                    ? 170
-                    : 230
-                }
-                refreshing={this.props.musicReducer.refreshing}
-                onRefresh={this.props.refreshListSong}
-                onChangeList={(list) => this.setState({list})}
-                withDir={true}
-              />
-            }
-            {
-              this.state.list === 'DIRS' && 
-              <ListOfDirs 
-                songs={this.props.musicReducer.listSongs}
-                navigation={this.props.navigation}
-                onChangeList={(list) => this.setState({list})}
-                paddingBottom={
-                  Object.keys(this.props.musicReducer.current).length === 0
-                    ? 170
-                    : 230
-                }
-              />
-            }
+            <Tabs 
+              current={this.props.musicReducer.current}
+              listSongs={listSongs}
+              navigation={this.props.navigation}
+              refreshListSong={this.props.refreshListSong}
+              refreshing={this.props.musicReducer.refreshing}
+              updateFavorite={this.props.updateFavorite}
+            />
           </>
         }
 

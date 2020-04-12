@@ -12,7 +12,6 @@ import {theme} from '../../../assets/themes';
 export const ListOfDirs: FC<IProps> = ({
   navigation,
   songs = [],
-  onChangeList,
   paddingBottom = 210
 }) => {
   const [dirs, setDirs] = useState<IDir[]>([]);
@@ -100,17 +99,6 @@ export const ListOfDirs: FC<IProps> = ({
 
   return (
     <View style={{marginHorizontal: 10, paddingBottom}}>
-      <View style={[staticStyles.options, dynamicStyles.borderColor]}>
-        <TouchableOpacity
-          style={[staticStyles.iconOptions, dynamicStyles.backgroundIconOption]}
-          onPress={() => onChangeList('SONGS')}>
-          <Entypo
-            name="list"
-            color={isDarkMode ? theme().light : theme().text}
-            size={20}
-          />
-        </TouchableOpacity>
-      </View>
 
       <FlatList
         data={dirs}
