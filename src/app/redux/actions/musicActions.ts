@@ -52,7 +52,7 @@ export const refreshListSong = () => async (dispatch: Dispatch) => {
         };
       }
 
-      return song;
+      return {...song, author: song.artist};
     });
 
     const songs: MSong[] = newMusicFiles.map((song: ISong) => new MSong(song));
@@ -62,7 +62,11 @@ export const refreshListSong = () => async (dispatch: Dispatch) => {
       payload: songs,
     });
     await database.setSongs(
-      musicFiles.map(song => ({...song, id: song.id.toString()})),
+      musicFiles.map(song => ({
+        ...song,
+        id: song.id.toString(),
+        author: song.artist,
+      })),
     );
   } catch (error) {
     console.error('[musicActions.ts ]: ', error);
@@ -138,16 +142,6 @@ export const getSongs = () => async (dispatch: Dispatch) => {
     });
     // =====================================================
 
-    /* var musicFiles: ISong[] = await MusicFiles.getAll({
-      id: true,
-      blured: true,
-      artist: true,
-      duration: true,
-      cover: true,
-      genre: true,
-      title: true,
-      minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration
-    }); */
     const {length, results: allSongs} = await MusicFilesV3.default.getAll({
       cover: true,
       minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration
@@ -179,7 +173,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
         };
       }
 
-      return song;
+      return {...song, author: song.artist};
     });
 
     const songs: MSong[] = newMusicFiles.map((song: ISong) => new MSong(song));
@@ -189,7 +183,11 @@ export const getSongs = () => async (dispatch: Dispatch) => {
       payload: songs,
     });
     await database.setSongs(
-      musicFiles.map(song => ({...song, id: song.id.toString()})),
+      musicFiles.map(song => ({
+        ...song,
+        id: song.id.toString(),
+        author: song.artist,
+      })),
     );
   } catch (error) {
     console.error(error);
