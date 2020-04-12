@@ -96,7 +96,15 @@ export const Tabs: FC<IProps> = ({
                     }
                 />;
             case 'albums':
-                return <ListOfAlbums />;
+                return <ListOfAlbums 
+                    navigation={navigation}
+                    songs={listSongs}
+                    paddingBottom={
+                        Object.keys(current).length === 0
+                        ? 0
+                        : 60
+                    }
+                />;
             case 'authors':
                 return <ListOfAuthors />
             default:

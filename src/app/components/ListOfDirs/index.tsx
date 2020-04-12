@@ -52,7 +52,7 @@ export const ListOfDirs: FC<IProps> = ({
         }
       });
 
-      navigation.navigate('MusicList', {songs: songsDir, dir: item});
+      navigation.navigate('MusicList', {songs: songsDir, title: item.name});
     };
 
     return (
@@ -70,7 +70,7 @@ export const ListOfDirs: FC<IProps> = ({
               color={isDarkMode ? theme().light : theme().text}
             />
           </View>
-          {item.name.length > 18 ? (
+          {item.name.length > 15 ? (
             <AutoScrolling>
               <Text style={[staticStyles.dirName, dynamicStyles.colorText]}>
                 {item.name}

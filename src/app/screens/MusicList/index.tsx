@@ -12,7 +12,7 @@ class MusicListScreen extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      dir: props.navigation.getParam('dir'),
+      title: props.navigation.getParam('title'),
       songs: props.navigation.getParam('songs'),
     };
   }
@@ -22,7 +22,7 @@ class MusicListScreen extends Component<IProps, IState> {
       <BackgroundLayout>
         <Header
           navigation={this.props.navigation}
-          title={this.state.dir.name}
+          title={this.state.title}
         />
 
         <ListOfMusic
