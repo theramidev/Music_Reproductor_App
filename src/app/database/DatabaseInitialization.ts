@@ -7,10 +7,10 @@ export class DatabaseInitialization {
   }
 
   private createTables(transaction: Transaction) {
-    // transaction.executeSql(`DROP TABLE IF EXISTS song`);
-    // transaction.executeSql(`DROP TABLE IF EXISTS reproduction`);
-    // transaction.executeSql(`DROP TABLE IF EXISTS playlist`);
-    // transaction.executeSql(`DROP TABLE IF EXISTS playlist_song`);
+    transaction.executeSql(`DROP TABLE IF EXISTS song`);
+    transaction.executeSql(`DROP TABLE IF EXISTS reproduction`);
+    transaction.executeSql(`DROP TABLE IF EXISTS playlist`);
+    transaction.executeSql(`DROP TABLE IF EXISTS playlist_song`);
 
     // Coin table
     transaction.executeSql(

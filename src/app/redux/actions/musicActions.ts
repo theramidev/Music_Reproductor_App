@@ -4,6 +4,7 @@ import MusicFiles from 'react-native-get-music-files';
 import TrackPlayer, {Track} from 'react-native-track-player';
 import AsyncStorage from '@react-native-community/async-storage';
 import fs from 'react-native-fs';
+import * as MusicFilesV3 from 'react-native-get-music-files-v3dev-test';
 
 import {MSong, ISong} from '../../models/song.model';
 import musicTypes from '../types/musicTypes';
@@ -20,21 +21,19 @@ export const refreshListSong = () => async (dispatch: Dispatch) => {
 
   try {
     const songsDB: MSong[] = await database.getSongs();
-    var musicFiles: ISong[] = await MusicFiles.getAll({
-      id: true,
-      blured: true,
-      artist: true,
-      duration: true,
+    const {length, results: allSongs} = await MusicFilesV3.default.getAll({
       cover: true,
-      genre: true,
-      title: true,
       minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration
+      batchSize: 0,
+      batchNumber: 0,
+      sortBy: MusicFilesV3.Constants.SortBy.Title.toString(),
+      sortOrder: MusicFilesV3.Constants.SortOrder.Ascending.toString(),
     });
 
-    musicFiles = musicFiles.filter((song: any) => {
-      const [extension] = song.fileName.split('.').reverse();
+    const musicFiles = allSongs.filter((song: any) => {
+      const [extension] = song.path.split('.').reverse();
 
-      if (extension === 'ogg' || extension === 'opus') {
+      if (extension === 'ogg' || extension === 'opus' || extension === 'flac') {
         return false;
       }
 
@@ -43,7 +42,7 @@ export const refreshListSong = () => async (dispatch: Dispatch) => {
 
     var newMusicFiles: ISong[] | any = musicFiles.map(song => {
       const songDB: MSong | any = songsDB.find(
-        songData => songData.id === song.id,
+        songData => songData.id === song.id.toString(),
       );
 
       if (songDB) {
@@ -62,7 +61,9 @@ export const refreshListSong = () => async (dispatch: Dispatch) => {
       type: musicTypes.updateListSongs,
       payload: songs,
     });
-    await database.setSongs(musicFiles);
+    await database.setSongs(
+      musicFiles.map(song => ({...song, id: song.id.toString()})),
+    );
   } catch (error) {
     console.error('[musicActions.ts ]: ', error);
   }
@@ -137,7 +138,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
     });
     // =====================================================
 
-    var musicFiles: ISong[] = await MusicFiles.getAll({
+    /* var musicFiles: ISong[] = await MusicFiles.getAll({
       id: true,
       blured: true,
       artist: true,
@@ -146,10 +147,18 @@ export const getSongs = () => async (dispatch: Dispatch) => {
       genre: true,
       title: true,
       minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration
+    }); */
+    const {length, results: allSongs} = await MusicFilesV3.default.getAll({
+      cover: true,
+      minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration
+      batchSize: 0,
+      batchNumber: 0,
+      sortBy: MusicFilesV3.Constants.SortBy.Title.toString(),
+      sortOrder: MusicFilesV3.Constants.SortOrder.Ascending.toString(),
     });
 
-    musicFiles = musicFiles.filter((song: any) => {
-      const [extension] = song.fileName.split('.').reverse();
+    let musicFiles = allSongs.filter((song: any) => {
+      const [extension] = song.path.split('.').reverse();
 
       if (extension === 'ogg' || extension === 'opus' || extension === 'flac') {
         return false;
@@ -158,9 +167,9 @@ export const getSongs = () => async (dispatch: Dispatch) => {
       return true;
     });
 
-    const newMusicFiles: ISong[] | any = musicFiles.map((song: ISong) => {
+    const newMusicFiles: ISong[] | any = musicFiles.map(song => {
       const songDB: MSong | any = songsDB.find(
-        songData => songData.id === song.id,
+        songData => songData.id === song.id.toString(),
       );
 
       if (songDB) {
@@ -179,7 +188,9 @@ export const getSongs = () => async (dispatch: Dispatch) => {
       type: musicTypes.updateListSongs,
       payload: songs,
     });
-    await database.setSongs(musicFiles);
+    await database.setSongs(
+      musicFiles.map(song => ({...song, id: song.id.toString()})),
+    );
   } catch (error) {
     console.error(error);
   }
