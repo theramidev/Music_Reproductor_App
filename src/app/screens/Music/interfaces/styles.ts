@@ -29,6 +29,7 @@ export interface StylesModal {
   textHeader: TextStyle | DynamicTextStyle;
   text: TextStyle | DynamicTextStyle;
   textWarning: TextStyle | DynamicTextStyle;
+  modalContainer: ViewStyle | DynamicViewStyle
 }
 
 export interface StylesListOfMusic {

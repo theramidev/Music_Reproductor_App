@@ -3,6 +3,7 @@ import {DynamicValue, DynamicStyleSheet} from 'react-native-dark-mode';
 import {StylesModal} from '../../interfaces/styles';
 
 const colorText = new DynamicValue(theme().text, theme(0.8).light);
+const backgroundModal = new DynamicValue(theme(0.8).light, theme().text);
 
 const styles: StylesModal = {
   header: {
@@ -36,6 +37,11 @@ const styles: StylesModal = {
     color: colorText,
     textAlign: 'center',
     fontSize: 20,
+  },
+  modalContainer: {
+    backgroundColor: backgroundModal,
+    borderRadius: 20,
+    padding: 10,
   },
 };
 
