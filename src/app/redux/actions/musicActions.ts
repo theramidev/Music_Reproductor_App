@@ -130,7 +130,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
         payload: songsDB,
       });
     }
-    console.log(songsDB);
+    // console.log(songsDB);
     // obtiene la ultima cancion reproducida ==============
     const data = await AsyncStorage.getItem('@LastMusic');
     let last: MSong | null = data ? JSON.parse(data) : '';
@@ -154,7 +154,10 @@ export const getSongs = () => async (dispatch: Dispatch) => {
       batchNumber: 0,
       sortBy: MusicFilesV3.Constants.SortBy.Title.toString(),
       sortOrder: MusicFilesV3.Constants.SortOrder.Ascending.toString(),
+      // coverFolder: `${fs.ExternalDirectoryPath}/covers`
     });
+
+    // console.log(allSongs);
 
     let musicFiles = allSongs.filter((song: any) => {
       const [extension] = song.path.split('.').reverse();
