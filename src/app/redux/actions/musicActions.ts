@@ -4,6 +4,7 @@ import TrackPlayer, {Track} from 'react-native-track-player';
 import AsyncStorage from '@react-native-community/async-storage';
 import fs from 'react-native-fs';
 import * as MusicFilesV3 from 'react-native-get-music-files-v3dev-test';
+import MusicFiles from 'react-native-get-music-files';
 
 import {MSong, ISong} from '../../models/song.model';
 import musicTypes from '../types/musicTypes';
@@ -20,14 +21,23 @@ export const refreshListSong = () => async (dispatch: Dispatch) => {
 
   try {
     const songsDB: MSong[] = await database.getSongs();
-    const {length, results: allSongs} = await MusicFilesV3.default.getAll({
+    const allSongs = await MusicFiles.getAll({
+      blured: true, // works only when 'cover' is set to true
+      artist: true,
+      duration: true, //default : true
+      genre: true,
+      title: true,
+      cover: true,
+      minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration,
+    });
+    /* const {length, results: allSongs} = await MusicFilesV3.default.getAll({
       cover: true,
       minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration
       batchSize: 0,
       batchNumber: 0,
       sortBy: MusicFilesV3.Constants.SortBy.Title.toString(),
       sortOrder: MusicFilesV3.Constants.SortOrder.Ascending.toString(),
-    });
+    }); */
 
     const musicFiles = allSongs.filter((song: any) => {
       const [extension] = song.path.split('.').reverse();
@@ -39,7 +49,7 @@ export const refreshListSong = () => async (dispatch: Dispatch) => {
       return true;
     });
 
-    var newMusicFiles: ISong[] | any = musicFiles.map(song => {
+    var newMusicFiles: ISong[] | any = musicFiles.map((song: ISong) => {
       const songDB: MSong | any = songsDB.find(
         songData => songData.id === song.id.toString(),
       );
@@ -51,7 +61,7 @@ export const refreshListSong = () => async (dispatch: Dispatch) => {
         };
       }
 
-      return {...song, author: song.artist};
+      return song;
     });
 
     const songs: MSong[] = newMusicFiles.map((song: ISong) => new MSong(song));
@@ -60,13 +70,7 @@ export const refreshListSong = () => async (dispatch: Dispatch) => {
       type: musicTypes.updateListSongs,
       payload: songs,
     });
-    await database.setSongs(
-      musicFiles.map(song => ({
-        ...song,
-        id: song.id.toString(),
-        author: song.artist,
-      })),
-    );
+    await database.setSongs(musicFiles);
   } catch (error) {
     console.error('[musicActions.ts ]: ', error);
   }
@@ -147,15 +151,25 @@ export const getSongs = () => async (dispatch: Dispatch) => {
     });
     // =====================================================
 
-    const {length, results: allSongs} = await MusicFilesV3.default.getAll({
+    const allSongs = await MusicFiles.getAll({
+      blured: true, // works only when 'cover' is set to true
+      artist: true,
+      duration: true, //default : true
+      genre: true,
+      title: true,
+      cover: true,
+      minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration,
+      coverFolder: `${fs.ExternalDirectoryPath}/covers`
+    });
+    /* const {length, results: allSongs} = await MusicFilesV3.default.getAll({
       cover: true,
       minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration
       batchSize: 0,
       batchNumber: 0,
       sortBy: MusicFilesV3.Constants.SortBy.Title.toString(),
       sortOrder: MusicFilesV3.Constants.SortOrder.Ascending.toString(),
-      coverFolder: `${fs.ExternalDirectoryPath}/covers`
-    });
+      // coverFolder: `${fs.ExternalDirectoryPath}/covers`
+    }); */
 
     console.log(allSongs);
 
@@ -169,7 +183,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
       return true;
     });
 
-    const newMusicFiles: ISong[] | any = musicFiles.map(song => {
+    const newMusicFiles: ISong[] | any = musicFiles.map((song: ISong) => {
       const songDB: MSong | any = songsDB.find(
         songData => songData.id === song.id.toString(),
       );
@@ -181,7 +195,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
         };
       }
 
-      return {...song, author: song.artist};
+      return song;
     });
 
     const songs: MSong[] = newMusicFiles.map((song: ISong) => new MSong(song));
@@ -190,13 +204,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
       type: musicTypes.updateListSongs,
       payload: songs,
     });
-    await database.setSongs(
-      musicFiles.map(song => ({
-        ...song,
-        id: song.id.toString(),
-        author: song.artist,
-      })),
-    );
+    await database.setSongs(musicFiles);
   } catch (error) {
     console.error(error);
   }
