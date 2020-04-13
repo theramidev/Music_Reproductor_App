@@ -4,6 +4,8 @@ import { IProps } from './PropsInterface';
 import { staticStyles } from './style';
 import AutoScrolling from 'react-native-auto-scrolling';
 import { MSong } from '../../../../models/song.model';
+import { useDarkMode } from 'react-native-dark-mode';
+import { theme } from '../../../../../assets/themes';
 
 export const ListOfAlbums: FC<IProps> = ({
     navigation,
@@ -11,6 +13,7 @@ export const ListOfAlbums: FC<IProps> = ({
     paddingBottom = 60
 }) => {
     const [albums, setAlbums] = useState<IAlbum[]>([]);
+    const isDarkMode = useDarkMode();
 
     useEffect(() => {
         const allAlbums: IAlbum[] = songs.map(song => {
@@ -60,11 +63,11 @@ export const ListOfAlbums: FC<IProps> = ({
                 {
                     name.length > 20 ?
                     <AutoScrolling style={{height: 20}}>
-                        <Text style={staticStyles.cardText}>
+                        <Text style={[staticStyles.cardText, {color: isDarkMode ? theme().light : theme().text}]}>
                             {name}
                         </Text>
                     </AutoScrolling> :
-                    <Text style={staticStyles.cardText}>
+                    <Text style={[staticStyles.cardText, {color: isDarkMode ? theme().light : theme().text}]}>
                         {name}
                     </Text>
                 }

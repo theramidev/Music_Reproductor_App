@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-import { theme } from '../../../../../assets/themes';
 
 export const staticStyles = StyleSheet.create({
     cardContainer: {
@@ -15,7 +14,6 @@ export const staticStyles = StyleSheet.create({
         borderRadius: 10
     },
     cardText: {
-        color: theme().light,
         fontWeight: 'bold',
         fontSize: 15
     }
