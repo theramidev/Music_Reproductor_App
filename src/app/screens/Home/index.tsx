@@ -32,6 +32,8 @@ import FooterMusic from '../../components/FooterMusic';
 import {Loading} from '../../components/Loading';
 import {withNavigationFocus} from 'react-navigation';
 import { withTranslation } from 'react-i18next';
+import AsyncStorage from '@react-native-community/async-storage';
+import database from '../../database';
 
 class HomeScreen extends Component<IProps, IState> {
   private backHandlerEvent: any = null;
@@ -71,7 +73,16 @@ class HomeScreen extends Component<IProps, IState> {
       },
     );
 
+    const clearDatabase = await AsyncStorage.getItem('@clearDatabase');
+    if (!clearDatabase) {
+      await AsyncStorage.setItem('@clearDatabase', 'no');
+    }
+
+    // Open Database
+    await database.openDatabase(!clearDatabase);
+
     this.props.getSongs();
+
     this.props.getCurrentWallpaper();
   }
 

@@ -5,6 +5,7 @@ import TrackPlayer, {Track} from 'react-native-track-player';
 import AsyncStorage from '@react-native-community/async-storage';
 import fs from 'react-native-fs';
 import * as MusicFilesV3 from 'react-native-get-music-files-v3dev-test';
+import {Transaction} from 'react-native-sqlite-storage';
 
 import {MSong, ISong} from '../../models/song.model';
 import musicTypes from '../types/musicTypes';
@@ -106,6 +107,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
     dispatch({
       type: musicTypes.loadingListSongs,
     });
+
     const hasExternalReadPermissions: boolean = await PermissionsAndroid.check(
       PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
     );
@@ -130,10 +132,15 @@ export const getSongs = () => async (dispatch: Dispatch) => {
         payload: songsDB,
       });
     }
-
+    console.log(songsDB);
     // obtiene la ultima cancion reproducida ==============
     const data = await AsyncStorage.getItem('@LastMusic');
-    const last = data ? JSON.parse(data) : '';
+    let last: MSong | null = data ? JSON.parse(data) : '';
+    if (last) {
+      if (!(await fs.exists(last.path))) {
+        last = null;
+      }
+    }
     const lastMusic = songsDB[0] || {};
 
     dispatch({

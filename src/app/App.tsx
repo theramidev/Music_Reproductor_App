@@ -22,6 +22,7 @@ import {
   updateCurrentMusicForId,
   changeToLineMode,
   changeToRandomMode,
+  getSongs,
 } from './redux/actions/musicActions';
 import {setSongToRecent} from './redux/actions/recentsActions';
 
@@ -49,9 +50,18 @@ const App: FC<any> = (props: any) => {
   useEffect(() => {
     Orientation.lockToPortrait();
 
-    // Open Database
-    database.open();
+    init();
 
+    return () => {
+      // Close the reproductor when close the app
+      TrackPlayer.destroy();
+      cleanEvents();
+      clearShares();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const init = async () => {
     initEvents();
 
     getDarkMode();
@@ -128,15 +138,7 @@ const App: FC<any> = (props: any) => {
     );
 
     SplashScreen.hide();
-
-    return () => {
-      // Close the reproductor when close the app
-      TrackPlayer.destroy();
-      cleanEvents();
-      clearShares();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
   const clearShares = async () => {
     try {
@@ -209,6 +211,7 @@ const mapDispatchToProps = {
   changeToLineMode,
   changeToRandomMode,
   setSongToRecent,
+  getSongs,
 };
 
 // eslint-disable-next-line prettier/prettier
