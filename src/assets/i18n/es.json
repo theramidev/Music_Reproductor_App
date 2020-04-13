@@ -133,11 +133,15 @@
         "album": "Álbum",
         "cover": "Foto de portada",
         "lyrics": "Letra",
-        "pasteText": "Pegar texto"
+        "pasteText": "Pegar texto",
+        "search": "Letra de"
     },
     "Music": {
         "noSongInSystem": "La canción no existe en el sistema",
         "modalTitle": "Letra",
         "noLyrics": "No se encontró la letra de esta canción"
+    },
+    "UrlWebView": {
+        "close": "Cerrar"
     }
 }

@@ -133,11 +133,15 @@
         "album": "Album",
         "cover": "Cover",
         "lyrics": "Lyrics",
-        "pasteText": "Paste text"
+        "pasteText": "Paste text",
+        "search": "Lyryc of"
     },
     "Music": {
         "noSongInSystem": "The song does not exist in the system",
         "modalTitle": "Lyrics",
         "noLyrics": "The lyrics of this song could not be found"
+    },
+    "UrlWebView": {
+        "close": "Close"
     }
 }

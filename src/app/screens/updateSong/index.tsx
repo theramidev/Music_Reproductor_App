@@ -18,6 +18,7 @@ import {UpdateImage} from './components/UpdateImage';
 import {UpdateLyrics} from './components/UpdateLyrics';
 import {MSong} from '../../models/song.model';
 import {ShowToast} from '../../../utils/toast';
+import { showAd } from '../../../utils/interstitialAd';
 
 class UpdateSongScreen extends Component<IProps, IState> {
   constructor(props: IProps) {
@@ -37,6 +38,10 @@ class UpdateSongScreen extends Component<IProps, IState> {
     };
 
     this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentWillUnmount() {
+    showAd();
   }
 
   handleChange = (
@@ -132,6 +137,7 @@ class UpdateSongScreen extends Component<IProps, IState> {
             onChange={(e: any) => {
               this.handleChange(e, 'lyrics');
             }}
+            songName={this.state.title}
           />
         </ScrollView>
       </BackgroundLayout>
