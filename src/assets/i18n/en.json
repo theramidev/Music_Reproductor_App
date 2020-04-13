@@ -1,4 +1,10 @@
 {
+    "Home": {
+        "alertTitle": "Exit App",
+        "alertMessage": "Exiting the application?",
+        "alertCancel": "Cancel",
+        "alertOk": "Ok"
+    },
     "ChangeImage": {
         "headerTitle": "Change image"
     },

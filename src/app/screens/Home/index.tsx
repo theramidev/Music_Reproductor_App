@@ -1,5 +1,14 @@
 import React, {Component} from 'react';
-import {Image, Animated, View, SafeAreaView} from 'react-native';
+import {
+  Image,
+  Animated,
+  View,
+  SafeAreaView,
+  BackHandler,
+  Text,
+  NativeEventSubscription,
+  Alert,
+} from 'react-native';
 import {connect} from 'react-redux';
 
 import {getCurrentWallpaper} from '../../redux/actions/wallpaperActions';
@@ -16,23 +25,58 @@ import {IProps} from './interfaces/Props';
 import {Header} from './components/Header';
 import {Sections} from './components/Sections';
 import {ListOfMusic} from '../../components/ListOfMusic';
-import { ListOfDirs } from '../../components/ListOfDirs';
+import {ListOfDirs} from '../../components/ListOfDirs';
 import {BackgroundLayout} from '../../components/BackgroundLayout';
 import style from './style';
 import FooterMusic from '../../components/FooterMusic';
 import {Loading} from '../../components/Loading';
+import {withNavigationFocus} from 'react-navigation';
+import { withTranslation } from 'react-i18next';
 
 class HomeScreen extends Component<IProps, IState> {
+  private backHandlerEvent: any = null;
+
   constructor(props: any) {
     super(props);
     this.state = {
-      list: 'SONGS'
-    }
+      list: 'SONGS',
+    };
   }
 
   async componentDidMount() {
+    this.backHandlerEvent = BackHandler.addEventListener(
+      'hardwareBackPress',
+      async () => {
+        if (this.props.isFocused) {
+          Alert.alert(
+            this.props.t("alertTitle"),
+            this.props.t("alertMessage"),
+            [
+              {
+                text: this.props.t("alertCancel"),
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              {
+                text: this.props.t("alertOk"),
+                onPress: () => BackHandler.exitApp(),
+              },
+            ],
+            {
+              cancelable: false,
+            },
+          );
+          return true;
+        }
+      },
+    );
+
     this.props.getSongs();
     this.props.getCurrentWallpaper();
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.backHandlerEvent);
   }
 
   render() {
@@ -58,19 +102,18 @@ class HomeScreen extends Component<IProps, IState> {
           />
         )}
 
-          <Header navigate={navigation.navigate} />
+        <Header navigate={navigation.navigate} />
 
-          <Sections navigation={this.props.navigation} />
-        {
-          this.props.musicReducer.loadingListSongs ? 
+        <Sections navigation={this.props.navigation} />
+        {this.props.musicReducer.loadingListSongs ? (
           <SafeAreaView>
             <View style={style.loading}>
               <Loading message="Buscando canciones..." />
             </View>
-          </SafeAreaView> : 
+          </SafeAreaView>
+        ) : (
           <>
-            {
-              this.state.list === 'SONGS' &&
+            {this.state.list === 'SONGS' && (
               <ListOfMusic
                 songs={listSongs}
                 updateFavorite={this.props.updateFavorite}
@@ -83,21 +126,19 @@ class HomeScreen extends Component<IProps, IState> {
                 }
                 refreshing={this.props.musicReducer.refreshing}
                 onRefresh={this.props.refreshListSong}
-                onChangeList={(list) => this.setState({list})}
+                onChangeList={list => this.setState({list})}
                 withDir={true}
               />
-            }
-            {
-              this.state.list === 'DIRS' && 
-              <ListOfDirs 
+            )}
+            {this.state.list === 'DIRS' && (
+              <ListOfDirs
                 songs={this.props.musicReducer.listSongs}
                 navigation={this.props.navigation}
-                onChangeList={(list) => this.setState({list})}
+                onChangeList={list => this.setState({list})}
               />
-            }
+            )}
           </>
-        }
-
+        )}
 
         <FooterMusic
           // @ts-ignore
@@ -131,7 +172,9 @@ const mapDispatchToProps = {
   refreshListSong,
 };
 
-export default connect<any, any>(
-  mapStateToProps,
-  mapDispatchToProps,
-)(HomeScreen);
+export default withNavigationFocus(
+  connect<any, any>(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(withTranslation('Home')(HomeScreen)),
+);

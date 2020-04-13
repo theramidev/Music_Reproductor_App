@@ -4,9 +4,13 @@ import {
   NavigationState,
   NavigationParams,
 } from 'react-navigation';
+import { WithTranslation } from 'react-i18next';
 
-export interface IProps {
+export interface IProps extends WithTranslation {
   navigation: NavigationScreenProp<NavigationState, NavigationParams>;
+
+  // si la ventana tiene el foco
+  isFocused: boolean;
   /**
    * @description Manda a buscar las canciones dentro del dispositivo
    */

@@ -1,4 +1,10 @@
 {
+    "Home": {
+        "alertTitle": "Salir",
+        "alertMessage": "¿Seguro que desea salir de la aplicación?",
+        "alertCancel": "Cancelar",
+        "alertOk": "Si"
+    },
     "ChangeImage": {
         "headerTitle": "Cambiar imagen"
     },

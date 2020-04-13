@@ -25,8 +25,20 @@ import {
 } from './redux/actions/musicActions';
 import {setSongToRecent} from './redux/actions/recentsActions';
 
+export const RouteContext = React.createContext({
+  path: 'Home',
+  updatePath: (route: string) => {},
+});
+
 const App: FC<any> = (props: any) => {
   const [mode, setMode] = useState(true);
+  const [route, setRoute] = useState({
+    path: 'Home',
+    updatePath: (route: string) => {
+      console.log(route);
+      setRoute(use => ({...use, path: route}));
+    },
+  });
   const [initEvents, cleanEvents] = PlaybackService(
     props.updateCurrentMusicForId,
     props.changeToRandomMode,
@@ -168,14 +180,16 @@ const App: FC<any> = (props: any) => {
         <DarkModeProvider mode={mode ? 'dark' : 'light'}>
           <ActionSheetProvider>
             <SafeAreaProvider>
-              <Layout>
-                <StatusBar
-                  barStyle={mode ? 'light-content' : 'dark-content'}
-                  translucent={true}
-                  backgroundColor={'transparent'}
-                />
-                <Router />
-              </Layout>
+              <RouteContext.Provider value={route}>
+                <Layout>
+                  <StatusBar
+                    barStyle={mode ? 'light-content' : 'dark-content'}
+                    translucent={true}
+                    backgroundColor={'transparent'}
+                  />
+                  <Router />
+                </Layout>
+              </RouteContext.Provider>
             </SafeAreaProvider>
           </ActionSheetProvider>
         </DarkModeProvider>
@@ -198,4 +212,7 @@ const mapDispatchToProps = {
 };
 
 // eslint-disable-next-line prettier/prettier
-export default connect<any, any>(mapStateToProps, mapDispatchToProps)(App);
+export default connect<any, any>(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);
