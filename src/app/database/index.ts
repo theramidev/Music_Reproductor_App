@@ -1,4 +1,4 @@
-import SQLite, {SQLiteDatabase} from 'react-native-sqlite-storage';
+import SQLite, {SQLiteDatabase, Transaction} from 'react-native-sqlite-storage';
 import {DatabaseInitialization} from './DatabaseInitialization';
 import SongController from './SongController';
 import PlaylistController from './PlaylistController';
@@ -212,8 +212,8 @@ class Database implements IDatabase {
     return SongController.getSongById(this.database, songId);
   }
 
-  public async open(): Promise<SQLiteDatabase> {
-    return new Promise(async resolve => {
+  public async openDatabase(deleteTableSong: boolean): Promise<SQLiteDatabase> {
+    return new Promise(async (resolve, rej) => {
       try {
         SQLite.DEBUG(false);
         SQLite.enablePromise(true);
@@ -225,11 +225,15 @@ class Database implements IDatabase {
         if (db) {
           console.log('Database Open!');
           this.database = db;
-          initialization.updateDatabaseTables(this.database);
+          if (deleteTableSong) {
+            await this.database.transaction((transaction: Transaction) => {transaction.executeSql(`DROP TABLE IF EXISTS song`)});
+          }
+          await initialization.updateDatabaseTables(this.database);
         }
         resolve(db);
       } catch (error) {
         console.log('[Open DB Error]', error);
+        rej(error);
       }
     });
   }

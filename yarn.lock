@@ -5460,9 +5460,10 @@ react-native-gesture-handler@^1.6.0:
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
-"react-native-get-music-files@https://github.com/YajanaRao/react-native-get-music-files.git":
-  version "2.1.0"
-  resolved "https://github.com/YajanaRao/react-native-get-music-files.git#82cd7fa8400ce2aa3671fd3f5100a4d89e80f95d"
+react-native-get-music-files-v3dev-test@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-get-music-files-v3dev-test/-/react-native-get-music-files-v3dev-test-3.1.1.tgz#904663cfcde13886b41d885a629a4d999f68cfb6"
+  integrity sha512-UzY6fiCGYXl8YeQAiKjXbVGqdiXhZ9KXarKSs/yDvyLIjSX9je005nMXgc8q4dy7ZQXo77m2Kf7RqqDzzxFcmg==
 
 react-native-get-random-values@^1.3.1:
   version "1.3.1"

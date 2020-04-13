@@ -18,7 +18,9 @@ import MusicListScreen from './screens/MusicList';
 
 const Routes = createStackNavigator(
   {
-    Home: HomeScreen,
+    Home: {
+      screen: HomeScreen,
+    },
     Settings: {
       screen: SettingsScreen,
       navigationOptions: {

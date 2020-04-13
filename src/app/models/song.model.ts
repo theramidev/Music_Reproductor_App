@@ -11,28 +11,33 @@ export class MSong {
   public lyrics: string | null;
 
   constructor(song: ISong) {
-    this.id = song.id;
+    this.id = song.id.toString();
     this.title = song.title;
     this.duration = Number(song.duration);
     this.path = song.path;
     this.isFavorite = song.isFavorite ? true : false;
-    this.author = song.author;
+    this.author = song.author || null;
     this.album = song.album;
-    this.genre = song.genre;
-    this.cover = song.cover === 'file://' || song.cover === undefined ? null : song.cover;
-    this.lyrics = song.lyrics;
+    this.genre = song.genre || null;
+    this.cover =
+      song.cover === 'file://' || song.cover === undefined || song.cover === ''
+        ? null
+        : song.cover;
+    this.lyrics = song.lyrics || null;
   }
 }
 
 export interface ISong {
   id: string;
-  duration: string;
   path: string;
+  cover?: string | undefined;
+  duration: number;
+  album: string;
+  artist: string;
   title: string;
-  isFavorite: number | boolean;
-  album: string | null;
-  author: string | null;
-  genre: string | null;
-  cover: string | null;
-  lyrics: string | null;
+
+  isFavorite?: number | boolean;
+  author?: string | null;
+  genre?: string | null;
+  lyrics?: string | null;
 }

@@ -30,7 +30,7 @@ class FavoritesScreen extends Component<IProps, {}> {
     if (loadingFavorites) {
       return (
         <BackgroundLayout>
-          <Header title="Favoritos" navigation={this.props.navigation} />
+          <Header title={this.props.t('headerTitle')} navigation={this.props.navigation} />
 
           <View
             // eslint-disable-next-line react-native/no-inline-styles

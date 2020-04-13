@@ -22,11 +22,24 @@ import {
   updateCurrentMusicForId,
   changeToLineMode,
   changeToRandomMode,
+  getSongs,
 } from './redux/actions/musicActions';
 import {setSongToRecent} from './redux/actions/recentsActions';
 
+export const RouteContext = React.createContext({
+  path: 'Home',
+  updatePath: (route: string) => {},
+});
+
 const App: FC<any> = (props: any) => {
   const [mode, setMode] = useState(true);
+  const [route, setRoute] = useState({
+    path: 'Home',
+    updatePath: (route: string) => {
+      console.log(route);
+      setRoute(use => ({...use, path: route}));
+    },
+  });
   const [initEvents, cleanEvents] = PlaybackService(
     props.updateCurrentMusicForId,
     props.changeToRandomMode,
@@ -37,9 +50,18 @@ const App: FC<any> = (props: any) => {
   useEffect(() => {
     Orientation.lockToPortrait();
 
-    // Open Database
-    database.open();
+    init();
 
+    return () => {
+      // Close the reproductor when close the app
+      TrackPlayer.destroy();
+      cleanEvents();
+      clearShares();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const init = async () => {
     initEvents();
 
     getDarkMode();
@@ -116,15 +138,7 @@ const App: FC<any> = (props: any) => {
     );
 
     SplashScreen.hide();
-
-    return () => {
-      // Close the reproductor when close the app
-      TrackPlayer.destroy();
-      cleanEvents();
-      clearShares();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
   const clearShares = async () => {
     try {
@@ -168,14 +182,16 @@ const App: FC<any> = (props: any) => {
         <DarkModeProvider mode={mode ? 'dark' : 'light'}>
           <ActionSheetProvider>
             <SafeAreaProvider>
-              <Layout>
-                <StatusBar
-                  barStyle={mode ? 'light-content' : 'dark-content'}
-                  translucent={true}
-                  backgroundColor={'transparent'}
-                />
-                <Router />
-              </Layout>
+              <RouteContext.Provider value={route}>
+                <Layout>
+                  <StatusBar
+                    barStyle={mode ? 'light-content' : 'dark-content'}
+                    translucent={true}
+                    backgroundColor={'transparent'}
+                  />
+                  <Router />
+                </Layout>
+              </RouteContext.Provider>
             </SafeAreaProvider>
           </ActionSheetProvider>
         </DarkModeProvider>
@@ -195,7 +211,11 @@ const mapDispatchToProps = {
   changeToLineMode,
   changeToRandomMode,
   setSongToRecent,
+  getSongs,
 };
 
 // eslint-disable-next-line prettier/prettier
-export default connect<any, any>(mapStateToProps, mapDispatchToProps)(App);
+export default connect<any, any>(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);

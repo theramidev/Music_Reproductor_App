@@ -1,9 +1,9 @@
 import {PermissionsAndroid} from 'react-native';
 import {Dispatch} from 'redux';
-import MusicFiles from 'react-native-get-music-files';
 import TrackPlayer, {Track} from 'react-native-track-player';
 import AsyncStorage from '@react-native-community/async-storage';
 import fs from 'react-native-fs';
+import * as MusicFilesV3 from 'react-native-get-music-files-v3dev-test';
 
 import {MSong, ISong} from '../../models/song.model';
 import musicTypes from '../types/musicTypes';
@@ -20,21 +20,19 @@ export const refreshListSong = () => async (dispatch: Dispatch) => {
 
   try {
     const songsDB: MSong[] = await database.getSongs();
-    let musicFiles: ISong[] = await MusicFiles.getAll({
-      id: true,
-      blured: true,
-      artist: true,
-      duration: true,
+    const {length, results: allSongs} = await MusicFilesV3.default.getAll({
       cover: true,
-      genre: true,
-      title: true,
       minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration
+      batchSize: 0,
+      batchNumber: 0,
+      sortBy: MusicFilesV3.Constants.SortBy.Title.toString(),
+      sortOrder: MusicFilesV3.Constants.SortOrder.Ascending.toString(),
     });
 
-    musicFiles = musicFiles.filter((song: any) => {
-      const [extension] = song.fileName.split('.').reverse();
+    const musicFiles = allSongs.filter((song: any) => {
+      const [extension] = song.path.split('.').reverse();
 
-      if (extension === 'ogg' || extension === 'opus') {
+      if (extension === 'ogg' || extension === 'opus' || extension === 'flac') {
         return false;
       }
 
@@ -43,7 +41,7 @@ export const refreshListSong = () => async (dispatch: Dispatch) => {
 
     var newMusicFiles: ISong[] | any = musicFiles.map(song => {
       const songDB: MSong | any = songsDB.find(
-        songData => songData.id === song.id,
+        songData => songData.id === song.id.toString(),
       );
 
       if (songDB) {
@@ -53,7 +51,7 @@ export const refreshListSong = () => async (dispatch: Dispatch) => {
         };
       }
 
-      return song;
+      return {...song, author: song.artist};
     });
 
     const songs: MSong[] = newMusicFiles.map((song: ISong) => new MSong(song));
@@ -62,7 +60,13 @@ export const refreshListSong = () => async (dispatch: Dispatch) => {
       type: musicTypes.updateListSongs,
       payload: songs,
     });
-    await database.setSongs(musicFiles);
+    await database.setSongs(
+      musicFiles.map(song => ({
+        ...song,
+        id: song.id.toString(),
+        author: song.artist,
+      })),
+    );
   } catch (error) {
     console.error('[musicActions.ts ]: ', error);
   }
@@ -101,6 +105,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
     dispatch({
       type: musicTypes.loadingListSongs,
     });
+
     const hasExternalReadPermissions: boolean = await PermissionsAndroid.check(
       PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
     );
@@ -125,10 +130,15 @@ export const getSongs = () => async (dispatch: Dispatch) => {
         payload: songsDB,
       });
     }
-
+    console.log(songsDB);
     // obtiene la ultima cancion reproducida ==============
     const data = await AsyncStorage.getItem('@LastMusic');
-    const last = data ? JSON.parse(data) : '';
+    let last: MSong | null = data ? JSON.parse(data) : '';
+    if (last) {
+      if (!(await fs.exists(last.path))) {
+        last = null;
+      }
+    }
     const lastMusic = songsDB[0] || {};
 
     dispatch({
@@ -137,19 +147,17 @@ export const getSongs = () => async (dispatch: Dispatch) => {
     });
     // =====================================================
 
-    var musicFiles: ISong[] = await MusicFiles.getAll({
-      id: true,
-      blured: true,
-      artist: true,
-      duration: true,
+    const {length, results: allSongs} = await MusicFilesV3.default.getAll({
       cover: true,
-      genre: true,
-      title: true,
       minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration
+      batchSize: 0,
+      batchNumber: 0,
+      sortBy: MusicFilesV3.Constants.SortBy.Title.toString(),
+      sortOrder: MusicFilesV3.Constants.SortOrder.Ascending.toString(),
     });
 
-    musicFiles = musicFiles.filter((song: any) => {
-      const [extension] = song.fileName.split('.').reverse();
+    let musicFiles = allSongs.filter((song: any) => {
+      const [extension] = song.path.split('.').reverse();
 
       if (extension === 'ogg' || extension === 'opus' || extension === 'flac') {
         return false;
@@ -160,7 +168,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
 
     const newMusicFiles: ISong[] | any = musicFiles.map(song => {
       const songDB: MSong | any = songsDB.find(
-        songData => songData.id === song.id,
+        songData => songData.id === song.id.toString(),
       );
 
       if (songDB) {
@@ -170,7 +178,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
         };
       }
 
-      return song;
+      return {...song, author: song.artist};
     });
 
     const songs: MSong[] = newMusicFiles.map((song: ISong) => new MSong(song));
@@ -179,7 +187,13 @@ export const getSongs = () => async (dispatch: Dispatch) => {
       type: musicTypes.updateListSongs,
       payload: songs,
     });
-    await database.setSongs(musicFiles);
+    await database.setSongs(
+      musicFiles.map(song => ({
+        ...song,
+        id: song.id.toString(),
+        author: song.artist,
+      })),
+    );
   } catch (error) {
     console.error(error);
   }
@@ -374,7 +388,6 @@ export const changeToRandomMode = () => async (
 const getList = (listMusics: MSong[]) => {
   return listMusics.map(
     ({id, author, title, path, album, genre, duration, cover}) => {
-
       return {
         id,
         artist: author ? author : '',
