@@ -171,7 +171,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
       // coverFolder: `${fs.ExternalDirectoryPath}/covers`
     }); */
 
-    console.log(allSongs);
+    // console.log(allSongs);
 
     let musicFiles = allSongs.filter((song: any) => {
       const [extension] = song.path.split('.').reverse();
@@ -317,22 +317,22 @@ export const playInRandom = (start: boolean) => async (
   try {
     const {listSongsCurrent, current} = getsState().musicReducer;
     const auxListSongsCurrent = listSongsCurrent;
-    const songs: MSong[] = await database.getSongs();
-
+    
     const listMusics: MSong[] = getListRamdonSong(
       auxListSongsCurrent,
       null,
       current,
-    );
-    // console.log(songs.map(item => item.title));
-
-    const tracks: Track[] = getList(listMusics);
-    TrackPlayer.add(tracks);
-    start && TrackPlayer.play();
-
+      );
+      // console.log(songs.map(item => item.title));
+      
+      const tracks: Track[] = getList(listMusics);
+      TrackPlayer.add(tracks);
+      start && TrackPlayer.play();
+      
+      // const songs: MSong[] = await database.getSongs();
     dispatch({
       type: musicTypes.updateListSongs,
-      payload: songs,
+      payload: listSongsCurrent,
     });
   } catch (error) {
     console.log('Error activateTrackPlayer: ', error);

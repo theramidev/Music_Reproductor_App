@@ -3,12 +3,17 @@ import { FlatList } from 'react-native';
 import { DarkMode } from '../DarkMode';
 import { Option } from '../Option';
 import { useTranslation } from 'react-i18next';
+import { RateApp } from '../../../../../utils/rate';
 
 export const ListOfOptions: FC<any> = ({navigation, onLanguageChange}) => {
     const { t } = useTranslation('ListOfOptions');
 
     const goToChangeImage = () => {
         navigation.navigate('ChangeImage')
+    }
+
+    const openRate = () => {
+        RateApp();
     }
 
     const dataList = [
@@ -20,7 +25,7 @@ export const ListOfOptions: FC<any> = ({navigation, onLanguageChange}) => {
             id: '1',
             Component: 
             <Option 
-                onNavigation={goToChangeImage}
+                onPress={goToChangeImage}
                 title={t('changeImageTitle')}
                 iconLibrary="Feather"
                 iconName="image"
@@ -36,6 +41,16 @@ export const ListOfOptions: FC<any> = ({navigation, onLanguageChange}) => {
                 mode="select"
                 selectData={[{label: 'Español', value: 'es'},{label: 'English', value: 'en'}]}
                 onLanguageChange={onLanguageChange}
+            />
+        },
+        {
+            id: '3',
+            Component:
+            <Option 
+                title={t('rateApp')}
+                iconLibrary="FontAwesome"
+                iconName="star"
+                onPress={openRate}
             />
         }
     ]

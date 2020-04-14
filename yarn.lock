@@ -5516,6 +5516,11 @@ react-native-orientation-locker@^1.1.8:
   resolved "https://registry.yarnpkg.com/react-native-orientation-locker/-/react-native-orientation-locker-1.1.8.tgz#45d1c9e002496b8d286ec8932d6e3e7d341f9c85"
   integrity sha512-+Vd7x6O/3zGqYIMXpeDlaw3ma074Dtnocm8ryT9v5SvaiEcWSzII4frPgXaUcc/MiCq4OWZ1JtVoyw75mdomQw==
 
+react-native-rate@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-rate/-/react-native-rate-1.2.1.tgz#c7a58b13dc68c49372d706d55a644b3700474597"
+  integrity sha512-Hm1cmSaFVkJZHlSC2ebrhW7Y2PCQozjGr9pvAhkU2vQ/G3fS01OplGqADb0MhW+Md5t1rWUtwZnTS/W3/osXvA==
+
 react-native-reanimated@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.7.0.tgz#896db2576552ac59d288a1f6c7f00afc171f240c"

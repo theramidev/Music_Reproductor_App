@@ -98,7 +98,8 @@
         "mode": "Modo oscuro"
     },
     "ListOfOptions": {
-        "changeImageTitle": "Cambiar imagen de fondo"
+        "changeImageTitle": "Cambiar imagen de fondo",
+        "rateApp": "Cuentanos tu experiencia"
     },
     "ListOfMusic": {
         "addFavorite": "Agregar a favoritos",
@@ -149,5 +150,11 @@
     },
     "UrlWebView": {
         "close": "Cerrar"
+    },
+    "ModalRate": {
+        "title": "Cuentanos tu experiencia",
+        "message": "Dinos que te pareció la aplicación. Apreciamos tu opinión y la tomaremos en cuenta para futuras versiones.",
+        "cancel": "Cancelar",
+        "assess": "Valorar"
     }
 }

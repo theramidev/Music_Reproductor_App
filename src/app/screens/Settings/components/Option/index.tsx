@@ -10,7 +10,7 @@ import IconMa from 'react-native-vector-icons/MaterialIcons';
 import { Picker } from '@react-native-community/picker';
 import AsyncStorage from '@react-native-community/async-storage';
 
-export const Option: FC<IProps> = ({onNavigation, title, iconLibrary, iconName, mode = 'navigation', selectData = [], onLanguageChange}) => {
+export const Option: FC<IProps> = ({onPress, title, iconLibrary, iconName, mode = 'navigation', selectData = [], onLanguageChange}) => {
     const styles = useDynamicStyleSheet(dynamicStyles);
     const [selectedValue, setSelectedValue] = useState<| 'en' | 'es'>('es');
 
@@ -63,7 +63,7 @@ export const Option: FC<IProps> = ({onNavigation, title, iconLibrary, iconName, 
         <>
             {
                 mode === 'navigation' &&
-                <TouchableOpacity onPress={onNavigation}>
+                <TouchableOpacity onPress={onPress}>
                     <View style={styles.container}>
                         {renderIcon()}
 

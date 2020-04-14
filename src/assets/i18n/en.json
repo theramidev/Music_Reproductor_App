@@ -98,7 +98,8 @@
         "mode": "Dark mode"
     },
     "ListOfOptions": {
-        "changeImageTitle": "Change background image"
+        "changeImageTitle": "Change background image",
+        "rateApp": "Tell us your experience"
     },
     "ListOfMusic": {
         "addFavorite": "Add to Favorites",
@@ -149,5 +150,11 @@
     },
     "UrlWebView": {
         "close": "Close"
+    },
+    "ModalRate": {
+        "title": "Tell us your experience",
+        "message": "Tell us what you think about the application. We appreciate your opinion and will take it into account for future versions.",
+        "cancel": "Cancel",
+        "assess": "Assess"
     }
 }

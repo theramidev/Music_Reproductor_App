@@ -2,7 +2,7 @@ import { TFunction } from "i18next";
 
   
 export interface IProps {
-    onNavigation?: () => void
+    onPress?: () => void
     title: string,
     iconName?: string,
     iconLibrary?: 'FontAwesome' | 'Feather' | 'Ionicons' | 'MaterialIcons',

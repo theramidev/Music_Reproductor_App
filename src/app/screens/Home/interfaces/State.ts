@@ -1,3 +1,4 @@
 export interface IState { 
-    list: 'DIRS' | 'SONGS'
+    list: 'DIRS' | 'SONGS',
+    rateIsVisible: boolean
 }

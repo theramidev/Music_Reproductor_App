@@ -2,9 +2,7 @@ import React, {Component} from 'react';
 import {
   Image,
   View,
-  SafeAreaView,
-  BackHandler,
-  Alert,
+  SafeAreaView
 } from 'react-native';
 import {connect} from 'react-redux';
 
@@ -30,46 +28,35 @@ import {withNavigationFocus} from 'react-navigation';
 import { withTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-community/async-storage';
 import database from '../../database';
+import { ModalRate } from './components/ModalRate';
 
 class HomeScreen extends Component<IProps, IState> {
-  private backHandlerEvent: any = null;
 
   constructor(props: any) {
     super(props);
     this.state = {
       list: 'SONGS',
+      rateIsVisible: false
     };
   }
 
   async componentDidMount() {
-    /* this.backHandlerEvent = BackHandler.addEventListener(
-      'hardwareBackPress',
-      async () => {
-        if (this.props.isFocused) {
-          Alert.alert(
-            this.props.t("alertTitle"),
-            this.props.t("alertMessage"),
-            [
-              {
-                text: this.props.t("alertCancel"),
-                onPress: () => console.log('Cancel Pressed'),
-                style: 'cancel',
-              },
-              {
-                text: this.props.t("alertOk"),
-                onPress: () => BackHandler.exitApp(),
-              },
-            ],
-            {
-              cancelable: false,
-            },
-          );
-          return true;
-        }
-        this.props.navigation.goBack();
-        return false;
-      },
-    ); */
+    const openAppCount: string | null = await AsyncStorage.getItem('openAppCount');
+    let openCount: number = Number(openAppCount)
+    // console.log('openCount', openCount, 'openAppCount', openAppCount);
+    
+    if (openCount === 7) {
+      setTimeout(() => {
+        this.setState({rateIsVisible: true});
+      }, 3500);
+      openCount++;
+      await AsyncStorage.setItem('openAppCount', openCount.toString());
+    } else if (openCount < 7) {
+      openCount++;
+      await AsyncStorage.setItem('openAppCount', openCount.toString());
+    }
+    
+
 
     const clearDatabase = await AsyncStorage.getItem('@clearDatabase');
     if (!clearDatabase) {
@@ -132,6 +119,11 @@ class HomeScreen extends Component<IProps, IState> {
             />
           </>
         )}
+
+        <ModalRate 
+          isVisible={this.state.rateIsVisible}
+          onClose={() => this.setState({rateIsVisible: false})}
+        />
 
         <FooterMusic
           // @ts-ignore
