@@ -33,7 +33,7 @@ import {
   getPlaylists,
   addAndDeleteSongsOfPLaylist,
 } from '../../redux/actions/playlistActions';
-import { ImageMusic } from './components/ImageMusic';
+import {ImageMusic} from './components/ImageMusic';
 
 class Music extends Component<IProps, IState> {
   constructor(props: IProps) {
@@ -57,11 +57,13 @@ class Music extends Component<IProps, IState> {
     this.props.getPlaylists();
 
     // evalua si la cancion existe en el telefono
-    if (!(await fs.exists(item.path))) {
-      ShowToast(this.props.t('noSongInSystem'));
-      this.props.navigation.goBack();
-      return;
-    }
+    fs.exists(item.path).then(res => {
+      if (!res) {
+        ShowToast(this.props.t('noSongInSystem'));
+        this.props.navigation.goBack();
+        return;
+      }
+    });
 
     // guarda la ultima cancion reproducida
     AsyncStorage.setItem('@LastMusic', JSON.stringify(item));
@@ -130,7 +132,7 @@ class Music extends Component<IProps, IState> {
           onOpenAddPlaylist={() => this.setState({addToPlaylistVisible: true})}
         />
 
-        <ImageMusic item={item}/>
+        <ImageMusic item={item} />
 
         <Progress
           duration={item.duration}

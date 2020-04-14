@@ -11,9 +11,9 @@ interface IProps {
 }
 
 export const ImageMusic: FC<IProps> = ({item}) => {
-  useEffect(() => {
+  /* useEffect(() => {
     console.log(item.cover);
-  }, []);
+  }, []); */
 
   const cutText = (text: string, limit: number, styleText?: any) => {
     if (text.length > limit) {

@@ -317,19 +317,18 @@ export const playInRandom = (start: boolean) => async (
   try {
     const {listSongsCurrent, current} = getsState().musicReducer;
     const auxListSongsCurrent = listSongsCurrent;
-    
     const listMusics: MSong[] = getListRamdonSong(
       auxListSongsCurrent,
       null,
       current,
-      );
-      // console.log(songs.map(item => item.title));
-      
-      const tracks: Track[] = getList(listMusics);
-      TrackPlayer.add(tracks);
-      start && TrackPlayer.play();
-      
-      // const songs: MSong[] = await database.getSongs();
+    );
+    // console.log(songs.map(item => item.title));
+
+    const tracks: Track[] = getList(listMusics);
+    TrackPlayer.add(tracks);
+    start && TrackPlayer.play();
+
+    //const songs: MSong[] = await database.getSongs();
     dispatch({
       type: musicTypes.updateListSongs,
       payload: listSongsCurrent,
