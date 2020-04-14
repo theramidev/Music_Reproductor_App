@@ -3,7 +3,7 @@ import {Dispatch} from 'redux';
 import TrackPlayer, {Track} from 'react-native-track-player';
 import AsyncStorage from '@react-native-community/async-storage';
 import fs from 'react-native-fs';
-import * as MusicFilesV3 from 'react-native-get-music-files-v3dev-test';
+// import * as MusicFilesV3 from 'react-native-get-music-files-v3dev-test';
 import MusicFiles from 'react-native-get-music-files';
 
 import {MSong, ISong} from '../../models/song.model';
@@ -159,6 +159,7 @@ export const getSongs = () => async (dispatch: Dispatch) => {
       title: true,
       cover: true,
       minimumSongDuration: 10000, // get songs bigger than 10000 miliseconds duration,
+      coverFolder: `Android/data/com.musicdm/files/`
     });
     /* const {length, results: allSongs} = await MusicFilesV3.default.getAll({
       cover: true,
@@ -167,11 +168,10 @@ export const getSongs = () => async (dispatch: Dispatch) => {
       batchNumber: 0,
       sortBy: MusicFilesV3.Constants.SortBy.Title.toString(),
       sortOrder: MusicFilesV3.Constants.SortOrder.Ascending.toString(),
-
       // coverFolder: `${fs.ExternalDirectoryPath}/covers`
     }); */
 
-    // console.log(allSongs);
+    console.log(allSongs);
 
     let musicFiles = allSongs.filter((song: any) => {
       const [extension] = song.path.split('.').reverse();
