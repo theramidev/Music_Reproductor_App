@@ -42,7 +42,7 @@ class HomeScreen extends Component<IProps, IState> {
   }
 
   async componentDidMount() {
-    this.backHandlerEvent = BackHandler.addEventListener(
+    /* this.backHandlerEvent = BackHandler.addEventListener(
       'hardwareBackPress',
       async () => {
         if (this.props.isFocused) {
@@ -66,8 +66,10 @@ class HomeScreen extends Component<IProps, IState> {
           );
           return true;
         }
+        this.props.navigation.goBack();
+        return false;
       },
-    );
+    ); */
 
     const clearDatabase = await AsyncStorage.getItem('@clearDatabase');
     if (!clearDatabase) {
@@ -83,7 +85,7 @@ class HomeScreen extends Component<IProps, IState> {
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.backHandlerEvent);
+    //BackHandler.removeEventListener('hardwareBackPress', this.backHandlerEvent);
   }
 
   render() {
