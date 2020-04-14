@@ -315,7 +315,7 @@ export const playInRandom = (start: boolean) => async (
   getsState: any,
 ) => {
   try {
-    const {listSongsCurrent, current} = getsState().musicReducer;
+    const {listSongsCurrent, current, listSongs} = getsState().musicReducer;
     const auxListSongsCurrent = listSongsCurrent;
     const listMusics: MSong[] = getListRamdonSong(
       auxListSongsCurrent,
@@ -331,7 +331,7 @@ export const playInRandom = (start: boolean) => async (
     //const songs: MSong[] = await database.getSongs();
     dispatch({
       type: musicTypes.updateListSongs,
-      payload: listSongsCurrent,
+      payload: listSongs,
     });
   } catch (error) {
     console.log('Error activateTrackPlayer: ', error);
