@@ -79,7 +79,7 @@ export const Tabs: FC<IProps> = ({
                     navigate={navigation.navigate}
                     paddingBottom={
                     Object.keys(current).length === 0
-                        ? 0
+                        ? 50
                         : 108
                     }
                     refreshing={refreshing}
